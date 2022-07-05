@@ -33,7 +33,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-home">
         <Logo />
-        <a href="/" className="store-name">
+        <a href="/home" className="store-name">
           WEBSITE TITLE
         </a>
       </div>
@@ -41,7 +41,7 @@ export default function Navbar() {
         navPages.map((page) => {
           let navItem = page.replace(/\s+/g, "");
           return (
-            <Link to={`${navItem}`} key={page}>
+            <Link to={`${navItem.toLowerCase()}`} key={page}>
               {page}
             </Link>
           );
