@@ -15,7 +15,6 @@ app.get('/', (req, res) => {
     res.status(200).send({"ping": "pong"})
 })
 
-app.use('/store', storeRouter)
 
 
 module.exports = app //makes it like export default function
