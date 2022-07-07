@@ -32,7 +32,7 @@ Parse.initialize(
   
   app.post('/login', async (req, res) => {
     try {
-      const user = await Parse.User.logIn(req.body.email, req.body.user, req.body.password)
+      const user = await Parse.User.logIn(req.body.username, req.body.password)
       res.send({"user" : user})
     } catch (error) {
       res.status(400)

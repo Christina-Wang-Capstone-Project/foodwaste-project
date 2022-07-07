@@ -3,11 +3,10 @@ import { useState } from "react";
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import Register from "../Register/Register";
 import { useEffect } from "react";
+import LoggedOutView from "../LoggedOutView/LoggedOutView";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,24 +46,23 @@ export default function App() {
     <div className="app">
       <BrowserRouter>
         <main>
-          {isLoggedIn ? (
-            <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-          ) : (
-            <>
-              <Login handleLogin={handleLogin} />
-              <Register handleLogin={handleLogin} />
-            </>
-          )}
           <Routes>
-            {/* <Route
-              path="/home"
+            <Route
+              path="/"
               element={
-                <div className="nav-wrapper">
-                  <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
-                  <Navbar />
-                </div>
+                isLoggedIn ? (
+                  <div className="nav-wrapper">
+                    <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
+                    <Navbar
+                      isLoggedIn={isLoggedIn}
+                      handleLogout={handleLogout}
+                    />
+                  </div>
+                ) : (
+                  <LoggedOutView handleLogin={handleLogin} />
+                )
               }
-            /> */}
+            />
           </Routes>
         </main>
       </BrowserRouter>

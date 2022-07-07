@@ -15,7 +15,7 @@ export default function Register({ handleLogin }) {
       try {
         const res = await axios.post(`${URL}/register`, {
           email: email.current.value,
-          user: username.current.value,
+          username: username.current.value,
           password: password.current.value,
         });
         handleLogin(res.data.user);

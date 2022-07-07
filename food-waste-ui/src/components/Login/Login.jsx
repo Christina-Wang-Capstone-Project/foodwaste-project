@@ -3,7 +3,6 @@ import "./Login.css";
 import axios from "axios";
 
 export default function Login({ handleLogin }) {
-  const email = React.createRef();
   const username = React.createRef();
   const password = React.createRef();
   const URL = "http://localhost:3001";
@@ -15,8 +14,7 @@ export default function Login({ handleLogin }) {
       try {
         console.log("Logging in");
         const res = await axios.post(`${URL}/login`, {
-          email: email.current.value,
-          user: username.current.value,
+          username: username.current.value,
           password: password.current.value,
         });
         handleLogin(res.data.user);
@@ -30,18 +28,13 @@ export default function Login({ handleLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="title">Login</div>
-
+      <h1 className="title"> Login</h1>
       <label>
-        <span>Email</span>
-        <input ref={email}></input>
-      </label>
-      <label>
-        <span>Username</span>
+        <span className="username">Username</span>
         <input ref={username}></input>
       </label>
       <label>
-        <span>Password</span>
+        <span className="password">Password</span>
         <input type="password" ref={password}></input>
       </label>
       <button type="submit">Login</button>

@@ -53,7 +53,7 @@ export default function Navbar({ isLoggedIn, handleLogout }) {
           );
         })}
       {isLoggedIn && (
-        <Link to="#" onClick={onClick}>
+        <Link to="/" onClick={onClick}>
           Log Out
         </Link>
       )}
