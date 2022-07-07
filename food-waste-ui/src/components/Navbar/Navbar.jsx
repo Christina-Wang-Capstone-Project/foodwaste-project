@@ -4,9 +4,15 @@ import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn, handleLogout }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const sideBarWidth = 1000;
+  const sideBarWidth = 900;
+
+  const onClick = (event) => {
+    event.preventDefault();
+    handleLogout();
+    console.log(isLoggedIn);
+  };
 
   useEffect(() => {
     const changeWidth = () => {
@@ -19,7 +25,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const navPages = ["Home", "Market", "Map", "Make A Post"];
+  const navPages = ["Home", "Market", "Make A Post", "Basket"];
   // const sideBarPages = [
   //   "Home",
   //   "Market",
@@ -46,6 +52,11 @@ export default function Navbar() {
             </Link>
           );
         })}
+      {isLoggedIn && (
+        <Link to="#" onClick={onClick}>
+          Log Out
+        </Link>
+      )}
     </nav>
   );
 }

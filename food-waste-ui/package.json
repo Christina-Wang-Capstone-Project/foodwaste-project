@@ -16,6 +16,8 @@
     "@syncfusion/ej2-react-buttons": "^20.1.61",
     "@syncfusion/ej2-react-navigations": "^20.1.61",
     "axios": "^0.27.2",
+    "evergreen-ui": "^6.10.1",
+    "parse": "^3.4.3",
     "react": "^17.0.2",
     "react-dom": "<18.0.0",
     "react-router-dom": "^6.3.0",

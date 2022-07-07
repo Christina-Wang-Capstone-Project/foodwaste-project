@@ -6,7 +6,7 @@ export default function Logo() {
   return (
     <div className="logo">
       <Link to="/">
-        <img className="logo-image" src="../../src/plant.png" alt="logo" />
+        <img className="logo-image" src="../../src/porridge.png" alt="logo" />
       </Link>
     </div>
   );
