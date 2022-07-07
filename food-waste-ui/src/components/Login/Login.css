@@ -1,0 +1,32 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Cabin;
+}
+
+input {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    padding: 5px 20px 5px 20px;
+    margin: 5px 0px 5px 0px;
+}
+
+.submit {
+   margin-top: 10px;
+   border-radius: 10px;
+   border: none;
+   padding: 5px 10px 5px 10px;
+
+}
+
+.top-label {
+    margin-top: 15px;
+}

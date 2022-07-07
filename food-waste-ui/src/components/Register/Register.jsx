@@ -29,9 +29,8 @@ export default function Register({ handleLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="title">Register</div>
       <label>
-        <span>Email</span>
+        <span className="top-label">Email</span>
         <input ref={email}></input>
       </label>
       <label>
@@ -42,7 +41,9 @@ export default function Register({ handleLogin }) {
         <span>Password</span>
         <input type="password" ref={password}></input>
       </label>
-      <button type="submit">Register</button>
+      <button className="submit" type="submit">
+        Register
+      </button>
     </form>
   );
 }

@@ -28,16 +28,17 @@ export default function Login({ handleLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="title"> Login</h1>
       <label>
-        <span className="username">Username</span>
+        <span className="top-label">Username</span>
         <input ref={username}></input>
       </label>
       <label>
         <span className="password">Password</span>
         <input type="password" ref={password}></input>
       </label>
-      <button type="submit">Login</button>
+      <button className="submit" type="submit">
+        Login
+      </button>
     </form>
   );
 }
