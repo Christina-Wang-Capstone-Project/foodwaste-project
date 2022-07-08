@@ -13,7 +13,6 @@ export default function Register({ handleLogin, coordinates }) {
 
     const register = async () => {
       try {
-        console.log("set location after", coordinates);
         const res = await axios.post(`${URL}/register`, {
           email: email.current.value,
           username: username.current.value,
