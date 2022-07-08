@@ -27,8 +27,3 @@ a:hover {
     display: flex;
     justify-content: row;
 }
-
-.avatar {
-    size: 40px;
-    margin-top: 50%;
-}
