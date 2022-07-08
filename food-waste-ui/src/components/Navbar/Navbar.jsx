@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
 import { Popover, Position, Menu, Button } from "evergreen-ui";
 
-export default function Navbar({ isLoggedIn, handleLogout }) {
+export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 900;
 
@@ -87,7 +87,12 @@ export default function Navbar({ isLoggedIn, handleLogout }) {
         }
       >
         <Pane>
-          <Avatar size={35} marginTop={9} />
+          <Avatar
+            size={35}
+            hashValue={`${currentUser["objectId"]}`}
+            marginTop={9}
+            name={`${currentUser.username}`}
+          />
         </Pane>
       </Popover>
     </nav>

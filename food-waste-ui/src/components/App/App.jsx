@@ -12,6 +12,7 @@ import MarketGrid from "../MarketGrid/MarketGrid";
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element TODO CHANGE BECAUSE NOT AUTHENTICATED
@@ -38,6 +39,7 @@ export default function App() {
 
   const handleLogin = (user) => {
     console.log(user);
+    setCurrentUser(user);
     localStorage.setItem("current_user_id", user["objectId"]);
     addAuthenticationHeader();
 
@@ -64,6 +66,7 @@ export default function App() {
                     <Navbar
                       isLoggedIn={isLoggedIn}
                       handleLogout={handleLogout}
+                      currentUser={currentUser}
                     />
                   </div>
                 ) : (
