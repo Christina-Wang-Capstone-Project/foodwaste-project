@@ -41,7 +41,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
     <nav className="navbar">
       <div className="navbar-home">
         <Logo />
-        <a href="/home" className="store-name">
+        <a href="/" className="store-name">
           WEBSITE TITLE
         </a>
       </div>
@@ -49,7 +49,12 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
         navPages.map((page) => {
           let navItem = page.replace(/\s+/g, "");
           return (
-            <Link to={`${navItem.toLowerCase()}`} key={page}>
+            <Link
+              to={`${
+                navItem.toLowerCase() !== "home" ? navItem.toLowerCase() : "/"
+              }`}
+              key={page}
+            >
               {page}
             </Link>
           );
@@ -65,13 +70,13 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
           <Menu>
             <Menu.Group>
               <Menu.Item onSelect={() => toaster.notify("Profile")}>
-                Share...
+                Profile Settings
               </Menu.Item>
               <Menu.Item onSelect={() => toaster.notify("Filler")}>
-                Move...
+                Filler
               </Menu.Item>
               <Menu.Item onSelect={() => toaster.notify("Filler")}>
-                Rename...
+                Filler
               </Menu.Item>
             </Menu.Group>
             <Menu.Divider />
@@ -80,19 +85,14 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
                 onSelect={() => toaster.danger("Log Out")}
                 intent="danger"
               >
-                Delete...
+                Log Out
               </Menu.Item>
             </Menu.Group>
           </Menu>
         }
       >
         <Pane>
-          <Avatar
-            size={35}
-            hashValue={`${currentUser["objectId"]}`}
-            marginTop={9}
-            name={`${currentUser.username}`}
-          />
+          <Avatar size={35} marginTop={9} name={`${currentUser.username}`} />
         </Pane>
       </Popover>
     </nav>

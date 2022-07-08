@@ -1,8 +1,9 @@
 .login {
     padding: 20px;
 }
+
 .nav-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 

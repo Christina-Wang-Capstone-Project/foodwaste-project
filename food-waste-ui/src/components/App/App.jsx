@@ -56,29 +56,25 @@ export default function App() {
     <div className="app">
       <BrowserRouter>
         <main>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isLoggedIn ? (
-                  <div className="nav-wrapper">
-                    <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
-                    <Navbar
-                      isLoggedIn={isLoggedIn}
-                      handleLogout={handleLogout}
-                      currentUser={currentUser}
-                    />
-                  </div>
-                ) : (
-                  <LoggedOutView
-                    handleLogin={handleLogin}
-                    getUserLocation={getUserLocation}
-                    coordinates={coordinates}
-                  />
-                )
-              }
+          {isLoggedIn ? (
+            <div className="nav-wrapper">
+              <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
+              <Navbar
+                isLoggedIn={isLoggedIn}
+                handleLogout={handleLogout}
+                currentUser={currentUser}
+              />
+            </div>
+          ) : (
+            <LoggedOutView
+              handleLogin={handleLogin}
+              getUserLocation={getUserLocation}
+              coordinates={coordinates}
             />
-            <Route path="/market" element={<>{/* <MarketGrid /> */}</>} />
+          )}
+          <Routes>
+            <Route path="/" />
+            <Route path="/market" element={<>{<MarketGrid />}</>} />
           </Routes>
         </main>
       </BrowserRouter>
