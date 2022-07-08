@@ -7,6 +7,7 @@ import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import LoggedOutView from "../LoggedOutView/LoggedOutView";
+import MarketGrid from "../MarketGrid/MarketGrid";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +75,7 @@ export default function App() {
                 )
               }
             />
+            <Route path="/market" element={<>{/* <MarketGrid /> */}</>} />
           </Routes>
         </main>
       </BrowserRouter>

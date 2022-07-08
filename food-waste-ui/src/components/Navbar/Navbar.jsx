@@ -3,6 +3,7 @@ import "./Navbar.css";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Pane, Avatar } from "evergreen-ui";
 
 export default function Navbar({ isLoggedIn, handleLogout }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -57,6 +58,9 @@ export default function Navbar({ isLoggedIn, handleLogout }) {
           Log Out
         </Link>
       )}
+      <Pane>
+        <Avatar className="avatar" />
+      </Pane>
     </nav>
   );
 }
