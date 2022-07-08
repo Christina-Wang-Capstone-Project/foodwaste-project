@@ -10,6 +10,7 @@ import LoggedOutView from "../LoggedOutView/LoggedOutView";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [coordinates, setCoordinates] = React.useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element TODO CHANGE BECAUSE NOT AUTHENTICATED
@@ -42,6 +43,12 @@ export default function App() {
     setIsLoggedIn(true);
   };
 
+  function getUserLocation() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setCoordinates([position.coords.latitude, position.coords.longitude]);
+    }); //getting location of user
+  }
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -59,7 +66,11 @@ export default function App() {
                     />
                   </div>
                 ) : (
-                  <LoggedOutView handleLogin={handleLogin} />
+                  <LoggedOutView
+                    handleLogin={handleLogin}
+                    getUserLocation={getUserLocation}
+                    coordinates={coordinates}
+                  />
                 )
               }
             />

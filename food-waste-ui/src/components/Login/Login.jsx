@@ -2,7 +2,7 @@ import * as React from "react";
 import "./Login.css";
 import axios from "axios";
 
-export default function Login({ handleLogin }) {
+export default function Login({ handleLogin, coordinates }) {
   const username = React.createRef();
   const password = React.createRef();
   const URL = "http://localhost:3001";
@@ -16,6 +16,7 @@ export default function Login({ handleLogin }) {
         const res = await axios.post(`${URL}/login`, {
           username: username.current.value,
           password: password.current.value,
+          location: coordinates,
         });
         handleLogin(res.data.user);
       } catch (err) {
@@ -30,11 +31,11 @@ export default function Login({ handleLogin }) {
     <form onSubmit={handleSubmit}>
       <label>
         <span className="top-label">Username</span>
-        <input ref={username}></input>
+        <input placeholder="Username..." ref={username}></input>
       </label>
       <label>
         <span className="password">Password</span>
-        <input type="password" ref={password}></input>
+        <input placeholder="Password..." type="password" ref={password}></input>
       </label>
       <button className="submit" type="submit">
         Login

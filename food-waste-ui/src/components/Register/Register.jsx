@@ -2,7 +2,7 @@ import * as React from "react";
 //import "./Register.css"
 import axios from "axios";
 
-export default function Register({ handleLogin }) {
+export default function Register({ handleLogin, coordinates }) {
   const email = React.createRef();
   const username = React.createRef();
   const password = React.createRef();
@@ -13,11 +13,14 @@ export default function Register({ handleLogin }) {
 
     const register = async () => {
       try {
+        console.log("set location after", coordinates);
         const res = await axios.post(`${URL}/register`, {
           email: email.current.value,
           username: username.current.value,
           password: password.current.value,
+          location: coordinates,
         });
+
         handleLogin(res.data.user);
       } catch (err) {
         alert(err);
@@ -31,15 +34,15 @@ export default function Register({ handleLogin }) {
     <form onSubmit={handleSubmit}>
       <label>
         <span className="top-label">Email</span>
-        <input ref={email}></input>
+        <input placeholder="Email..." ref={email}></input>
       </label>
       <label>
         <span>Username</span>
-        <input ref={username}></input>
+        <input placeholder="Username..." ref={username}></input>
       </label>
       <label>
         <span>Password</span>
-        <input type="password" ref={password}></input>
+        <input placeholder="Password..." type="password" ref={password}></input>
       </label>
       <button className="submit" type="submit">
         Register

@@ -8,7 +8,7 @@ export default function Navbar({ isLoggedIn, handleLogout }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 900;
 
-  const onClick = (event) => {
+  const logOut = (event) => {
     event.preventDefault();
     handleLogout();
     console.log(isLoggedIn);
@@ -53,7 +53,7 @@ export default function Navbar({ isLoggedIn, handleLogout }) {
           );
         })}
       {isLoggedIn && (
-        <Link to="/" onClick={onClick}>
+        <Link to="/" onClick={logOut}>
           Log Out
         </Link>
       )}

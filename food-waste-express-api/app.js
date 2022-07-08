@@ -32,13 +32,13 @@ Parse.initialize(
   
   app.post('/login', async (req, res) => {
     try {
-      const user = await Parse.User.logIn(req.body.username, req.body.password)
+      const user = await Parse.User.logIn(req.body.username, req.body.password, req.body.location)
       res.send({"user" : user})
     } catch (error) {
       res.status(400)
       res.send({"error" : "Login failed: " + error })
     }
-  })
+  }) 
   
   
 module.exports = app //makes it like export default function
