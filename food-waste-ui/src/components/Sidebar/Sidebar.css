@@ -1,0 +1,28 @@
+.food-button {
+    width: 20px;
+}
+
+.sidebar {
+    height: 100%;
+    position: fixed;
+    background-color: #ffc8dd;
+    width: 50px;
+    border-radius: 5px;
+    z-index: 20;
+}
+
+.open {
+    width: 200px;
+}
+
+.toggle-button {
+    margin: 10px 0px 0px 15px;
+    background-color: transparent;
+    border: none;
+}
+
+.button-open {
+    background-color: transparent;
+    border: none;
+    width: 50px;
+}

@@ -2,18 +2,34 @@ import * as React from "react";
 import "./Sidebar.css";
 
 export default function Sidebar(props) {
-  return (
-    <div className={props.isOpen ? "sidebar-open" : "sidebar-closed"}>
-      <button className="toggle-button" onClick={() => props.handleOnToggle()}>
-        ≡
-      </button>
+  let sidebarProperty = "sidebar";
+  let buttonProperty = "toggle-button";
 
-      {!props.isOpen ? (
-        " "
-      ) : (
+  if (props.isOpen) {
+    sidebarProperty = "sidebar open";
+    buttonProperty = "toggle-button button-open";
+  }
+  return (
+    <div className={sidebarProperty}>
+      {props.isOpen ? (
         <>
-          <div className="shoppingCart">Testing sidebar</div>
+          <button className={buttonProperty} onClick={props.handleOnToggle}>
+            <img
+              className="food-button"
+              src="../../src/food.png"
+              alt="food icon"
+            ></img>
+          </button>{" "}
         </>
+      ) : (
+        <button className={buttonProperty} onClick={props.handleOnToggle}>
+          {" "}
+          <img
+            className="food-button"
+            src="../../src/food.png"
+            alt="food icon"
+          ></img>
+        </button>
       )}
     </div>
   );
