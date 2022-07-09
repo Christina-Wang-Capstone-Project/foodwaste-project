@@ -16,7 +16,7 @@
 }
 
 .toggle-button {
-    margin: 10px 0px 0px 15px;
+    margin: 10px 0px 0px 5px;
     background-color: transparent;
     border: none;
 }
@@ -26,3 +26,13 @@
     border: none;
     width: 50px;
 }
+.sidebar-items {
+    display: flex;
+    flex-direction: column;
+}
+
+
+  
+  
+
+  

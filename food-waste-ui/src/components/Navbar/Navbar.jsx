@@ -28,14 +28,14 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   }, []);
 
   const navPages = ["Home", "Market", "Make A Post", "Basket"];
-  // const sideBarPages = [
-  //   "Home",
-  //   "Market",
-  //   "Map",
-  //   "Make a Post",
-  //   "About Us",
-  //   "Contact Us",
-  // ];
+  const sideBarPages = [
+    "Home",
+    "Market",
+    "Map",
+    "Make a Post",
+    "About Us",
+    "Contact Us",
+  ];
 
   return (
     <nav className="navbar">
