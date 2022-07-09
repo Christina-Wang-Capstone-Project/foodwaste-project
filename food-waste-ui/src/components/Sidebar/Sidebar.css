@@ -1,5 +1,6 @@
 .food-button {
     width: 20px;
+    cursor: pointer;
 }
 
 .sidebar {
@@ -9,6 +10,7 @@
     width: 50px;
     border-radius: 5px;
     z-index: 20;
+    transition: all .7s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .open {
@@ -16,7 +18,7 @@
 }
 
 .toggle-button {
-    margin: 10px 0px 0px 5px;
+    margin: 10px 0px 0px 10px;
     background-color: transparent;
     border: none;
 }
@@ -25,12 +27,16 @@
     background-color: transparent;
     border: none;
     width: 50px;
+   
 }
-.sidebar-items {
+.sidebar-container {
     display: flex;
     flex-direction: column;
 }
 
+.sidebar-items {
+    margin-top: 20px;
+}
 
   
   

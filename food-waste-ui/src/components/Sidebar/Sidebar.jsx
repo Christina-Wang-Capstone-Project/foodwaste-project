@@ -30,7 +30,7 @@ export default function Sidebar(props) {
               alt="food icon"
             ></img>
           </button>{" "}
-          <div className="sidebar-items">
+          <div className="sidebar-container">
             {sidebarPages.map((page) => {
               let sidebarItem = page.replace(/\s+/g, "");
               return (
@@ -41,6 +41,7 @@ export default function Sidebar(props) {
                       : "/"
                   }`}
                   key={page}
+                  className="sidebar-items"
                 >
                   {page}
                 </Link>
