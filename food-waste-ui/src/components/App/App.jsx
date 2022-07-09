@@ -8,6 +8,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import LoggedOutView from "../LoggedOutView/LoggedOutView";
 import MarketGrid from "../MarketGrid/MarketGrid";
+import MakeaPost from "../MakeaPost/MakeaPost";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,8 +74,9 @@ export default function App() {
             />
           )}
           <Routes>
-            <Route path="/" />
+            {/* <Route path="/" /> */}
             <Route path="/market" element={<>{<MarketGrid />}</>} />
+            <Route path="/makeapost" element={<MakeaPost />} />
           </Routes>
         </main>
       </BrowserRouter>
