@@ -1,5 +1,7 @@
 import * as React from "react";
 
 export default function MarketGrid() {
-  return <h1>Market </h1>;
+  //post products from make a post
+
+  return <div className="market-grid"></div>;
 }

@@ -59,11 +59,6 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
             </Link>
           );
         })}
-      {isLoggedIn && (
-        <Link to="/" onClick={logOut}>
-          Log Out
-        </Link>
-      )}
       <Popover
         position={Position.BOTTOM_LEFT}
         content={
@@ -81,11 +76,12 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
             </Menu.Group>
             <Menu.Divider />
             <Menu.Group>
-              <Menu.Item
-                onSelect={() => toaster.danger("Log Out")}
-                intent="danger"
-              >
-                Log Out
+              <Menu.Item>
+                {isLoggedIn && (
+                  <Link to="/" onClick={logOut}>
+                    Log Out
+                  </Link>
+                )}
               </Menu.Item>
             </Menu.Group>
           </Menu>
