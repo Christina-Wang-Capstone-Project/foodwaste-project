@@ -1,25 +1,44 @@
 import * as React from "react";
-import { FormField, FileUploader, TextInputField, Button } from "evergreen-ui";
+import { FileUploader, TextInputField, Button } from "evergreen-ui";
 import "./MakeaPost.css";
+import axios from "axios";
 
-export default function MakeaPost(setAllProducts) {
+export default function MakeaPost(currentUser) {
   const productName = React.createRef();
   const productDescription = React.createRef();
+  const [allProducts, setAllProducts] = React.useState([]);
+
   const URL = "http://localhost:3001";
 
   const handleOnSubmit = (event) => {
-    //setAllProducts([]);
     event.preventDefault();
+    console.log("form is submitted");
+    const addProduct = async () => {
+      try {
+        console.log("adding product");
+        const res = await axios.post(`${URL}/makeapost`, {
+          userId: currentUser.userId,
+          productName: productName.current.value,
+          productDescription: productDescription.current.value,
+        });
+        setAllProducts([res.data.products].concat(allProducts));
+        console.log("allProducts", allProducts);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    addProduct();
   };
 
   return (
     <div className="form-container">
       <h1>Make a Post</h1>
-      <FormField onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit}>
         <TextInputField
           className="name"
           placeholder="Name of Item"
           label="Name of Product"
+          ref={productName}
           validationMessage="This field is required"
         ></TextInputField>
         {/* <FileUploader
@@ -30,6 +49,7 @@ export default function MakeaPost(setAllProducts) {
           className="description"
           placeholder="Description of Product"
           label="Description"
+          ref={productDescription}
           validationMessage="This field is required"
         ></TextInputField>
         {/* <TextInputField
@@ -38,8 +58,10 @@ export default function MakeaPost(setAllProducts) {
           label="Expiration Date"
           validationMessage="This field is required"
         ></TextInputField> */}
-      </FormField>
-      <Button> Submit</Button>
+        <Button type="submit" appearance="default">
+          Submit
+        </Button>
+      </form>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
-  const [allProducts, setAllProducts] = useState([]);
+  // const [allProducts, setAllProducts] = useState([]);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
@@ -81,7 +81,7 @@ export default function App() {
             <Route path="/market" element={<>{<MarketGrid />}</>} />
             <Route
               path="/makeapost"
-              element={<MakeaPost setAllProducts={setAllProducts} />}
+              element={<MakeaPost currentUser={currentUser} />}
             />
           </Routes>
         </main>
