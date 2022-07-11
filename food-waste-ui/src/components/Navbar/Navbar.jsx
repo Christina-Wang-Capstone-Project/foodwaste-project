@@ -78,7 +78,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
             <Menu.Group>
               <Menu.Item>
                 {isLoggedIn && (
-                  <Link to="/" onClick={logOut}>
+                  <Link to="/" onClick={logOut} className="logout-button">
                     Log Out
                   </Link>
                 )}

@@ -7,6 +7,7 @@
     margin-left: 50px;
     height: 50px;
     display: flex;
+    z-index: 1;
 
 }
 .store-name {
@@ -27,4 +28,8 @@ a:hover {
 .navbar-home {
     display: flex;
     justify-content: row;
+}
+
+.logout-button {
+    color: red;
 }

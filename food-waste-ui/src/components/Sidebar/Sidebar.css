@@ -9,12 +9,12 @@
     background-color: #ffc8dd;
     width: 50px;
     border-radius: 5px;
-    z-index: 20;
-    transition: all .7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    z-index: 11;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .open {
-    width: 200px;
+    width: 180px;
 }
 
 .toggle-button {

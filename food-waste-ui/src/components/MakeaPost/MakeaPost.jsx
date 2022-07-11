@@ -1,3 +1,3 @@
 export default function MakeaPost() {
-  return <h1> make a post</h1>;
+  return <form className="form-container"></form>;
 }
