@@ -1,0 +1,10 @@
+.form-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   padding-top: 50px;
+}
+TextInput {
+    font-family: arial;
+}

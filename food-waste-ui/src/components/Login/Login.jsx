@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./Login.css";
 import axios from "axios";
+import { Button } from "evergreen-ui";
 
 export default function Login({ handleLogin, coordinates }) {
   const username = React.createRef();
@@ -37,9 +38,9 @@ export default function Login({ handleLogin, coordinates }) {
         <span className="password">Password</span>
         <input placeholder="Password..." type="password" ref={password}></input>
       </label>
-      <button className="submit" type="submit">
+      <Button className="submit" type="submit" appearance="default">
         Login
-      </button>
+      </Button>
     </form>
   );
 }

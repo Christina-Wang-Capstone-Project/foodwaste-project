@@ -1,6 +1,7 @@
 import * as React from "react";
 //import "./Register.css"
 import axios from "axios";
+import { Button } from "evergreen-ui";
 
 export default function Register({ handleLogin, coordinates }) {
   const email = React.createRef();
@@ -43,9 +44,9 @@ export default function Register({ handleLogin, coordinates }) {
         <span>Password</span>
         <input placeholder="Password..." type="password" ref={password}></input>
       </label>
-      <button className="submit" type="submit">
+      <Button className="submit" type="submit" appearance="default">
         Register
-      </button>
+      </Button>
     </form>
   );
 }

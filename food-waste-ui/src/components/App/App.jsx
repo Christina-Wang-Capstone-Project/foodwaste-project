@@ -9,11 +9,14 @@ import { useEffect } from "react";
 import LoggedOutView from "../LoggedOutView/LoggedOutView";
 import MarketGrid from "../MarketGrid/MarketGrid";
 import MakeaPost from "../MakeaPost/MakeaPost";
+import Home from "../Home/Home";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element TODO CHANGE BECAUSE NOT AUTHENTICATED
@@ -74,9 +77,12 @@ export default function App() {
             />
           )}
           <Routes>
-            {/* <Route path="/" /> */}
+            <Route path="/" element={<Home></Home>} />
             <Route path="/market" element={<>{<MarketGrid />}</>} />
-            <Route path="/makeapost" element={<MakeaPost />} />
+            <Route
+              path="/makeapost"
+              element={<MakeaPost setAllProducts={setAllProducts} />}
+            />
           </Routes>
         </main>
       </BrowserRouter>
