@@ -4,6 +4,16 @@ import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
 
+function _arrayBufferToBase64(buffer) {
+  var binary = "";
+  var bytes = new Uint8Array(buffer);
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
+
 export default function MakeaPost({
   currentUser,
   allProducts,
@@ -29,13 +39,18 @@ export default function MakeaPost({
     event.preventDefault();
     const addProduct = async () => {
       try {
-        console.log(await file[0].text());
-        const fileData = await file[0].text();
+        //Get array buffer from file
+        //TODO CHECK IF FILE IS IMAGE (?)
+        const arrayBuffer = await file[0].arrayBuffer();
+
+        //Convert the array to a base64 string
+        const base64String = _arrayBufferToBase64(arrayBuffer);
+
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
           productName: productName.current.value,
           productDescription: productDescription.current.value,
-          file: fileData,
+          file: base64String,
         });
         setAllProducts([res.data.products].concat(allProducts));
       } catch (error) {

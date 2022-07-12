@@ -4,29 +4,25 @@ const Parse = require('parse/node');
 const app = express()
 const cors = require('cors')
 var FileReader = require('filereader')
+const { decode } = require('base64-arraybuffer')
 
 router.post('/', async (req, res, next) => {
     //try {
-      const products = new Parse.Object("Product", req.body)
-        currentUserId = req.headers["current_user_id"]
-        const user = new Parse.User()
-        user.id = currentUserId
-      products.set("user", user)
+    const products = new Parse.Object("Product", req.body)
+    currentUserId = req.headers["current_user_id"]
+    const user = new Parse.User()
+    user.id = currentUserId
+    products.set("user", user)
 
-        var reader = new FileReader();
+    const contentType = 'image/png' //TODO verify content type
+    const file = new Parse.File('image', {base64: req.body.file}, contentType)
+    await file.save()
 
-        reader.readAsBinaryString(req.body.file);
-    
-        const data = Array.from(reader.result)
-        const contentType = 'image/png' 
-        const file = new Parse.File('image', data, contentType)
-        file.save()
+    products.set('file', file)
 
-        products.set('file', file)
-     
-      await products.save()
-      res.status(201)
-      res.send({ "products": products })
+    await products.save()
+    res.status(201)
+    res.send({ "products": products })
     //} 
     
     // catch (error) {
