@@ -23,6 +23,7 @@
     "parse": "^3.4.3",
     "react": "^17.0.2",
     "react-dom": "<18.0.0",
+    "react-file-reader": "^1.1.4",
     "react-router-dom": "^6.3.0",
     "react-router-hash-link": "^2.4.3",
     "react-spring": "^9.4.5",

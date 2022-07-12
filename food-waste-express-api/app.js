@@ -5,11 +5,14 @@ const cors = require('cors')
 const Parse = require('parse/node')
 const app = express()
 const makeAPostRouter = require('./routes/makeapost.js')
+const marketRouter = require('./routes/market.js')
 
 
 app.use(express.json())
 app.use(morgan("tiny"))
 app.use(cors())
+
+
 
 const APP_ID = "2A8F3yGEfmsecpGdBs8LGhJT4qAg5fLX9AtwJmnD"
 const JS_KEY = "hpNlfJsUWRsw4vXfrBRxcbhiYgMkENQd5hhNTcPp"
@@ -20,6 +23,9 @@ Parse.initialize(
   //Point to Back4App Parse API address
   Parse.serverURL = "https://parseapi.back4app.com";
 
+app.use('/makeapost', makeAPostRouter)
+// app.use('/market', marketRouter)
+  
   app.post('/register', async (req, res) => {
     let user = new Parse.User(req.body)
   
@@ -44,23 +50,6 @@ Parse.initialize(
   }) 
 
 
-  app.post('/makeapost', async (req, res, next) => {
-    try {
-        console.log("is it running this")
-        const products = new Parse.Object("Product", req.body)
-        currentUserId = req.headers["current_user_id"]
-        const user = new Parse.User()
-        user.id = currentUserId
-        products.set("user", user)
-
-        await products.save()
-        res.status(201)
-        res.send({"products" : products})
-    }
-    catch (error) {
-        res.status(400)
-        res.send(error)
-    }
-})
+  
   
 module.exports = app //makes it like export default function

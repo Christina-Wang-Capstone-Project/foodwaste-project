@@ -15,7 +15,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
-  // const [allProducts, setAllProducts] = useState([]);
+  const [allProducts, setAllProducts] = React.useState([]);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
@@ -60,30 +60,38 @@ export default function App() {
     <div className="app">
       <BrowserRouter>
         <main>
-          {isLoggedIn ? (
-            <div className="nav-wrapper">
-              <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
-              <Navbar
-                isLoggedIn={isLoggedIn}
-                handleLogout={handleLogout}
-                currentUser={currentUser}
-              />
-            </div>
-          ) : (
+          {!isLoggedIn ? (
             <LoggedOutView
               handleLogin={handleLogin}
               getUserLocation={getUserLocation}
               coordinates={coordinates}
             />
+          ) : (
+            <>
+              <div className="nav-wrapper">
+                <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
+                <Navbar
+                  isLoggedIn={isLoggedIn}
+                  handleLogout={handleLogout}
+                  currentUser={currentUser}
+                />
+              </div>
+              <Routes>
+                <Route path="/" element={<Home allProducts={allProducts} />} />
+                <Route path="/market" element={<>{<MarketGrid />}</>} />
+                <Route
+                  path="/makeapost"
+                  element={
+                    <MakeaPost
+                      currentUser={currentUser}
+                      allProducts={allProducts}
+                      setAllProducts={setAllProducts}
+                    />
+                  }
+                />
+              </Routes>
+            </>
           )}
-          <Routes>
-            <Route path="/" element={<Home></Home>} />
-            <Route path="/market" element={<>{<MarketGrid />}</>} />
-            <Route
-              path="/makeapost"
-              element={<MakeaPost currentUser={currentUser} />}
-            />
-          </Routes>
         </main>
       </BrowserRouter>
     </div>

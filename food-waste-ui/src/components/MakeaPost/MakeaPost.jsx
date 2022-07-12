@@ -1,34 +1,50 @@
 import * as React from "react";
-import { FileUploader, TextInputField, Button } from "evergreen-ui";
+import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui";
 import "./MakeaPost.css";
 import axios from "axios";
+import { useEffect } from "react";
 
-export default function MakeaPost(currentUser) {
+export default function MakeaPost({
+  currentUser,
+  allProducts,
+  setAllProducts,
+}) {
   const productName = React.createRef();
   const productDescription = React.createRef();
-  const [allProducts, setAllProducts] = React.useState([]);
+  const [file, setFile] = React.useState();
+  const [fileRejections, setFileRejections] = React.useState([]);
+  const handleChange = React.useCallback((file) => setFile([file[0]]), []);
+  const handleRejected = React.useCallback(
+    (fileRejections) => setFileRejections([fileRejections[0]]),
+    []
+  );
+  const handleRemove = React.useCallback(() => {
+    setFile([]);
+    setFileRejections([]);
+  }, []);
 
   const URL = "http://localhost:3001";
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    console.log("form is submitted");
     const addProduct = async () => {
       try {
-        console.log("adding product");
+        console.log(await file[0].text());
+        const fileData = await file[0].text();
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
           productName: productName.current.value,
           productDescription: productDescription.current.value,
+          file: fileData,
         });
         setAllProducts([res.data.products].concat(allProducts));
-        console.log("allProducts", allProducts);
       } catch (error) {
         alert(error);
       }
     };
     addProduct();
   };
+  console.log("allProducts", allProducts);
 
   return (
     <div className="form-container">
@@ -41,10 +57,33 @@ export default function MakeaPost(currentUser) {
           ref={productName}
           validationMessage="This field is required"
         ></TextInputField>
-        {/* <FileUploader
-          label="Image of Product"
+        <FileUploader
+          label="Upload Image of Product"
+          maxFiles={1}
           validationMessage="This field is required"
-        ></FileUploader> */}
+          onChange={handleChange}
+          onRejected={handleRejected}
+          renderFile={(file) => {
+            const { name, size, type } = file;
+            const fileRejection = fileRejections.find(
+              (fileRejection) => fileRejection.file === file
+            );
+            const { message } = fileRejection || {};
+            return (
+              <FileCard
+                key={name}
+                isInvalid={fileRejection != null}
+                name={name}
+                onRemove={handleRemove}
+                sizeInBytes={size}
+                type={type}
+                validationMessage={message}
+              />
+            );
+          }}
+          values={file}
+        ></FileUploader>
+
         <TextInputField
           className="description"
           placeholder="Description of Product"
@@ -52,12 +91,14 @@ export default function MakeaPost(currentUser) {
           ref={productDescription}
           validationMessage="This field is required"
         ></TextInputField>
+
         {/* <TextInputField
           className="expiration"
           placeholder="Expiration Date"
           label="Expiration Date"
           validationMessage="This field is required"
         ></TextInputField> */}
+
         <Button type="submit" appearance="default">
           Submit
         </Button>
