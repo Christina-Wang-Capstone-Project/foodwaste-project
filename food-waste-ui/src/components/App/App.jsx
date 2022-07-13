@@ -16,11 +16,24 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
-  const [allProducts, setAllProducts] = React.useState([]);
-
+  const [products, setProducts] = React.useState([]);
+  const URL = "http://localhost:3001";
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element TODO CHANGE BECAUSE NOT AUTHENTICATED
+
+  React.useEffect(() => {
+    axios
+      .get(`${URL}/makeapost`)
+      .then((response) => {
+        let newProducts = response.data.products;
+        //TODO: filter products for search
+        setProducts(newProducts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
@@ -78,17 +91,11 @@ export default function App() {
                 />
               </div>
               <Routes>
-                <Route path="/" element={<Home allProducts={allProducts} />} />
+                <Route path="/" element={<Home products={products} />} />
                 <Route path="/market" element={<>{<MarketGrid />}</>} />
                 <Route
                   path="/makeapost"
-                  element={
-                    <MakeaPost
-                      currentUser={currentUser}
-                      allProducts={allProducts}
-                      setAllProducts={setAllProducts}
-                    />
-                  }
+                  element={<MakeaPost currentUser={currentUser} />}
                 />
               </Routes>
             </>

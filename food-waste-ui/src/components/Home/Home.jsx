@@ -4,12 +4,12 @@ import MarketGrid from "../MarketGrid/MarketGrid";
 // import SearchBar from "../SearchBar/SearchBar";
 import Hero from "../Hero/Hero";
 
-export default function Home({ allProducts }) {
+export default function Home({ products }) {
   return (
     <>
       <Hero />
       <div className="home">
-        <MarketGrid allProducts={allProducts}></MarketGrid>
+        <MarketGrid products={products}></MarketGrid>
       </div>
     </>
   );

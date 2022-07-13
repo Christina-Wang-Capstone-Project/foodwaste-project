@@ -16,16 +16,12 @@ function _arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
-export default function MakeaPost({
-  currentUser,
-  allProducts,
-  setAllProducts,
-}) {
+export default function MakeaPost({ currentUser }) {
   const productName = useRef();
   const productDescription = useRef();
   const [file, setFile] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
-  const acceptedContent = ["image/png"];
+  const acceptedContent = ["image/png", "image/jpeg"];
   const [success, setSuccess] = React.useState(false);
   const [fileRejections, setFileRejections] = React.useState([]);
   const handleChange = React.useCallback((file) => setFile([file[0]]), []);
@@ -57,7 +53,6 @@ export default function MakeaPost({
           description: productDescription.current.value,
           file: base64String,
         });
-        setAllProducts([res.data.products].concat(allProducts));
       } catch (error) {
         alert(error);
       }
@@ -65,7 +60,6 @@ export default function MakeaPost({
     addProduct();
     setSuccess(true);
   };
-  console.log("allProducts", allProducts);
 
   return (
     <div className="form-container">

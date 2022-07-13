@@ -10,7 +10,7 @@
     width: 50px;
     border-radius: 5px;
     z-index: 11;
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .open {

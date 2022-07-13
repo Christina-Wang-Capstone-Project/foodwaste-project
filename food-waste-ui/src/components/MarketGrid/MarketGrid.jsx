@@ -2,11 +2,11 @@ import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
 
-export default function MarketGrid({ allProducts }) {
+export default function MarketGrid({ products }) {
   //post products from make a post
-  if (allProducts == 0) {
+  if (products == 0) {
     return (
-      <h3>
+      <h3 className="noProducts-message">
         There doesn't seem to be any available items nearby. Make a post to
         start sharing!
       </h3>
@@ -14,10 +14,10 @@ export default function MarketGrid({ allProducts }) {
   } else {
     return (
       <div className="market">
-        <h3> Available Items on the Market</h3>
+        <h3 className="avail-notif"> Available Items on the Market</h3>
         <div className="grid">
-          {allProducts &&
-            allProducts.map((item) => {
+          {products &&
+            products.map((item) => {
               return <MarketCard product={item} />;
             })}
         </div>
