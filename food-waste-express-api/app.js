@@ -7,7 +7,6 @@ const app = express()
 const makeAPostRouter = require('./routes/makeapost.js')
 const marketRouter = require('./routes/market.js')
 
-
 app.use(express.json())
 app.use(morgan("tiny"))
 app.use(cors())

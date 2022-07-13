@@ -3,6 +3,8 @@ import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui";
 import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
+import { useRef } from "react";
+("use strict");
 
 function _arrayBufferToBase64(buffer) {
   var binary = "";
@@ -19,9 +21,12 @@ export default function MakeaPost({
   allProducts,
   setAllProducts,
 }) {
-  const productName = React.createRef();
-  const productDescription = React.createRef();
+  const productName = useRef();
+  const productDescription = useRef();
   const [file, setFile] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
+  const acceptedContent = ["image/png"];
+  const [success, setSuccess] = React.useState(false);
   const [fileRejections, setFileRejections] = React.useState([]);
   const handleChange = React.useCallback((file) => setFile([file[0]]), []);
   const handleRejected = React.useCallback(
@@ -37,10 +42,10 @@ export default function MakeaPost({
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const addProduct = async () => {
       try {
         //Get array buffer from file
-        //TODO CHECK IF FILE IS IMAGE (?)
         const arrayBuffer = await file[0].arrayBuffer();
 
         //Convert the array to a base64 string
@@ -48,8 +53,8 @@ export default function MakeaPost({
 
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
-          productName: productName.current.value,
-          productDescription: productDescription.current.value,
+          name: productName.current.value,
+          description: productDescription.current.value,
           file: base64String,
         });
         setAllProducts([res.data.products].concat(allProducts));
@@ -58,6 +63,7 @@ export default function MakeaPost({
       }
     };
     addProduct();
+    setSuccess(true);
   };
   console.log("allProducts", allProducts);
 
@@ -75,6 +81,8 @@ export default function MakeaPost({
         <FileUploader
           label="Upload Image of Product"
           maxFiles={1}
+          maxSizeInBytes={50000}
+          acceptedMimeTypes={acceptedContent}
           validationMessage="This field is required"
           onChange={handleChange}
           onRejected={handleRejected}
@@ -113,10 +121,15 @@ export default function MakeaPost({
           label="Expiration Date"
           validationMessage="This field is required"
         ></TextInputField> */}
-
-        <Button type="submit" appearance="default">
-          Submit
-        </Button>
+        {isLoading ? (
+          <Button disabled type="submit" appearance="default">
+            Submit
+          </Button>
+        ) : (
+          <Button type="submit" appearance="default">
+            Submit
+          </Button>
+        )}
       </form>
     </div>
   );

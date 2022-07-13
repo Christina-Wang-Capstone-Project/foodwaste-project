@@ -7,14 +7,14 @@ var FileReader = require('filereader')
 const { decode } = require('base64-arraybuffer')
 
 router.post('/', async (req, res, next) => {
-    //try {
-    const products = new Parse.Object("Product", req.body)
+    try {
+    const products = new Parse.Object("Products", req.body)
     currentUserId = req.headers["current_user_id"]
     const user = new Parse.User()
     user.id = currentUserId
     products.set("user", user)
 
-    const contentType = 'image/png' //TODO verify content type
+    const contentType = 'image/png' 
     const file = new Parse.File('image', {base64: req.body.file}, contentType)
     await file.save()
 
@@ -23,12 +23,25 @@ router.post('/', async (req, res, next) => {
     await products.save()
     res.status(201)
     res.send({ "products": products })
-    //} 
+    } 
     
-    // catch (error) {
-    //     res.status(400)
-    //     res.send(error)
-    // }
+    catch (error) {
+        res.status(400)
+        res.send(error)
+    }
+})
+
+router.get('/', async (req, res) => {
+        try {
+            const query = new Parse.Query("Products")
+            query.descending("createdAt")
+            products = await query.find()
+
+            res.send({"products" : products})
+        } catch (error) {
+            res.status(400) 
+            res.send({"error" : "Products query failed" + error})
+    }
 })
   
 module.exports = router

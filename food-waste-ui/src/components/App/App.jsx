@@ -10,6 +10,7 @@ import LoggedOutView from "../LoggedOutView/LoggedOutView";
 import MarketGrid from "../MarketGrid/MarketGrid";
 import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
+// ("use strict");
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
