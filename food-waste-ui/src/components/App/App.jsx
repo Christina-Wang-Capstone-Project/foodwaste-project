@@ -10,6 +10,7 @@ import LoggedOutView from "../LoggedOutView/LoggedOutView";
 import MarketGrid from "../MarketGrid/MarketGrid";
 import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
+import MyPosts from "../MyPosts/MyPosts";
 ("use strict");
 
 export default function App() {
@@ -17,7 +18,7 @@ export default function App() {
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
   const [products, setProducts] = React.useState([]);
-  const [userProducts, setUserProducts] = React.useState([]);
+  const [myProducts, setMyProducts] = React.useState([]);
   const URL = "http://localhost:3001";
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
@@ -27,9 +28,13 @@ export default function App() {
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
-        let newProducts = response.data.products;
+        let allProducts = response.data.products;
         //TODO: filter products for search
-        setProducts(newProducts);
+        setProducts(allProducts);
+        const userProducts = allProducts.filter(
+          (item) => item.user.objectId == currentUser.objectId
+        );
+        setMyProducts(userProducts);
       })
       .catch((err) => {
         console.log(err);
@@ -97,6 +102,10 @@ export default function App() {
                 <Route
                   path="/makeapost"
                   element={<MakeaPost currentUser={currentUser} />}
+                />
+                <Route
+                  path="/myposts"
+                  element={<MyPosts myProducts={myProducts} />}
                 />
               </Routes>
             </>

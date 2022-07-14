@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
 import { Popover, Position, Menu, Button } from "evergreen-ui";
+("use strict");
 
 export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -67,8 +68,8 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
               <Menu.Item onSelect={() => toaster.notify("Profile")}>
                 Profile Settings
               </Menu.Item>
-              <Menu.Item onSelect={() => toaster.notify("Filler")}>
-                Filler
+              <Menu.Item>
+                <a href="/myposts">My Posts</a>
               </Menu.Item>
               <Menu.Item onSelect={() => toaster.notify("Filler")}>
                 Filler
