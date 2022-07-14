@@ -10,17 +10,18 @@ import LoggedOutView from "../LoggedOutView/LoggedOutView";
 import MarketGrid from "../MarketGrid/MarketGrid";
 import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
-// ("use strict");
+("use strict");
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [coordinates, setCoordinates] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+  const [userProducts, setUserProducts] = React.useState([]);
   const URL = "http://localhost:3001";
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
-  ); //grabbing from localStorage storage when inspecting element TODO CHANGE BECAUSE NOT AUTHENTICATED
+  ); //grabbing from localStorage storage when inspecting element
 
   React.useEffect(() => {
     axios
