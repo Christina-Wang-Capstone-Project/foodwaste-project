@@ -8,6 +8,8 @@ export default function LoggedOutView({
   handleLogin,
   getUserLocation,
   coordinates,
+  isLoggedIn,
+  setIsLoggedIn,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
 

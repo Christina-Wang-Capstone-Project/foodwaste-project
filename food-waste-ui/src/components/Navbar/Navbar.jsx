@@ -11,10 +11,10 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 900;
 
-  const logOut = (event) => {
+  const logOut = async (event) => {
     event.preventDefault();
-    handleLogout();
-    console.log(isLoggedIn);
+    await handleLogout();
+    console.log("are we logged in", isLoggedIn);
   };
 
   useEffect(() => {
@@ -42,9 +42,9 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
     <nav className="navbar">
       <div className="navbar-home">
         <Logo />
-        <a href="/" className="store-name">
+        <Link to="/" className="store-name">
           WEBSITE TITLE
-        </a>
+        </Link>
       </div>
       {screenWidth > sideBarWidth &&
         navPages.map((page) => {
@@ -65,14 +65,9 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
         content={
           <Menu>
             <Menu.Group>
-              <Menu.Item onSelect={() => toaster.notify("Profile")}>
-                Profile Settings
-              </Menu.Item>
+              <Menu.Item>Profile Settings</Menu.Item>
               <Menu.Item>
-                <a href="/myposts">My Posts</a>
-              </Menu.Item>
-              <Menu.Item onSelect={() => toaster.notify("Filler")}>
-                Filler
+                <Link to="/myposts">My Posts</Link>
               </Menu.Item>
             </Menu.Group>
             <Menu.Divider />

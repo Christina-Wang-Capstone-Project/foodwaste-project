@@ -20,7 +20,7 @@ Parse.initialize(
     `${APP_ID}`, `${JS_KEY}`
   );
   //Point to Back4App Parse API address
-  Parse.serverURL = "https://parseapi.back4app.com";
+Parse.serverURL = "https://parseapi.back4app.com";
 
 app.use('/makeapost', makeAPostRouter)
 // app.use('/market', marketRouter)

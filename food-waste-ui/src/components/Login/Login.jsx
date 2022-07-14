@@ -35,7 +35,7 @@ export default function Login({ handleLogin, coordinates }) {
         <input placeholder="Username..." ref={username}></input>
       </label>
       <label>
-        <span className="password">Password</span>
+        <span className="current-password">Password</span>
         <input placeholder="Password..." type="password" ref={password}></input>
       </label>
       <Button className="submit" type="submit" appearance="default">

@@ -30,18 +30,17 @@ router.post('/', async (req, res, next) => {
         res.send(error)
     }
 })
-
 router.get('/', async (req, res) => {
-        try {
-            const query = new Parse.Query("Products")
-            query.descending("createdAt")
-            products = await query.find()
-
-            res.send({"products" : products})
-        } catch (error) {
-            res.status(400) 
-            res.send({"error" : "Products query failed" + error})
-    }
-})
+    try {
+        const query = new Parse.Query("Products")
+        query.descending("createdAt")
+        products = await query.find()
+  
+        res.send({"products" : products})
+    } catch (error) {
+        res.status(400) 
+        res.send({"error" : "Products query failed" + error})
+  }
+  })
   
 module.exports = router

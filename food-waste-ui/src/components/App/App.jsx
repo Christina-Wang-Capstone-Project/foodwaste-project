@@ -24,17 +24,19 @@ export default function App() {
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element
 
-  React.useEffect(() => {
+  useEffect(() => {
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
         let allProducts = response.data.products;
+        console.log("all products", allProducts);
         //TODO: filter products for search
         setProducts(allProducts);
         const userProducts = allProducts.filter(
           (item) => item.user.objectId == currentUser.objectId
         );
         setMyProducts(userProducts);
+        console.log("the user's products", myProducts);
       })
       .catch((err) => {
         console.log(err);
@@ -62,11 +64,10 @@ export default function App() {
   };
 
   const handleLogin = (user) => {
-    console.log(user);
+    console.log("checking user data", user);
     setCurrentUser(user);
     localStorage.setItem("current_user_id", user["objectId"]);
     addAuthenticationHeader();
-
     setIsLoggedIn(true);
   };
 
