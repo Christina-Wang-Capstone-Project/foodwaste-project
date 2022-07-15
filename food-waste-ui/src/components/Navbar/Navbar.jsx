@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
 import { Popover, Position, Menu, Button } from "evergreen-ui";
 ("use strict");
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 900;
+  const navigate = useNavigate();
 
   const logOut = async (event) => {
     event.preventDefault();
     await handleLogout();
-    console.log("are we logged in", isLoggedIn);
+    navigate("../", { replace: true });
   };
 
   useEffect(() => {

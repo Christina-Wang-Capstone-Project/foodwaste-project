@@ -1,5 +1,7 @@
-.noProducts-message {
+.my-posts-wrapper{
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 8%;
+    flex-direction: column;
   }

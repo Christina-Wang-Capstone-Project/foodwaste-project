@@ -2,7 +2,6 @@ import * as React from "react";
 import "./MarketCard.css";
 
 export default function MarketCard(product) {
-  //   console.log("the item being passed into MarketCard", product);
   const curProduct = product.product;
 
   return (

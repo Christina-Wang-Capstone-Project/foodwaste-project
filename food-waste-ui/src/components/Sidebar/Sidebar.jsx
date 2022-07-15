@@ -12,7 +12,6 @@ export default function Sidebar(props) {
   }
 
   const sidebarPages = [
-    "Home",
     "Market",
     "Map",
     "Make a Post",
@@ -36,11 +35,7 @@ export default function Sidebar(props) {
               let sidebarItem = page.replace(/\s+/g, "");
               return (
                 <Link
-                  to={`${
-                    sidebarItem.toLowerCase() !== "home"
-                      ? sidebarItem.toLowerCase()
-                      : "/"
-                  }`}
+                  to={`${sidebarItem.toLowerCase()}`}
                   key={page}
                   className="sidebar-items"
                 >

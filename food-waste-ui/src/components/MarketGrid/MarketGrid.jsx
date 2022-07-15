@@ -14,7 +14,6 @@ export default function MarketGrid({ products }) {
   } else {
     return (
       <div className="market">
-        <h3 className="avail-notif"> Available Items on the Market</h3>
         <div className="grid">
           {products &&
             products.map((item) => {

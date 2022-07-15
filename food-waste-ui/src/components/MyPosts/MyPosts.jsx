@@ -7,8 +7,12 @@ import "./MyPosts.css";
 export default function MyPosts({ myProducts }) {
   return (
     <>
-      <h3 className="noProducts-message">My Posts</h3>
-      <MarketGrid products={myProducts} />
+      <div className="my-posts-wrapper">
+        <h3 className="message">My Posts</h3>
+        <div className="my-posts-container">
+          <MarketGrid products={myProducts} />
+        </div>
+      </div>
     </>
   );
 }
