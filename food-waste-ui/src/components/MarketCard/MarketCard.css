@@ -14,3 +14,9 @@
     height: 300px;
     object-fit: contain; 
 }
+
+.description-button-wrapper {
+    display: flex;
+    flex: column;
+    justify-content: space-between;
+}

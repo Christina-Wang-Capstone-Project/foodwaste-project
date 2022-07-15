@@ -111,18 +111,18 @@ export function MainApp({
           (item) => item.user.objectId == currentUser.objectId
         );
         setMyProducts(userProducts);
+        console.log("all products after reload", products);
+        console.log("user products after reload", myProducts);
+
+        const currentUserId = localStorage.getItem("current_user_id");
+        axios.get(`${URL}/user/${currentUserId}`).then((response) => {
+          let curUser = response.data.user;
+          setCurrentUser(curUser);
+        });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-  useEffect(() => {
-    const currentUserId = localStorage.getItem("current_user_id");
-    axios.get(`${URL}/user/${currentUserId}`).then((response) => {
-      let curUser = response.data.user;
-      setCurrentUser(curUser);
-    });
   }, []);
 
   const handleOnToggle = () => {
