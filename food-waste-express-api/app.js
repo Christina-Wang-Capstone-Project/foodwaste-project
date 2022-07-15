@@ -5,7 +5,8 @@ const cors = require('cors')
 const Parse = require('parse/node')
 const app = express()
 const makeAPostRouter = require('./routes/makeapost.js')
-const userRouter = require('./routes/users.js')
+const userIdRouter = require('./routes/users.js')
+const loginRouter = require('./routes/login.js')
 
 app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
@@ -23,7 +24,8 @@ Parse.initialize(
 Parse.serverURL = "https://parseapi.back4app.com";
 
 app.use('/makeapost', makeAPostRouter)
-// app.use('/:objectId', userRouter)
+app.use('/user', userIdRouter)
+app.use('/login', loginRouter)
   
   app.post('/register', async (req, res) => {
     let user = new Parse.User(req.body)
@@ -38,16 +40,6 @@ app.use('/makeapost', makeAPostRouter)
     }
   })
   
-  app.post('/login', async (req, res) => {
-    try {
-      const user = await Parse.User.logIn(req.body.username, req.body.password)
-      res.send({"user" : user})
-    } catch (error) {
-      res.status(400)
-      res.send({"error" : "Login failed: " + error })
-    }
-  }) 
-
 
   
   
