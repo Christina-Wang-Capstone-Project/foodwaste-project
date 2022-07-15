@@ -2,12 +2,20 @@ import * as React from "react";
 //import "./Register.css"
 import axios from "axios";
 import { Button } from "evergreen-ui";
+import { useNavigate } from "react-router-dom";
 
-export default function Register({ handleLogin, coordinates }) {
+export default function Register({ handleLogin, coordinates, isLoggedIn }) {
   const email = React.createRef();
   const username = React.createRef();
   const password = React.createRef();
   const URL = "http://localhost:3001";
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate("../home", { replace: true });
+    }
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,6 +30,7 @@ export default function Register({ handleLogin, coordinates }) {
         });
 
         handleLogin(res.data.user);
+        navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
         console.log(err);

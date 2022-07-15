@@ -5,9 +5,9 @@ const cors = require('cors')
 const Parse = require('parse/node')
 const app = express()
 const makeAPostRouter = require('./routes/makeapost.js')
-const marketRouter = require('./routes/market.js')
+const userRouter = require('./routes/users.js')
 
-app.use(express.json())
+app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
 app.use(cors())
 
@@ -23,7 +23,7 @@ Parse.initialize(
 Parse.serverURL = "https://parseapi.back4app.com";
 
 app.use('/makeapost', makeAPostRouter)
-// app.use('/market', marketRouter)
+// app.use('/:objectId', userRouter)
   
   app.post('/register', async (req, res) => {
     let user = new Parse.User(req.body)

@@ -26,8 +26,8 @@ router.post('/', async (req, res, next) => {
     } 
     
     catch (error) {
-        res.status(400)
-        res.send(error)
+        console.log(error)
+        res.status(400).send({error:error})
     }
 })
 router.get('/', async (req, res) => {

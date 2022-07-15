@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import "./LoggedOutView.css";
+import { useNavigate } from "react-router-dom";
 
 export default function LoggedOutView({
   handleLogin,
@@ -29,7 +30,11 @@ export default function LoggedOutView({
             <button className="switch-button" onClick={handleNewUser}>
               New User? Sign up
             </button>
-            <Login handleLogin={handleLogin} coordinates={coordinates} />
+            <Login
+              handleLogin={handleLogin}
+              coordinates={coordinates}
+              isLoggedIn={isLoggedIn}
+            />
           </div>
         )}
         {isNewUser && (
@@ -39,7 +44,11 @@ export default function LoggedOutView({
               {" "}
               Already have an account? Log in
             </button>
-            <Register handleLogin={handleLogin} coordinates={coordinates} />
+            <Register
+              handleLogin={handleLogin}
+              coordinates={coordinates}
+              isLoggedIn={isLoggedIn}
+            />
           </div>
         )}
       </div>

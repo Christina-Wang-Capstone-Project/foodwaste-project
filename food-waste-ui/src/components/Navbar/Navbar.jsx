@@ -28,9 +28,8 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
     };
   }, []);
 
-  const navPages = ["Home", "Market", "Make A Post", "Basket"];
+  const navPages = ["Market", "Make A Post", "Basket"];
   const sideBarPages = [
-    "Home",
     "Market",
     "Map",
     "Make a Post",
@@ -42,7 +41,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
     <nav className="navbar">
       <div className="navbar-home">
         <Logo />
-        <Link to="/" className="store-name">
+        <Link to="/home" className="store-name">
           WEBSITE TITLE
         </Link>
       </div>
@@ -50,12 +49,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
         navPages.map((page) => {
           let navItem = page.replace(/\s+/g, "");
           return (
-            <Link
-              to={`${
-                navItem.toLowerCase() !== "home" ? navItem.toLowerCase() : "/"
-              }`}
-              key={page}
-            >
+            <Link to={`${navItem.toLowerCase()}`} key={page}>
               {page}
             </Link>
           );
@@ -67,7 +61,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
             <Menu.Group>
               <Menu.Item>Profile Settings</Menu.Item>
               <Menu.Item>
-                <Link to="/myposts">My Posts</Link>
+                <Link to="myposts">My Posts</Link>
               </Menu.Item>
             </Menu.Group>
             <Menu.Divider />

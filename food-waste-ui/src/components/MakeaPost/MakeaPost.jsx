@@ -75,7 +75,7 @@ export default function MakeaPost({ currentUser }) {
         <FileUploader
           label="Upload Image of Product"
           maxFiles={1}
-          maxSizeInBytes={50000}
+          maxSizeInBytes={50000000}
           acceptedMimeTypes={acceptedContent}
           validationMessage="This field is required"
           onChange={handleChange}
