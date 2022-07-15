@@ -71,6 +71,7 @@ export default function App() {
                   isLoggedIn={isLoggedIn}
                   handleLogout={handleLogout}
                   currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
                 />
               }
             />
@@ -81,7 +82,12 @@ export default function App() {
   );
 }
 
-export function MainApp({ isLoggedIn, handleLogout, currentUser }) {
+export function MainApp({
+  isLoggedIn,
+  handleLogout,
+  currentUser,
+  setCurrentUser,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = React.useState([]);
   const [myProducts, setMyProducts] = React.useState([]);
@@ -109,6 +115,14 @@ export function MainApp({ isLoggedIn, handleLogout, currentUser }) {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+  useEffect(() => {
+    const currentUserId = localStorage.getItem("current_user_id");
+    axios.get(`${URL}/user/${currentUserId}`).then((response) => {
+      let curUser = response.data.user;
+      setCurrentUser(curUser);
+    });
   }, []);
 
   const handleOnToggle = () => {

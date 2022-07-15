@@ -31,13 +31,6 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   }, []);
 
   const navPages = ["Market", "Make A Post", "Basket"];
-  const sideBarPages = [
-    "Market",
-    "Map",
-    "Make a Post",
-    "About Us",
-    "Contact Us",
-  ];
 
   return (
     <nav className="navbar">
@@ -80,7 +73,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
         }
       >
         <Pane>
-          <Avatar size={35} marginTop={9} name={`${currentUser.username}`} />
+          <Avatar size={35} marginTop={9} name={currentUser.username} />
         </Pane>
       </Popover>
     </nav>
