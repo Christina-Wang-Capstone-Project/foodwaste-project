@@ -1,10 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
-const app = express()
-const cors = require('cors')
-var FileReader = require('filereader')
-const { decode } = require('base64-arraybuffer')
+
+
+
 
 router.post('/', async (req, res, next) => {
     try {

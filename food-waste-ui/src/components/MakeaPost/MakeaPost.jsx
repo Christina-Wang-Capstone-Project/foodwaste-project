@@ -19,6 +19,8 @@ function _arrayBufferToBase64(buffer) {
 export default function MakeaPost({ currentUser }) {
   const productName = useRef();
   const productDescription = useRef();
+  const productQuantity = useRef();
+
   const [file, setFile] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
   const acceptedContent = ["image/png", "image/jpeg"];
@@ -51,6 +53,7 @@ export default function MakeaPost({ currentUser }) {
           userId: currentUser.userId,
           name: productName.current.value,
           description: productDescription.current.value,
+          quantity: productQuantity.current.value,
           file: base64String,
         });
       } catch (error) {
@@ -63,7 +66,7 @@ export default function MakeaPost({ currentUser }) {
 
   return (
     <div className="form-container">
-      <h1>Make a Post</h1>
+      <h1>Post Your Extra Items</h1>
       <form onSubmit={handleOnSubmit}>
         <TextInputField
           className="name"
@@ -72,10 +75,11 @@ export default function MakeaPost({ currentUser }) {
           ref={productName}
           validationMessage="This field is required"
         ></TextInputField>
+
         <FileUploader
           label="Upload Image of Product"
           maxFiles={1}
-          maxSizeInBytes={50000000}
+          maxSizeInBytes={50000}
           acceptedMimeTypes={acceptedContent}
           validationMessage="This field is required"
           onChange={handleChange}
@@ -100,7 +104,14 @@ export default function MakeaPost({ currentUser }) {
           }}
           values={file}
         ></FileUploader>
-
+        <input
+          type="number"
+          className="quantity"
+          placeholder="How much?"
+          label="Quantity"
+          ref={productQuantity}
+          validationMessage="This field is required"
+        ></input>
         <TextInputField
           className="description"
           placeholder="Description of Product"
