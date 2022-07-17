@@ -104,20 +104,22 @@ export function MainApp({
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
-        let allProducts = response.data.products;
-        //TODO: filter products for search
-        setProducts(allProducts);
-        const userProducts = allProducts.filter(
-          (item) => item.user.objectId == currentUser.objectId
-        );
-        setMyProducts(userProducts);
-        console.log("all products after reload", products);
-        console.log("user products after reload", myProducts);
-
         const currentUserId = localStorage.getItem("current_user_id");
-        axios.get(`${URL}/user/${currentUserId}`).then((response) => {
-          let curUser = response.data.user;
+        axios.get(`${URL}/user/${currentUserId}`).then((res) => {
+          let curUser = res.data.user;
           setCurrentUser(curUser);
+
+          let allProducts = response.data.products;
+          //TODO: filter products for search
+          setProducts(allProducts);
+          console.log("all products", allProducts);
+          const userProducts = allProducts.filter(
+            (item) => item.user.objectId == curUser.objectId
+          ); //the thing with setState it is async, if setting state and doing based off state after might not update
+          console.log("user products", userProducts);
+          setMyProducts(userProducts);
+          console.log("all products after reload", products);
+          console.log("user products after reload", myProducts);
         });
       })
       .catch((err) => {
