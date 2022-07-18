@@ -143,7 +143,10 @@ export function MainApp({
         />
       </div>
       <Routes>
-        <Route path="/" element={<Home products={products} />} />
+        <Route
+          path="/"
+          element={<Home products={products} currentUser={currentUser} />}
+        />
         <Route path="/market" element={<>{<MarketGrid />}</>} />
         <Route
           path="/makeapost"

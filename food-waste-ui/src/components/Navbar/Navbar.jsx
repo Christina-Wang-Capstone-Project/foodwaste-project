@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const sideBarWidth = 900;
+  const sideBarWidth = 1000;
   const navigate = useNavigate();
 
   const logOut = async (event) => {
@@ -40,6 +40,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
           WEBSITE TITLE
         </a>
       </div>
+
       {screenWidth > sideBarWidth &&
         navPages.map((page) => {
           let navItem = page.replace(/\s+/g, "");
@@ -49,6 +50,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
             </Link>
           );
         })}
+
       <Popover
         position={Position.BOTTOM_LEFT}
         content={
