@@ -1,9 +1,12 @@
 import * as React from "react";
-import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui"; //FILEPICKER TODO or use stream
+import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui";
 import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRef } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
 ("use strict");
 
 function _arrayBufferToBase64(buffer) {
@@ -16,10 +19,11 @@ function _arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
-export default function MakeaPost({ currentUser }) {
+export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const productName = useRef();
   const productDescription = useRef();
   const productQuantity = useRef();
+  const [expDate, setExpDate] = React.useState(new Date());
 
   const [file, setFile] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
@@ -36,7 +40,16 @@ export default function MakeaPost({ currentUser }) {
     setFileRejections([]);
   }, []);
 
+  const handleDateChange = (date) => {
+    setExpDate(date);
+    console.log("expDate", expDate);
+  };
+
   const URL = "http://localhost:3001";
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
@@ -47,14 +60,16 @@ export default function MakeaPost({ currentUser }) {
         const arrayBuffer = await file[0].arrayBuffer();
 
         //Convert the array to a base64 string
-        const base64String = _arrayBufferToBase64(arrayBuffer);
+        const ImageInBase64 = _arrayBufferToBase64(arrayBuffer);
 
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
           name: productName.current.value,
           description: productDescription.current.value,
           quantity: productQuantity.current.value,
-          file: base64String,
+          file: ImageInBase64,
+          location: coordinates,
+          date: expDate,
         });
       } catch (error) {
         alert(error);
@@ -119,13 +134,10 @@ export default function MakeaPost({ currentUser }) {
           ref={productDescription}
           validationMessage="This field is required"
         ></TextInputField>
-
-        {/* <TextInputField
-          className="expiration"
-          placeholder="Expiration Date"
-          label="Expiration Date"
-          validationMessage="This field is required"
-        ></TextInputField> */}
+        <div className="expiration-container">
+          <div className="expiration-title">Expiration Date</div>
+          <Calendar onChange={handleDateChange} expDate={expDate}></Calendar>
+        </div>
         {isLoading ? (
           <Button disabled type="submit" appearance="default">
             Submit

@@ -39,6 +39,7 @@ router.get('/', async (req, res) => {
     } catch (error) {
         res.status(400) 
         res.send({"error" : "Products query failed" + error})
+        
   }
   })
   

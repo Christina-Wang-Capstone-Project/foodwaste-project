@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./MarketCard.css";
 import { Pane, Badge, Button } from "evergreen-ui";
+import { Link } from "react-router-dom";
 
 export default function MarketCard(product) {
   const curProduct = product.product;
@@ -11,19 +12,21 @@ export default function MarketCard(product) {
   };
 
   return (
-    <div className="product-card">
-      <img
-        className="product-image"
-        src={curProduct.file.url}
-        alt={curProduct.objectId}
-      />
+    <div className="product-card ">
+      <Link to={curProduct.objectId}>
+        <img
+          className="product-image"
+          src={curProduct.file.url}
+          alt={curProduct.objectId}
+        />
+      </Link>
       <div className="description-button-wrapper">
         <div className="product-text-container">
           <div className="product-name">{curProduct.name}</div>
           <div className="product-description">{curProduct.description}</div>
           <div className="product-quantity">{curProduct.quantity}</div>
         </div>
-        <div className="onhold-button">
+        {/* <div className="onhold-button">
           <button onClick={handleOnToggle}>
             {isOnHold ? (
               <Badge color="blue">On Hold</Badge>
@@ -31,7 +34,7 @@ export default function MarketCard(product) {
               <Badge color="green"> Available</Badge>
             )}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export default function MarketGrid({ products }) {
         <div className="grid">
           {products &&
             products.map((item) => {
-              return <MarketCard product={item} />;
+              return <MarketCard product={item} key={item.objectId} />;
             })}
         </div>
       </div>
