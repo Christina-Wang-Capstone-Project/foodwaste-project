@@ -36,9 +36,9 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
     <nav className="navbar">
       <div className="navbar-home">
         <Logo />
-        <Link to="/home" className="store-name">
+        <a href="/home" className="store-name">
           WEBSITE TITLE
-        </Link>
+        </a>
       </div>
       {screenWidth > sideBarWidth &&
         navPages.map((page) => {

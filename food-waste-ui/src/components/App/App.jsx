@@ -11,6 +11,7 @@ import MarketGrid from "../MarketGrid/MarketGrid";
 import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
 import MyPosts from "../MyPosts/MyPosts";
+import MarketDetail from "../MarketDetail/MarketDetail";
 ("use strict");
 
 export default function App() {
@@ -43,10 +44,10 @@ export default function App() {
     setIsLoggedIn(false);
   };
 
-  function getUserLocation() {
+  function getLocation() {
     navigator.geolocation.getCurrentPosition(function (position) {
       setCoordinates([position.coords.latitude, position.coords.longitude]);
-    }); //getting location of user
+    }); //getting location of user/product
   }
 
   return (
@@ -59,7 +60,7 @@ export default function App() {
               element={
                 <LoggedOutView
                   handleLogin={handleLogin}
-                  getUserLocation={getUserLocation}
+                  getLocation={getLocation}
                   coordinates={coordinates}
                 />
               }
@@ -72,6 +73,8 @@ export default function App() {
                   handleLogout={handleLogout}
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
+                  getLocation={getLocation}
+                  coordinates={coordinates}
                 />
               }
             />
@@ -87,6 +90,8 @@ export function MainApp({
   handleLogout,
   currentUser,
   setCurrentUser,
+  getLocation,
+  coordinates,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = React.useState([]);
@@ -112,14 +117,10 @@ export function MainApp({
           let allProducts = response.data.products;
           //TODO: filter products for search
           setProducts(allProducts);
-          console.log("all products", allProducts);
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
           ); //the thing with setState it is async, if setting state and doing based off state after might not update
-          console.log("user products", userProducts);
           setMyProducts(userProducts);
-          console.log("all products after reload", products);
-          console.log("user products after reload", myProducts);
         });
       })
       .catch((err) => {
@@ -146,9 +147,16 @@ export function MainApp({
         <Route path="/market" element={<>{<MarketGrid />}</>} />
         <Route
           path="/makeapost"
-          element={<MakeaPost currentUser={currentUser} />}
+          element={
+            <MakeaPost
+              currentUser={currentUser}
+              getLocation={getLocation}
+              coordinates={coordinates}
+            />
+          }
         />
         <Route path="/myposts" element={<MyPosts myProducts={myProducts} />} />
+        <Route path="/:objectId" element={<MarketDetail />} />
       </Routes>
     </main>
   );

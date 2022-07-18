@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function LoggedOutView({
   handleLogin,
-  getUserLocation,
+  getLocation,
   coordinates,
   isLoggedIn,
   setIsLoggedIn,
@@ -18,7 +18,7 @@ export default function LoggedOutView({
     setIsNewUser(!isNewUser);
   };
   useEffect(() => {
-    getUserLocation();
+    getLocation();
   }, []);
 
   return (
