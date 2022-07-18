@@ -10,7 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "./Map.css";
 
 export default function Map({ currentUser }) {
-  const center = { lat: currentUser.location[0], lng: currentUser.location[1] };
+  const center = { lat: 0, lng: 0 };
   const containerStyle = {
     width: `1000px`,
     height: `500px`,
@@ -18,7 +18,7 @@ export default function Map({ currentUser }) {
 
   const { isLoaded } = useLoadScript({
     id: "script-loader",
-    googleMapsApiKey: "AIzaSyAp_nH375CSptFCDq-dYtKQIS5k0u4QvkA",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   });
 
   const [map, setMap] = React.useState(null);

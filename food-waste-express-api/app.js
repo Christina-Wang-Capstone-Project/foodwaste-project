@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -13,12 +13,8 @@ app.use(morgan("tiny"))
 app.use(cors())
 
 
-
-const APP_ID = "2A8F3yGEfmsecpGdBs8LGhJT4qAg5fLX9AtwJmnD"
-const JS_KEY = "hpNlfJsUWRsw4vXfrBRxcbhiYgMkENQd5hhNTcPp"
-
 Parse.initialize(
-    `${APP_ID}`, `${JS_KEY}`
+    process.env.APP_ID, process.env.JS_KEY
   );
   //Point to Back4App Parse API address
 Parse.serverURL = "https://parseapi.back4app.com";
