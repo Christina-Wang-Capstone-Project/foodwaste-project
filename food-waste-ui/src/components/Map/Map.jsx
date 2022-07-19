@@ -12,12 +12,11 @@ import "./Map.css";
 export default function Map({ currentUser, products }) {
   const center = { lat: currentUser.location[0], lng: currentUser.location[1] };
   const containerStyle = {
-    width: `1000px`,
-    height: `600px`,
+    width: `90%`,
+    height: `1000px`,
   };
 
-  const { isLoaded } = useLoadScript({
-    id: "script-loader",
+  const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   });
 
@@ -46,7 +45,12 @@ export default function Map({ currentUser, products }) {
           mapContainerStyle={containerStyle}
           onLoad={onLoad}
           onUnmount={onUnmount}
-        />
+        >
+          {products.map((item) => {
+            let location = { lat: item.location[0], lng: item.location[1] };
+            return <Marker key={item.objectId} position={location}></Marker>;
+          })}
+        </GoogleMap>
       </div>
     </>
   );

@@ -17,7 +17,7 @@ import MarketDetail from "../MarketDetail/MarketDetail";
 
 export default function App() {
   const [coordinates, setCoordinates] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element
@@ -97,6 +97,7 @@ export function MainApp({
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = React.useState([]);
   const [myProducts, setMyProducts] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   const URL = "http://localhost:3001";
   const navigate = useNavigate();
 
@@ -106,8 +107,9 @@ export function MainApp({
     }
   }, []);
 
-  useEffect(() => {
-    axios
+  useEffect(async () => {
+    setIsLoading(true);
+    await axios
       .get(`${URL}/makeapost`)
       .then((response) => {
         const currentUserId = localStorage.getItem("current_user_id");
@@ -122,6 +124,7 @@ export function MainApp({
             (item) => item.user.objectId == curUser.objectId
           ); //the thing with setState it is async, if setting state and doing based off state after might not update
           setMyProducts(userProducts);
+          setIsLoading(false);
         });
       })
       .catch((err) => {
@@ -135,33 +138,46 @@ export function MainApp({
 
   return (
     <main>
-      <div className="nav-wrapper">
-        <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          handleLogout={handleLogout}
-          currentUser={currentUser}
-        />
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={<Home products={products} currentUser={currentUser} />}
-        />
-        <Route path="/market" element={<>{<MarketGrid />}</>} />
-        <Route
-          path="/makeapost"
-          element={
-            <MakeaPost
+      {!isLoading && currentUser && (
+        <>
+          <div className="nav-wrapper">
+            <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              handleLogout={handleLogout}
               currentUser={currentUser}
-              getLocation={getLocation}
-              coordinates={coordinates}
             />
-          }
-        />
-        <Route path="/myposts" element={<MyPosts myProducts={myProducts} />} />
-        <Route path="/:objectId" element={<MarketDetail />} />
-      </Routes>
+          </div>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  products={products}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
+            />
+            <Route path="/market" element={<>{<MarketGrid />}</>} />
+            <Route
+              path="/makeapost"
+              element={
+                <MakeaPost
+                  currentUser={currentUser}
+                  getLocation={getLocation}
+                  coordinates={coordinates}
+                />
+              }
+            />
+            <Route
+              path="/myposts"
+              element={<MyPosts myProducts={myProducts} />}
+            />
+            <Route path="/:objectId" element={<MarketDetail />} />
+          </Routes>
+        </>
+      )}
     </main>
   );
 }
