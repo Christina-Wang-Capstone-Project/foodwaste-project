@@ -12,6 +12,7 @@ import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
 import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
+import NotFound from "../NotFound/NotFound";
 
 ("use strict");
 
@@ -67,7 +68,7 @@ export default function App() {
               }
             />
             <Route
-              path="/home/*"
+              path="/home"
               element={
                 <MainApp
                   isLoggedIn={isLoggedIn}
@@ -79,6 +80,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="/home/*" element={<NotFound />} />
           </Routes>
         </main>
       </BrowserRouter>
@@ -174,7 +176,10 @@ export function MainApp({
               path="/myposts"
               element={<MyPosts myProducts={myProducts} />}
             />
-            <Route path="/:objectId" element={<MarketDetail />} />
+            <Route
+              path="/:objectId"
+              element={<MarketDetail products={products} />}
+            />
           </Routes>
         </>
       )}
