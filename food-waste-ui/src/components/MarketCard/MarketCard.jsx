@@ -26,15 +26,6 @@ export default function MarketCard(product) {
           <div className="product-description">{curProduct.description}</div>
           <div className="product-quantity">{curProduct.quantity}</div>
         </div>
-        {/* <div className="onhold-button">
-          <button onClick={handleOnToggle}>
-            {isOnHold ? (
-              <Badge color="blue">On Hold</Badge>
-            ) : (
-              <Badge color="green"> Available</Badge>
-            )}
-          </button>
-        </div> */}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import "./Logo.css";
 export default function Logo() {
   return (
     <div className="logo">
-      <Link to="/">
+      <Link to="/home">
         <img className="logo-image" src="../../src/porridge.png" alt="logo" />
       </Link>
     </div>

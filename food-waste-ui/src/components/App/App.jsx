@@ -12,6 +12,7 @@ import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
 import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
+
 ("use strict");
 
 export default function App() {
@@ -143,7 +144,10 @@ export function MainApp({
         />
       </div>
       <Routes>
-        <Route path="/" element={<Home products={products} />} />
+        <Route
+          path="/"
+          element={<Home products={products} currentUser={currentUser} />}
+        />
         <Route path="/market" element={<>{<MarketGrid />}</>} />
         <Route
           path="/makeapost"
