@@ -14,15 +14,5 @@ router.get('/:userId', async (req, res) => {
         res.send(err)
     }
 })
-// (async () => {
-//     const User = new Parse.User();
-//     const query = new Parse.Query(User);
-  
-//     try {
-//       let user = await query.get('hEPjkt4epS');
-//       console.log('User found', user);
-//     } catch (error) {
-//       console.error('Error while fetching user', error);
-//     }
-//   })();
+
 module.exports = router

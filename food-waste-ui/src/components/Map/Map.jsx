@@ -7,9 +7,11 @@ import {
 } from "@react-google-maps/api";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Pane, Dialog, Button } from "evergreen-ui";
 import "./Map.css";
 
 export default function Map({ currentUser, products }) {
+  const [isShown, setIsShown] = React.useState(false);
   const center = { lat: currentUser.location[0], lng: currentUser.location[1] };
   const containerStyle = {
     width: `90%`,
@@ -48,7 +50,23 @@ export default function Map({ currentUser, products }) {
         >
           {products.map((item) => {
             let location = { lat: item.location[0], lng: item.location[1] };
-            return <Marker key={item.objectId} position={location}></Marker>;
+            return (
+              <>
+                <Dialog
+                  isShown={isShown}
+                  title="Dialog title"
+                  onCloseComplete={() => setIsShown(false)}
+                  confirmLabel="Custom Label"
+                >
+                  Dialog content
+                </Dialog>
+                <Marker
+                  onClick={() => setIsShown(true)}
+                  key={item.objectId}
+                  position={location}
+                ></Marker>
+              </>
+            );
           })}
         </GoogleMap>
       </div>
