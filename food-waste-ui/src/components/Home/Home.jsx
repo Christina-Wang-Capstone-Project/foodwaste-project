@@ -10,7 +10,7 @@ export default function Home({ products, currentUser }) {
     <>
       <div className="container">
         <Hero />
-        <Map currentUser={currentUser} />
+        <Map currentUser={currentUser} products={products} />
         <div className="home">
           <MarketGrid products={products}></MarketGrid>
         </div>

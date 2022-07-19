@@ -9,11 +9,11 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./Map.css";
 
-export default function Map({ currentUser }) {
-  const center = { lat: 0, lng: 0 };
+export default function Map({ currentUser, products }) {
+  const center = { lat: currentUser.location[0], lng: currentUser.location[1] };
   const containerStyle = {
     width: `1000px`,
-    height: `500px`,
+    height: `600px`,
   };
 
   const { isLoaded } = useLoadScript({

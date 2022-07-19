@@ -57,17 +57,17 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
     const addProduct = async () => {
       try {
         //Get array buffer from file
-        const arrayBuffer = await file[0].arrayBuffer();
+        const itemImageArrayBuffer = await file[0].arrayBuffer();
 
         //Convert the array to a base64 string
-        const ImageInBase64 = _arrayBufferToBase64(arrayBuffer);
+        const imageInBase64 = _arrayBufferToBase64(itemImageArrayBuffer);
 
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
           name: productName.current.value,
           description: productDescription.current.value,
           quantity: productQuantity.current.value,
-          file: ImageInBase64,
+          file: imageInBase64,
           location: coordinates,
           date: expDate,
         });
