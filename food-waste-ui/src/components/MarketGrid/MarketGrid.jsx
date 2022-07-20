@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
+("use strict");
 
 export default function MarketGrid({ products }) {
   //post products from make a post

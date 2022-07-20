@@ -5,9 +5,10 @@ import MarketGrid from "../MarketGrid/MarketGrid";
 import Map from "../Map/Map";
 import Hero from "../Hero/Hero";
 import { useEffect } from "react";
+("use strict");
 
 export default function Home({ products, currentUser }) {
-  console.log("current user in home", currentUser);
+  console.log("currentUser to see if location updated", currentUser);
   return (
     <>
       <div className="container">

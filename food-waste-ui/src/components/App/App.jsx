@@ -17,7 +17,7 @@ import NotFound from "../NotFound/NotFound";
 ("use strict");
 
 export default function App() {
-  const [coordinates, setCoordinates] = React.useState([]);
+  const [coordinates, setCoordinates] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
@@ -49,6 +49,10 @@ export default function App() {
   function getLocation() {
     navigator.geolocation.getCurrentPosition(function (position) {
       setCoordinates([position.coords.latitude, position.coords.longitude]);
+      console.log("location in getLocation", [
+        position.coords.latitude,
+        position.coords.longitude,
+      ]);
     }); //getting location of user/product
   }
 

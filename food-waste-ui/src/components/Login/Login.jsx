@@ -3,8 +3,14 @@ import "./Login.css";
 import axios from "axios";
 import { Button } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
+("use strict");
 
-export default function Login({ handleLogin, coordinates, isLoggedIn }) {
+export default function Login({
+  handleLogin,
+  coordinates,
+  isLoggedIn,
+  getLocation,
+}) {
   const username = React.createRef();
   const password = React.createRef();
   const URL = "http://localhost:3001";
@@ -18,6 +24,7 @@ export default function Login({ handleLogin, coordinates, isLoggedIn }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    getLocation();
 
     const login = async () => {
       try {

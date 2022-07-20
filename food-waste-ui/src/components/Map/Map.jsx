@@ -8,6 +8,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Pane, Dialog, Button } from "evergreen-ui";
+import { FaLocationArrow } from "react-icons/fa";
 import "./Map.css";
 ("use strict");
 
@@ -24,9 +25,9 @@ export default function Map({ currentUser, products }) {
   });
 
   const [map, setMap] = React.useState(null);
+
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+    map.setZoom(11);
     setMap(map);
   }, []);
 
@@ -49,6 +50,10 @@ export default function Map({ currentUser, products }) {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
+          <div className="map-box">
+            <input type="text" placeholder="Origin" />
+            <input type="text" placeholder="Product" />
+          </div>
           {products.map((item) => {
             let location = { lat: item.location[0], lng: item.location[1] };
             return (
