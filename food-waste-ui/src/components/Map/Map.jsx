@@ -43,8 +43,8 @@ export default function Map({ currentUser, products }) {
         className="map-style"
       >
         <GoogleMap
-          center={center}
           zoom={2}
+          center={center}
           mapContainerStyle={containerStyle}
           onLoad={onLoad}
           onUnmount={onUnmount}

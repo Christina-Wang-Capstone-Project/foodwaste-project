@@ -125,8 +125,9 @@ export function MainApp({
           setProducts(newProducts);
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
-          ); //the thing with setState it is async, if setting state and doing based off state after might not update
+          );
           setMyProducts(userProducts);
+          //TODO: set loading screen
         });
       })
       .catch((err) => {
@@ -141,8 +142,6 @@ export function MainApp({
   const handleSearchChange = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
-    console.log("search", searchTerm);
-    console.log("products", products);
   };
 
   return (
