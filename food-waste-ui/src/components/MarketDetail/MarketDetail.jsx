@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./MarketDetail.css";
 
+("use strict");
+
 export default function MarketDetail() {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();

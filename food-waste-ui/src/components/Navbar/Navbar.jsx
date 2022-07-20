@@ -4,13 +4,19 @@ import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
-import { Popover, Position, Menu, Button } from "evergreen-ui";
+import { Popover, Position, Menu, Button, SearchInput } from "evergreen-ui";
 ("use strict");
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
+export default function Navbar({
+  isLoggedIn,
+  handleLogout,
+  currentUser,
+  handleSearchChange,
+}) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 1000;
+
   const navigate = useNavigate();
 
   const logOut = async (event) => {
@@ -40,7 +46,7 @@ export default function Navbar({ isLoggedIn, handleLogout, currentUser }) {
           WEBSITE TITLE
         </a>
       </div>
-
+      <SearchInput onChange={(e) => handleSearchChange(e)} />
       {screenWidth > sideBarWidth &&
         navPages.map((page) => {
           let navItem = page.replace(/\s+/g, "");

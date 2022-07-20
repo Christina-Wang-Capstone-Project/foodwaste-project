@@ -99,6 +99,7 @@ export function MainApp({
   const [products, setProducts] = React.useState([]);
   const [myProducts, setMyProducts] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
   const URL = "http://localhost:3001";
   const navigate = useNavigate();
 
@@ -108,9 +109,8 @@ export function MainApp({
     }
   }, []);
 
-  useEffect(async () => {
-    setIsLoading(true);
-    await axios
+  useEffect(() => {
+    axios
       .get(`${URL}/makeapost`)
       .then((response) => {
         const currentUserId = localStorage.getItem("current_user_id");
@@ -119,27 +119,35 @@ export function MainApp({
           setCurrentUser(curUser);
 
           let allProducts = response.data.products;
-          //TODO: filter products for search
-          setProducts(allProducts);
+          let newProducts = allProducts.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          setProducts(newProducts);
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
           ); //the thing with setState it is async, if setting state and doing based off state after might not update
           setMyProducts(userProducts);
-          setIsLoading(false);
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [searchTerm]);
 
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleSearchChange = (event) => {
+    event.preventDefault();
+    setSearchTerm(event.target.value);
+    console.log("search", searchTerm);
+    console.log("products", products);
+  };
+
   return (
     <main>
-      {!isLoading && currentUser && (
+      {currentUser && (
         <>
           <div className="nav-wrapper">
             <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
@@ -147,6 +155,7 @@ export function MainApp({
               isLoggedIn={isLoggedIn}
               handleLogout={handleLogout}
               currentUser={currentUser}
+              handleSearchChange={handleSearchChange}
             />
           </div>
           <Routes>
@@ -180,6 +189,7 @@ export function MainApp({
           </Routes>
         </>
       )}
+      {isLoading && <h1>Loading</h1>}
     </main>
   );
 }

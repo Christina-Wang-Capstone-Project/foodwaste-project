@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Pane, Dialog, Button } from "evergreen-ui";
 import "./Map.css";
+("use strict");
 
 export default function Map({ currentUser, products }) {
   const [isShown, setIsShown] = React.useState(false);
@@ -43,7 +44,7 @@ export default function Map({ currentUser, products }) {
       >
         <GoogleMap
           center={center}
-          zoom={5}
+          zoom={2}
           mapContainerStyle={containerStyle}
           onLoad={onLoad}
           onUnmount={onUnmount}
