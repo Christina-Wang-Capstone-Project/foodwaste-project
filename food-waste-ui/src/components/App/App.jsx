@@ -68,6 +68,7 @@ export default function App() {
                   handleLogin={handleLogin}
                   getLocation={getLocation}
                   coordinates={coordinates}
+                  currentUser={currentUser}
                 />
               }
             />
@@ -118,6 +119,7 @@ export function MainApp({
       .get(`${URL}/makeapost`)
       .then((response) => {
         const currentUserId = localStorage.getItem("current_user_id");
+
         axios.get(`${URL}/user/${currentUserId}`).then((res) => {
           let curUser = res.data.user;
           setCurrentUser(curUser);
@@ -169,6 +171,8 @@ export function MainApp({
                   products={products}
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
+                  getLocation={getLocation}
+                  coordinates={coordinates}
                 />
               }
             />

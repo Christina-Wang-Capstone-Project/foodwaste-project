@@ -10,10 +10,11 @@ export default function Login({
   coordinates,
   isLoggedIn,
   getLocation,
+  currentUser,
 }) {
   const username = React.createRef();
   const password = React.createRef();
-  const URL = "http://localhost:3001";
+  const LOGIN_URL = "http://localhost:3001/login";
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -22,19 +23,15 @@ export default function Login({
     }
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    getLocation();
-
     const login = async () => {
       try {
-        console.log("Logging in");
-        const res = await axios.post(`${URL}/login`, {
+        const res = await axios.post(LOGIN_URL, {
           username: username.current.value,
           password: password.current.value,
-          location: coordinates,
         });
-        handleLogin(res.data.user);
+        await handleLogin(res.data.user);
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);

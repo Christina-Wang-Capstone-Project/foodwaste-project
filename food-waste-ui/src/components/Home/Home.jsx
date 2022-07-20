@@ -7,13 +7,22 @@ import Hero from "../Hero/Hero";
 import { useEffect } from "react";
 ("use strict");
 
-export default function Home({ products, currentUser }) {
-  console.log("currentUser to see if location updated", currentUser);
+export default function Home({
+  products,
+  currentUser,
+  getLocation,
+  coordinates,
+}) {
   return (
     <>
       <div className="container">
         <Hero />
-        <Map currentUser={currentUser} products={products} />
+        <Map
+          currentUser={currentUser}
+          products={products}
+          getLocation={getLocation}
+          coordinates={coordinates}
+        />
         <div className="home">
           <MarketGrid products={products}></MarketGrid>
         </div>

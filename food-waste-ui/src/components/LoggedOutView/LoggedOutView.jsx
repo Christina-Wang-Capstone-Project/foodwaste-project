@@ -12,6 +12,7 @@ export default function LoggedOutView({
   coordinates,
   isLoggedIn,
   setIsLoggedIn,
+  currentUser,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
 
@@ -33,6 +34,7 @@ export default function LoggedOutView({
               coordinates={coordinates}
               isLoggedIn={isLoggedIn}
               getLocation={getLocation}
+              currentUser={currentUser}
             />
           </div>
         )}

@@ -1,5 +1,14 @@
 .map-style {
 display: flex;
 justify-content: center;
-margin: 5% 10% 
+margin: 5% 10%;
+flex-wrap: wrap;
+}
+
+.modal-container {
+    transform: translate(-50%, -50%);
+    width: 10%;
+    margin-top: 30%;
+    margin-left: 20%;
+    background-color: white;
 }
