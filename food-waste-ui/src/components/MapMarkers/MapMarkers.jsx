@@ -11,7 +11,6 @@ export default function MapMarkers({
   setDestination,
   setOrigin,
   currentUserLocationOnLogin,
-  destination,
 }) {
   const [isShown, setIsShown] = useState(false);
   let location = { lat: item.location[0], lng: item.location[1] };

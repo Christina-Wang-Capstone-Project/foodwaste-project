@@ -24,19 +24,16 @@ export default function Map({ products, currentUserLocationOnLogin }) {
   const [origin, setOrigin] = useState();
   const [destination, setDestination] = useState();
 
-  const center = {
-    lat: currentUserLocationOnLogin[0],
-    lng: currentUserLocationOnLogin[1],
-  };
-
   const containerStyle = {
     width: `85%`,
     height: `850px`,
   };
 
-  const { isLoaded } = useJsApiLoader({
+  let { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   });
+  isLoaded = isLoaded && currentUserLocationOnLogin != null;
+  console.log(currentUserLocationOnLogin);
 
   const onLoad = React.useCallback(function callback(map) {
     map.setZoom(11);
@@ -74,6 +71,14 @@ export default function Map({ products, currentUserLocationOnLogin }) {
     return <Skeleton />;
   }
 
+  const center = isLoaded
+    ? new google.maps.LatLng({
+        lat: currentUserLocationOnLogin[0],
+        lng: currentUserLocationOnLogin[1],
+      })
+    : 0;
+  console.log("center", center.toString());
+  console.log(currentUserLocationOnLogin);
   return (
     <>
       <div
@@ -105,39 +110,44 @@ export default function Map({ products, currentUserLocationOnLogin }) {
             <h1>Duration: {duration}</h1>
           </div>
         </div>
-        <GoogleMap
-          zoom={2}
-          center={center}
-          mapContainerStyle={containerStyle}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          <div className="markers">
-            <Marker
-              title="My Location"
-              position={center}
-              animation={google.maps.Animation.DROP}
-              optimized={true}
-            ></Marker>
+        {isLoaded && (
+          <GoogleMap
+            zoom={2}
+            center={center}
+            mapContainerStyle={containerStyle}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+          >
+            <div className="markers">
+              <Marker
+                title="My Location"
+                position={center}
+                animation={google.maps.Animation.DROP}
+                optimized={true}
+              ></Marker>
 
-            {products.map((item) => {
-              return (
-                <>
-                  <MapMarkers
-                    item={item}
-                    setDestination={setDestination}
-                    setOrigin={setOrigin}
-                    currentUserLocationOnLogin={currentUserLocationOnLogin}
-                    destination={destination}
-                    setDistance={setDistance}
-                    origin={origin}
-                  />
-                  {directions && <DirectionsRenderer directions={directions} />}
-                </>
-              );
-            })}
-          </div>
-        </GoogleMap>
+              {products.map((item) => {
+                return (
+                  <>
+                    <MapMarkers
+                      item={item}
+                      key={item.objectId}
+                      setDestination={setDestination}
+                      setOrigin={setOrigin}
+                      currentUserLocationOnLogin={currentUserLocationOnLogin}
+                      destination={destination}
+                      setDistance={setDistance}
+                      origin={origin}
+                    />
+                    {directions && (
+                      <DirectionsRenderer directions={directions} />
+                    )}
+                  </>
+                );
+              })}
+            </div>
+          </GoogleMap>
+        )}
       </div>
     </>
   );

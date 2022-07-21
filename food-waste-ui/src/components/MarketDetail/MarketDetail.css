@@ -1,0 +1,14 @@
+.product-detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5%;
+}
+
+.marketdetail-product-card {
+    width: 40%
+}
+
+.market-detail-map {
+    width: 50%;
+}

@@ -2,11 +2,12 @@ import * as React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Map from "../Map/Map";
 import "./MarketDetail.css";
 
 ("use strict");
 
-export default function MarketDetail() {
+export default function MarketDetail({ currentUserLocationOnLogin }) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -15,31 +16,42 @@ export default function MarketDetail() {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`${URL}/${objectId}`).then((response) => {
-      setCurProduct(response.data.product);
+      setCurProduct([response.data.product]);
       setIsLoading(false);
     });
   }, []);
 
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div className="product-detail">
       {curProduct && (
-        <div className="product-card ">
-          <img
-            className="product-image"
-            src={curProduct.file.url}
-            alt={curProduct.objectId}
-          />
+        <>
+          <div className="marketdetail-product-card ">
+            <img
+              className="product-image"
+              src={curProduct[0].file.url}
+              alt={curProduct[0].objectId}
+            />
 
-          <div className="description-button-wrapper">
-            <div className="product-text-container">
-              <div className="product-name">{curProduct.name}</div>
-              <div className="product-description">
-                {curProduct.description}
+            <div className="description-button-wrapper">
+              <div className="product-text-container">
+                <div className="product-name">{curProduct[0].name}</div>
+                <div className="product-description">
+                  {curProduct[0].description}
+                </div>
+                <div className="product-quantity">{curProduct[0].quantity}</div>
               </div>
-              <div className="product-quantity">{curProduct.quantity}</div>
             </div>
           </div>
-        </div>
+          <div className="market-detail-map">
+            <Map
+              products={curProduct}
+              currentUserLocationOnLogin={currentUserLocationOnLogin}
+            />
+          </div>
+        </>
       )}
     </div>
   );

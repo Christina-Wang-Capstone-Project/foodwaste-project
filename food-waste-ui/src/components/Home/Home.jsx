@@ -27,14 +27,14 @@ export default function Home({ products, currentUserLocationOnLogin }) {
             </div>
           </>
         ) : (
-          <div className="map">
+          <div className="home-map">
             <Map
               products={products}
               currentUserLocationOnLogin={currentUserLocationOnLogin}
             />
           </div>
         )}
-        <Link to="/home/map">
+        <Link to="/home">
           <Button
             className="show-map-view-button"
             onClick={handleShowMapOrProductView}

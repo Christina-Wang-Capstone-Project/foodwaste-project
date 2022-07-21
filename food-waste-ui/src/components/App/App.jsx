@@ -20,9 +20,9 @@ import NotFound from "../NotFound/NotFound";
 export default function App() {
   const [coordinates, setCoordinates] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState(null);
-  const [currentUserLocationOnLogin, setCurrentUserLocationOnLogin] = useState(
-    []
-  );
+  const [currentUserLocationOnLogin, setCurrentUserLocationOnLogin] =
+    React.useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element
@@ -88,7 +88,6 @@ export default function App() {
                   getLocation={getLocation}
                   coordinates={coordinates}
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
-                  setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
                 />
               }
             />
@@ -195,7 +194,14 @@ export function MainApp({
               path="/myposts"
               element={<MyPosts myProducts={myProducts} />}
             />
-            <Route path="/:objectId" element={<MarketDetail />} />
+            <Route
+              path="/:objectId"
+              element={
+                <MarketDetail
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                />
+              }
+            />
             <Route
               path="/map"
               element={

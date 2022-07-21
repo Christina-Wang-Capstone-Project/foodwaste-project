@@ -33,7 +33,6 @@ export default function Login({
           password: password.current.value,
         });
         await handleLogin(res.data.user);
-        setCurrentUserLocationOnLogin(coordinates);
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
