@@ -12,3 +12,6 @@ flex-wrap: wrap;
     margin-left: 20%;
     background-color: white;
 }
+.map-box {
+    width: 210px;
+}
