@@ -1,17 +1,12 @@
 import * as React from "react";
-import {
-  useJsApiLoader,
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
-import { useState, useRef } from "react";
-import { Pane, Dialog, ListItem } from "evergreen-ui";
+import { Marker } from "@react-google-maps/api";
+import { useState } from "react";
+import { Pane, Dialog } from "evergreen-ui";
 import Button from "@mui/material/Button";
 ("use strict");
 
 export default function MapMarkers({ item, setDestination }) {
-  const [isShown, setIsShown] = React.useState(false);
+  const [isShown, setIsShown] = useState(false);
   let location = { lat: item.location[0], lng: item.location[1] };
   let icon = {
     url: item.file.url,

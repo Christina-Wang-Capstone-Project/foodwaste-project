@@ -12,6 +12,7 @@ import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
 import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
+import Map from "../Map/Map";
 import NotFound from "../NotFound/NotFound";
 
 ("use strict");
@@ -175,10 +176,6 @@ export function MainApp({
               element={
                 <Home
                   products={products}
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  getLocation={getLocation}
-                  coordinates={coordinates}
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
                 />
               }
@@ -199,6 +196,15 @@ export function MainApp({
               element={<MyPosts myProducts={myProducts} />}
             />
             <Route path="/:objectId" element={<MarketDetail />} />
+            <Route
+              path="/map"
+              element={
+                <Map
+                  products={products}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                />
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </>

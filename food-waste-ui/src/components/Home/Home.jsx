@@ -3,30 +3,42 @@ import "./Home.css";
 import MarketGrid from "../MarketGrid/MarketGrid";
 import Map from "../Map/Map";
 import Hero from "../Hero/Hero";
-import { useEffect } from "react";
+import Button from "@mui/material/Button";
 ("use strict");
 
-export default function Home({
-  products,
-  currentUser,
-  getLocation,
-  coordinates,
-  currentUserLocationOnLogin,
-}) {
+export default function Home({ products, currentUserLocationOnLogin }) {
+  const [showMapView, setShowMapView] = React.useState(false);
+  const [typeOfView, setTypeOfView] = React.useState("Map View");
+
+  const handleShowMapOrProductView = () => {
+    setShowMapView(!showMapView);
+    setTypeOfView(showMapView ? "Map View" : "List of Products");
+  };
+
   return (
     <>
       <div className="container">
-        <Hero />
-        <Map
-          currentUser={currentUser}
-          products={products}
-          getLocation={getLocation}
-          coordinates={coordinates}
-          currentUserLocationOnLogin={currentUserLocationOnLogin}
-        />
-        <div className="home">
-          <MarketGrid products={products}></MarketGrid>
-        </div>
+        {!showMapView ? (
+          <>
+            <Hero />
+            <div className="home">
+              <MarketGrid products={products}></MarketGrid>
+            </div>
+          </>
+        ) : (
+          <div className="map">
+            <Map
+              products={products}
+              currentUserLocationOnLogin={currentUserLocationOnLogin}
+            />
+          </div>
+        )}
+        <Button
+          className="show-map-view-button"
+          onClick={handleShowMapOrProductView}
+        >
+          Show {typeOfView}
+        </Button>
       </div>
     </>
   );
