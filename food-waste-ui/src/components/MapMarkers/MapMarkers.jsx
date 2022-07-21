@@ -5,7 +5,12 @@ import { Pane, Dialog } from "evergreen-ui";
 import Button from "@mui/material/Button";
 ("use strict");
 
-export default function MapMarkers({ item, setDestination }) {
+export default function MapMarkers({
+  item,
+  setDestination,
+  setOrigin,
+  currentUserLocationOnLogin,
+}) {
   const [isShown, setIsShown] = useState(false);
   let location = { lat: item.location[0], lng: item.location[1] };
   let icon = {
@@ -24,6 +29,7 @@ export default function MapMarkers({ item, setDestination }) {
     );
     setDestination(location);
   };
+
   return (
     <Marker
       title={item.title}

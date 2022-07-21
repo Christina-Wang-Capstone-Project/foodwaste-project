@@ -117,7 +117,12 @@ export default function Map({ products, currentUserLocationOnLogin }) {
             {products.map((item) => {
               return (
                 <>
-                  <MapMarkers item={item} setDestination={setDestination} />
+                  <MapMarkers
+                    item={item}
+                    setDestination={setDestination}
+                    setOrigin={setOrigin}
+                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  />
                   {directions && <DirectionsRenderer directions={directions} />}
                 </>
               );
