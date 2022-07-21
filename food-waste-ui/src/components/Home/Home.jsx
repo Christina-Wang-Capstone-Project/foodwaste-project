@@ -4,6 +4,7 @@ import MarketGrid from "../MarketGrid/MarketGrid";
 import Map from "../Map/Map";
 import Hero from "../Hero/Hero";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 ("use strict");
 
 export default function Home({ products, currentUserLocationOnLogin }) {
@@ -33,12 +34,14 @@ export default function Home({ products, currentUserLocationOnLogin }) {
             />
           </div>
         )}
-        <Button
-          className="show-map-view-button"
-          onClick={handleShowMapOrProductView}
-        >
-          Show {typeOfView}
-        </Button>
+        <Link to="/home/map">
+          <Button
+            className="show-map-view-button"
+            onClick={handleShowMapOrProductView}
+          >
+            Show {typeOfView}
+          </Button>
+        </Link>
       </div>
     </>
   );

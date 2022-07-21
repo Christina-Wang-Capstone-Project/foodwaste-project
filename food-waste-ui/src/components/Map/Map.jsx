@@ -5,10 +5,9 @@ import {
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Pane, Dialog, ListItem } from "evergreen-ui";
 import { FaLocationArrow } from "react-icons/fa";
 import Button from "@mui/material/Button";
 import "./Map.css";
@@ -31,8 +30,8 @@ export default function Map({ products, currentUserLocationOnLogin }) {
   };
 
   const containerStyle = {
-    width: `90%`,
-    height: `800px`,
+    width: `85%`,
+    height: `850px`,
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -114,6 +113,13 @@ export default function Map({ products, currentUserLocationOnLogin }) {
           onUnmount={onUnmount}
         >
           <div className="markers">
+            <Marker
+              title="My Location"
+              position={center}
+              animation={google.maps.Animation.DROP}
+              optimized={true}
+            ></Marker>
+
             {products.map((item) => {
               return (
                 <>
@@ -122,6 +128,9 @@ export default function Map({ products, currentUserLocationOnLogin }) {
                     setDestination={setDestination}
                     setOrigin={setOrigin}
                     currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    destination={destination}
+                    setDistance={setDistance}
+                    origin={origin}
                   />
                   {directions && <DirectionsRenderer directions={directions} />}
                 </>

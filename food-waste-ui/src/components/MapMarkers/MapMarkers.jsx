@@ -2,7 +2,8 @@ import * as React from "react";
 import { Marker } from "@react-google-maps/api";
 import { useState } from "react";
 import { Pane, Dialog } from "evergreen-ui";
-import Button from "@mui/material/Button";
+import Geocoder from "react-native-geocoding";
+
 ("use strict");
 
 export default function MapMarkers({
@@ -10,6 +11,7 @@ export default function MapMarkers({
   setDestination,
   setOrigin,
   currentUserLocationOnLogin,
+  destination,
 }) {
   const [isShown, setIsShown] = useState(false);
   let location = { lat: item.location[0], lng: item.location[1] };
@@ -18,16 +20,31 @@ export default function MapMarkers({
     scaledSize: new google.maps.Size(40, 35),
   };
 
+  function reverseGeoCodeOriginAddress(input) {
+    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
+    Geocoder.from(input)
+      .then((res) => {
+        var addressComponent = res.results[0].formatted_address;
+        setOrigin(addressComponent);
+      })
+      .catch((error) => console.warn(error));
+  }
+
+  function reverseGeoCodeDestinationAddress(input) {
+    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
+    Geocoder.from(input)
+      .then((res) => {
+        var addressComponent = res.results[0].formatted_address;
+        setDestination(addressComponent);
+      })
+      .catch((error) => console.warn(error));
+  }
+
   const handleOpen = (e) => {
     const location = e.latLng;
     setIsShown(true);
-    setOrigin(
-      new google.maps.LatLng(
-        currentUserLocationOnLogin[0],
-        currentUserLocationOnLogin[1]
-      )
-    );
-    setDestination(location);
+    reverseGeoCodeOriginAddress(currentUserLocationOnLogin);
+    reverseGeoCodeDestinationAddress([location.lat(), location.lng()]);
   };
 
   return (
