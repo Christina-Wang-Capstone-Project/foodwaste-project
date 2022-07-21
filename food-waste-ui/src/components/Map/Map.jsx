@@ -27,17 +27,13 @@ export default function Map({
 }) {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = async () => {
+  const handleOpen = (e) => {
+    const location = e.latLng;
     setOpen(true);
-    await setOrigin(
+    setOrigin(
       new google.maps.LatLng(currentUser.location[0], currentUser.location[1])
     );
-    await setDestination(
-      new google.maps.LatLng(
-        curProduct.current.props.position.lat,
-        curProduct.current.props.position.lng
-      )
-    );
+    setDestination(location);
   };
   const handleClose = () => setOpen(false);
   const center = { lat: currentUser.location[0], lng: currentUser.location[1] };
@@ -140,10 +136,11 @@ export default function Map({
               return (
                 <>
                   <Marker
-                    onClick={handleOpen}
+                    title={item.title}
                     key={item.objectId}
                     position={location}
                     ref={curProduct}
+                    onClick={handleOpen}
                   ></Marker>
                   {directions && <DirectionsRenderer directions={directions} />}
                 </>

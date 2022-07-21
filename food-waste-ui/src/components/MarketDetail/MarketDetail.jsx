@@ -12,12 +12,12 @@ export default function MarketDetail() {
   const [isLoading, setIsLoading] = React.useState(false);
   const URL = "http://localhost:3001/home";
 
-  useEffect(async () => {
+  useEffect(() => {
     setIsLoading(true);
-    await axios.get(`${URL}/${objectId}`).then((response) => {
+    axios.get(`${URL}/${objectId}`).then((response) => {
       setCurProduct(response.data.product);
+      setIsLoading(false);
     });
-    setIsLoading(false);
   }, []);
 
   return (
