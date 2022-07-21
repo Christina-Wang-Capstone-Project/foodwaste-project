@@ -10,42 +10,21 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Pane, Dialog, ListItem } from "evergreen-ui";
 import { FaLocationArrow } from "react-icons/fa";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import "./Map.css";
 import { IconButton } from "@mui/material";
-import { useEffect } from "react";
+import MapMarkers from "../MapMarkers/MapMarkers";
 
 ("use strict");
 
-export default function Map({
-  currentUser,
-  products,
-  currentUserLocationOnLogin,
-}) {
+export default function Map({ products, currentUserLocationOnLogin }) {
   const [map, setMap] = useState(null);
   const [directions, setDirections] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
   const [origin, setOrigin] = useState();
   const [destination, setDestination] = useState();
-  let curProduct = useRef();
-  const [open, setOpen] = useState(false);
 
-  const handleOpen = (e) => {
-    const location = e.latLng;
-    setOpen(true);
-    setOrigin(
-      new google.maps.LatLng(
-        currentUserLocationOnLogin[0],
-        currentUserLocationOnLogin[1]
-      )
-    );
-    setDestination(location);
-  };
-  const handleClose = () => setOpen(false);
   const center = {
     lat: currentUserLocationOnLogin[0],
     lng: currentUserLocationOnLogin[1],
@@ -136,16 +115,9 @@ export default function Map({
         >
           <div className="markers">
             {products.map((item) => {
-              let location = { lat: item.location[0], lng: item.location[1] };
               return (
                 <>
-                  <Marker
-                    title={item.title}
-                    key={item.objectId}
-                    position={location}
-                    ref={curProduct}
-                    onClick={handleOpen}
-                  ></Marker>
+                  <MapMarkers item={item} setDestination={setDestination} />
                   {directions && <DirectionsRenderer directions={directions} />}
                 </>
               );
