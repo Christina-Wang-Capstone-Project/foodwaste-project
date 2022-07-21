@@ -1,7 +1,6 @@
 import * as React from "react";
 import "./Home.css";
 import MarketGrid from "../MarketGrid/MarketGrid";
-// import SearchBar from "../SearchBar/SearchBar";
 import Map from "../Map/Map";
 import Hero from "../Hero/Hero";
 import { useEffect } from "react";
@@ -12,6 +11,7 @@ export default function Home({
   currentUser,
   getLocation,
   coordinates,
+  currentUserLocationOnLogin,
 }) {
   return (
     <>
@@ -22,6 +22,7 @@ export default function Home({
           products={products}
           getLocation={getLocation}
           coordinates={coordinates}
+          currentUserLocationOnLogin={currentUserLocationOnLogin}
         />
         <div className="home">
           <MarketGrid products={products}></MarketGrid>

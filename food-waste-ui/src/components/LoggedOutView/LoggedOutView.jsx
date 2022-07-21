@@ -1,9 +1,7 @@
 import * as React from "react";
-import { useEffect } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import "./LoggedOutView.css";
-import { useNavigate } from "react-router-dom";
 ("use strict");
 
 export default function LoggedOutView({
@@ -11,8 +9,8 @@ export default function LoggedOutView({
   getLocation,
   coordinates,
   isLoggedIn,
-  setIsLoggedIn,
   currentUser,
+  setCurrentUserLocationOnLogin,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
 
@@ -35,6 +33,7 @@ export default function LoggedOutView({
               isLoggedIn={isLoggedIn}
               getLocation={getLocation}
               currentUser={currentUser}
+              setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
             />
           </div>
         )}

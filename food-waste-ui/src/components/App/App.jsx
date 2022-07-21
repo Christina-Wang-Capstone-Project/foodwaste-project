@@ -19,6 +19,9 @@ import NotFound from "../NotFound/NotFound";
 export default function App() {
   const [coordinates, setCoordinates] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUserLocationOnLogin, setCurrentUserLocationOnLogin] = useState(
+    []
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element
@@ -49,7 +52,7 @@ export default function App() {
   function getLocation() {
     navigator.geolocation.getCurrentPosition(function (position) {
       setCoordinates([position.coords.latitude, position.coords.longitude]);
-      console.log("location in getLocation", [
+      setCurrentUserLocationOnLogin([
         position.coords.latitude,
         position.coords.longitude,
       ]);
@@ -69,6 +72,7 @@ export default function App() {
                   getLocation={getLocation}
                   coordinates={coordinates}
                   currentUser={currentUser}
+                  setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
                 />
               }
             />
@@ -82,6 +86,8 @@ export default function App() {
                   setCurrentUser={setCurrentUser}
                   getLocation={getLocation}
                   coordinates={coordinates}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
                 />
               }
             />
@@ -99,6 +105,7 @@ export function MainApp({
   setCurrentUser,
   getLocation,
   coordinates,
+  currentUserLocationOnLogin,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = React.useState([]);
@@ -115,11 +122,11 @@ export function MainApp({
   }, []);
 
   useEffect(() => {
+    getLocation();
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
         const currentUserId = localStorage.getItem("current_user_id");
-
         axios.get(`${URL}/user/${currentUserId}`).then((res) => {
           let curUser = res.data.user;
           setCurrentUser(curUser);
@@ -140,7 +147,6 @@ export function MainApp({
         console.log(err);
       });
   }, [searchTerm]);
-
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -173,6 +179,7 @@ export function MainApp({
                   setCurrentUser={setCurrentUser}
                   getLocation={getLocation}
                   coordinates={coordinates}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
                 />
               }
             />

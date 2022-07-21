@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login({
   handleLogin,
-  coordinates,
   isLoggedIn,
+  setCurrentUserLocationOnLogin,
   getLocation,
-  currentUser,
+  coordinates,
 }) {
   const username = React.createRef();
   const password = React.createRef();
@@ -25,6 +25,7 @@ export default function Login({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    getLocation();
     const login = async () => {
       try {
         const res = await axios.post(LOGIN_URL, {
@@ -32,6 +33,7 @@ export default function Login({
           password: password.current.value,
         });
         await handleLogin(res.data.user);
+        setCurrentUserLocationOnLogin(coordinates);
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
