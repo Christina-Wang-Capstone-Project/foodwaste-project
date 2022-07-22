@@ -133,7 +133,9 @@ export function MainApp({
 
           let allProducts = response.data.products;
           let newProducts = allProducts.filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            item.name
+              .toLowerCase()
+              .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
           );
           setProducts(newProducts);
           const userProducts = allProducts.filter(

@@ -13,16 +13,26 @@ import Button from "@mui/material/Button";
 import "./Map.css";
 import { IconButton } from "@mui/material";
 import MapMarkers from "../MapMarkers/MapMarkers";
+import { Link } from "react-router-dom";
+import Geocoder from "react-native-geocoding";
 
 ("use strict");
 
-export default function Map({ products, currentUserLocationOnLogin }) {
+export default function Map({
+  products,
+  currentUserLocationOnLogin,
+  productDetailDestination,
+}) {
   const [map, setMap] = useState(null);
   const [directions, setDirections] = useState(null);
-  const [distance, setDistance] = useState("");
+  const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState("");
   const [origin, setOrigin] = useState();
-  const [destination, setDestination] = useState();
+  const [destination, setDestination] = useState(
+    productDetailDestination
+      ? reverseGeoCodeDestinationAddress(productDetailDestination)
+      : null
+  );
 
   const containerStyle = {
     width: `85%`,
@@ -33,7 +43,6 @@ export default function Map({ products, currentUserLocationOnLogin }) {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   });
   isLoaded = isLoaded && currentUserLocationOnLogin != null;
-  console.log(currentUserLocationOnLogin);
 
   const onLoad = React.useCallback(function callback(map) {
     map.setZoom(11);
@@ -77,8 +86,27 @@ export default function Map({ products, currentUserLocationOnLogin }) {
         lng: currentUserLocationOnLogin[1],
       })
     : 0;
-  console.log("center", center.toString());
-  console.log(currentUserLocationOnLogin);
+
+  function reverseGeoCodeOriginAddress(input) {
+    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
+    Geocoder.from(input)
+      .then((res) => {
+        var addressComponent = res.results[0].formatted_address;
+        setOrigin(addressComponent);
+      })
+      .catch((error) => console.warn(error));
+  }
+
+  function reverseGeoCodeDestinationAddress(input) {
+    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
+    Geocoder.from(input)
+      .then((res) => {
+        var addressComponent = res.results[0].formatted_address;
+        setDestination(addressComponent);
+      })
+      .catch((error) => console.warn(error));
+  }
+
   return (
     <>
       <div
@@ -86,29 +114,39 @@ export default function Map({ products, currentUserLocationOnLogin }) {
         className="map-style"
       >
         <div className="map-box">
-          <input
-            type="text"
-            placeholder="My Location"
-            onChange={setOrigin}
-            defaultValue={origin}
-          />
-          <input
-            type="text"
-            placeholder="Product Location"
-            defaultValue={destination}
-          />
+          <div className="map-directions-clear">
+            <div className="map-input">
+              <input
+                type="text"
+                placeholder="My Location"
+                onChange={setOrigin}
+                defaultValue={origin}
+                disabled={true}
+              />
 
-          <Button onClick={calculateRoute}>Calculate Route</Button>
-          <IconButton
-            aria-label="center-back"
-            children={<FaLocationArrow />}
-            onClick={() => map.panTo(center)}
-          />
-          <Button onClick={clearRoute}>x</Button>
-          <div className="mapbox-results">
-            <h1>Distance: {distance}</h1>
-            <h1>Duration: {duration}</h1>
+              <input
+                type="text"
+                placeholder="Product Location"
+                disabled={true}
+                defaultValue={destination}
+              />
+            </div>
+            <Button onClick={clearRoute}>x</Button>
           </div>
+          <div className="map-direction-button">
+            <Button onClick={calculateRoute}>Calculate Route</Button>
+            <IconButton
+              aria-label="center-back"
+              children={<FaLocationArrow />}
+              onClick={() => map.panTo(center)}
+            />
+          </div>
+          {distance && (
+            <div className="mapbox-results">
+              <h1>Distance: {distance}</h1>
+              <h1>Duration: {duration}</h1>
+            </div>
+          )}
         </div>
         {isLoaded && (
           <GoogleMap
@@ -138,6 +176,10 @@ export default function Map({ products, currentUserLocationOnLogin }) {
                       destination={destination}
                       setDistance={setDistance}
                       origin={origin}
+                      reverseGeoCodeDestinationAddress={
+                        reverseGeoCodeDestinationAddress
+                      }
+                      reverseGeoCodeOriginAddress={reverseGeoCodeOriginAddress}
                     />
                     {directions && (
                       <DirectionsRenderer directions={directions} />
@@ -148,6 +190,9 @@ export default function Map({ products, currentUserLocationOnLogin }) {
             </div>
           </GoogleMap>
         )}
+        <Link to="/home">
+          <Button>Show List of Products</Button>
+        </Link>
       </div>
     </>
   );

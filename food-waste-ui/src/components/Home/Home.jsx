@@ -10,10 +10,12 @@ import { Link } from "react-router-dom";
 export default function Home({ products, currentUserLocationOnLogin }) {
   const [showMapView, setShowMapView] = React.useState(false);
   const [typeOfView, setTypeOfView] = React.useState("Map View");
+  const [mapPage, setMapPage] = React.useState("map");
 
   const handleShowMapOrProductView = () => {
     setShowMapView(!showMapView);
     setTypeOfView(showMapView ? "Map View" : "List of Products");
+    setPage(setMapPage ? "map" : "home");
   };
 
   return (
@@ -34,7 +36,7 @@ export default function Home({ products, currentUserLocationOnLogin }) {
             />
           </div>
         )}
-        <Link to="/home">
+        <Link to={mapPage}>
           <Button
             className="show-map-view-button"
             onClick={handleShowMapOrProductView}

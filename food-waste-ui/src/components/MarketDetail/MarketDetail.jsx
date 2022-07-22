@@ -11,12 +11,16 @@ export default function MarketDetail({ currentUserLocationOnLogin }) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [productDetailDestination, setProductDetailDescription] =
+    React.useState(null);
+
   const URL = "http://localhost:3001/home";
 
   useEffect(() => {
     setIsLoading(true);
     axios.get(`${URL}/${objectId}`).then((response) => {
       setCurProduct([response.data.product]);
+      setProductDetailDescription(response.data.product.location);
       setIsLoading(false);
     });
   }, []);
@@ -49,6 +53,7 @@ export default function MarketDetail({ currentUserLocationOnLogin }) {
             <Map
               products={curProduct}
               currentUserLocationOnLogin={currentUserLocationOnLogin}
+              productDetailDestination={productDetailDestination}
             />
           </div>
         </>
