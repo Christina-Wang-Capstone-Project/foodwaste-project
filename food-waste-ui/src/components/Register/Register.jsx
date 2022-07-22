@@ -3,6 +3,7 @@ import * as React from "react";
 import axios from "axios";
 import { Button, TextInputField } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
+("use strict");
 
 export default function Register({ handleLogin, coordinates, isLoggedIn }) {
   const email = React.createRef();

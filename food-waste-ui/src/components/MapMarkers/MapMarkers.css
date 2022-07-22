@@ -1,0 +1,20 @@
+.pop-up-image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain; 
+}
+
+ .modal-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+ }
+
+ .modal-text-container {
+    display: flex;
+ }
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+}

@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
+("use strict");
 
 export default function MarketGrid({ products }) {
   //post products from make a post
@@ -16,9 +17,9 @@ export default function MarketGrid({ products }) {
       <div className="market">
         <div className="grid">
           {products &&
-            products.map((item) => {
-              return <MarketCard product={item} key={item.objectId} />;
-            })}
+            products.map((item) => (
+              <MarketCard product={item} key={item.objectId} />
+            ))}
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import * as React from "react";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { animated } from "react-spring";
+("use strict");
 
 export default function Sidebar(props) {
   let sidebarProperty = "sidebar";

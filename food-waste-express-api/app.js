@@ -7,6 +7,7 @@ const app = express()
 const makeAPostRouter = require('./routes/makeapost.js')
 const userIdRouter = require('./routes/users.js')
 const loginRouter = require('./routes/login.js')
+const homeRouter = require('./routes/home.js')
 
 app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
@@ -22,6 +23,7 @@ Parse.serverURL = "https://parseapi.back4app.com";
 app.use('/makeapost', makeAPostRouter)
 app.use('/user', userIdRouter)
 app.use('/login', loginRouter)
+app.use('/home',homeRouter)
   
   app.post('/register', async (req, res) => {
     let user = new Parse.User(req.body)

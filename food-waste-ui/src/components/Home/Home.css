@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+ flex-direction: column;
+}
+
+.show-map-view-button {
+    padding: 5% 0%;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+.show-map-view-button:hover {
+    background-color: gray;
+}
