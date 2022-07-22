@@ -27,7 +27,9 @@ export default function Map({
   const [directions, setDirections] = useState(null);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState("");
-  const [origin, setOrigin] = useState();
+  const [origin, setOrigin] = useState(
+    reverseGeoCodeOriginAddress(currentUserLocationOnLogin)
+  );
   const [destination, setDestination] = useState(
     productDetailDestination
       ? reverseGeoCodeDestinationAddress(productDetailDestination)
