@@ -1,25 +1,22 @@
 import * as React from "react";
-import { useEffect } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import "./LoggedOutView.css";
-import { useNavigate } from "react-router-dom";
+("use strict");
 
 export default function LoggedOutView({
   handleLogin,
   getLocation,
   coordinates,
   isLoggedIn,
-  setIsLoggedIn,
+  currentUser,
+  setCurrentUserLocationOnLogin,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
 
   const handleNewUser = () => {
     setIsNewUser(!isNewUser);
   };
-  useEffect(() => {
-    getLocation();
-  }, []);
 
   return (
     <>
@@ -34,6 +31,9 @@ export default function LoggedOutView({
               handleLogin={handleLogin}
               coordinates={coordinates}
               isLoggedIn={isLoggedIn}
+              getLocation={getLocation}
+              currentUser={currentUser}
+              setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
             />
           </div>
         )}
@@ -48,6 +48,7 @@ export default function LoggedOutView({
               handleLogin={handleLogin}
               coordinates={coordinates}
               isLoggedIn={isLoggedIn}
+              getLocation={getLocation}
             />
           </div>
         )}

@@ -12,12 +12,17 @@ import MakeaPost from "../MakeaPost/MakeaPost";
 import Home from "../Home/Home";
 import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
+import Map from "../Map/Map";
+import NotFound from "../NotFound/NotFound";
 
 ("use strict");
 
 export default function App() {
-  const [coordinates, setCoordinates] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [coordinates, setCoordinates] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUserLocationOnLogin, setCurrentUserLocationOnLogin] =
+    React.useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
   ); //grabbing from localStorage storage when inspecting element
@@ -48,6 +53,10 @@ export default function App() {
   function getLocation() {
     navigator.geolocation.getCurrentPosition(function (position) {
       setCoordinates([position.coords.latitude, position.coords.longitude]);
+      setCurrentUserLocationOnLogin([
+        position.coords.latitude,
+        position.coords.longitude,
+      ]);
     }); //getting location of user/product
   }
 
@@ -63,6 +72,8 @@ export default function App() {
                   handleLogin={handleLogin}
                   getLocation={getLocation}
                   coordinates={coordinates}
+                  currentUser={currentUser}
+                  setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
                 />
               }
             />
@@ -76,6 +87,7 @@ export default function App() {
                   setCurrentUser={setCurrentUser}
                   getLocation={getLocation}
                   coordinates={coordinates}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
                 />
               }
             />
@@ -93,10 +105,13 @@ export function MainApp({
   setCurrentUser,
   getLocation,
   coordinates,
+  currentUserLocationOnLogin,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = React.useState([]);
   const [myProducts, setMyProducts] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
   const URL = "http://localhost:3001";
   const navigate = useNavigate();
 
@@ -107,6 +122,7 @@ export function MainApp({
   }, []);
 
   useEffect(() => {
+    getLocation();
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
@@ -116,52 +132,92 @@ export function MainApp({
           setCurrentUser(curUser);
 
           let allProducts = response.data.products;
-          //TODO: filter products for search
-          setProducts(allProducts);
+          let newProducts = allProducts.filter((item) =>
+            item.name
+              .toLowerCase()
+              .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
+          );
+          setProducts(newProducts);
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
-          ); //the thing with setState it is async, if setting state and doing based off state after might not update
+          );
           setMyProducts(userProducts);
+          //TODO: set loading screen
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
+  }, [searchTerm]);
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleSearchChange = (event) => {
+    event.preventDefault();
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <main>
-      <div className="nav-wrapper">
-        <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          handleLogout={handleLogout}
-          currentUser={currentUser}
-        />
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={<Home products={products} currentUser={currentUser} />}
-        />
-        <Route path="/market" element={<>{<MarketGrid />}</>} />
-        <Route
-          path="/makeapost"
-          element={
-            <MakeaPost
+      {currentUser && (
+        <>
+          <div className="nav-wrapper">
+            <Sidebar isOpen={isOpen} handleOnToggle={handleOnToggle} />
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              handleLogout={handleLogout}
               currentUser={currentUser}
-              getLocation={getLocation}
-              coordinates={coordinates}
+              handleSearchChange={handleSearchChange}
             />
-          }
-        />
-        <Route path="/myposts" element={<MyPosts myProducts={myProducts} />} />
-        <Route path="/:objectId" element={<MarketDetail />} />
-      </Routes>
+          </div>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  products={products}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                />
+              }
+            />
+            <Route path="/market" element={<>{<MarketGrid />}</>} />
+            <Route
+              path="/makeapost"
+              element={
+                <MakeaPost
+                  currentUser={currentUser}
+                  getLocation={getLocation}
+                  coordinates={coordinates}
+                />
+              }
+            />
+            <Route
+              path="/myposts"
+              element={<MyPosts myProducts={myProducts} />}
+            />
+            <Route
+              path="/:objectId"
+              element={
+                <MarketDetail
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                />
+              }
+            />
+            <Route
+              path="/map"
+              element={
+                <Map
+                  products={products}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </>
+      )}
+      {isLoading && <h1>Loading</h1>}
     </main>
   );
 }

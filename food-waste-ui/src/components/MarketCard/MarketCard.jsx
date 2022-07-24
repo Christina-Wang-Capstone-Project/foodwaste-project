@@ -2,6 +2,7 @@ import * as React from "react";
 import "./MarketCard.css";
 import { Pane, Badge, Button } from "evergreen-ui";
 import { Link } from "react-router-dom";
+("use strict");
 
 export default function MarketCard(product) {
   const curProduct = product.product;

@@ -1,14 +1,14 @@
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
-
+("use strict")
 
 
 
 router.post('/', async (req, res, next) => {
     try {
     const products = new Parse.Object("Products", req.body)
-    currentUserId = req.headers["current_user_id"]
+    let currentUserId = req.headers["current_user_id"]
     const user = new Parse.User()
     user.id = currentUserId
     products.set("user", user)
