@@ -14,6 +14,7 @@ import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
 import Map from "../Map/Map";
 import NotFound from "../NotFound/NotFound";
+import Basket from "../Basket/Basket";
 
 ("use strict");
 
@@ -112,6 +113,7 @@ export function MainApp({
   const [myProducts, setMyProducts] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
+
   const URL = "http://localhost:3001";
   const navigate = useNavigate();
 
@@ -178,10 +180,14 @@ export function MainApp({
                 <Home
                   products={products}
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  currentUser={currentUser}
                 />
               }
             />
-            <Route path="/market" element={<>{<MarketGrid />}</>} />
+            <Route
+              path="/market"
+              element={<MarketGrid currentUser={currentUser} />}
+            />
             <Route
               path="/makeapost"
               element={
@@ -201,6 +207,7 @@ export function MainApp({
               element={
                 <MarketDetail
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  currentUser={currentUser}
                 />
               }
             />
@@ -212,6 +219,10 @@ export function MainApp({
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
                 />
               }
+            />
+            <Route
+              path="/basket"
+              element={<Basket currentUser={currentUser} />}
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

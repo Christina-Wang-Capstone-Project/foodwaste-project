@@ -72,6 +72,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           file: imageInBase64,
           location: coordinates,
           date: expDate,
+          basket: [],
         });
       } catch (error) {
         alert(error);

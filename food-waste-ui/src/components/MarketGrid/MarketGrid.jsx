@@ -3,7 +3,7 @@ import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
 ("use strict");
 
-export default function MarketGrid({ products }) {
+export default function MarketGrid({ products, currentUser }) {
   //post products from make a post
   if (products == 0) {
     return (
@@ -18,7 +18,11 @@ export default function MarketGrid({ products }) {
         <div className="grid">
           {products &&
             products.map((item) => (
-              <MarketCard product={item} key={item.objectId} />
+              <MarketCard
+                product={item}
+                key={item.objectId}
+                currentUser={currentUser}
+              />
             ))}
         </div>
       </div>

@@ -6,8 +6,6 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { FaLocationArrow } from "react-icons/fa";
 import Button from "@mui/material/Button";
 import "./Map.css";
@@ -15,6 +13,7 @@ import { IconButton } from "@mui/material";
 import MapMarkers from "../MapMarkers/MapMarkers";
 import { Link } from "react-router-dom";
 import Geocoder from "react-native-geocoding";
+// import Loading from "../Loading/Loading";
 
 ("use strict");
 
@@ -78,9 +77,9 @@ export default function Map({
     setDestination([]);
   };
 
-  if (!isLoaded) {
-    return <Skeleton />;
-  }
+  // if (!isLoaded) {
+  //   return <Loading />;
+  // }
 
   const center = isLoaded
     ? new google.maps.LatLng({

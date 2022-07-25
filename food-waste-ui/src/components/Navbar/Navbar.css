@@ -6,9 +6,14 @@
     width: 100%;
     height: 60px;
     z-index: 50;
-    padding: 0 2% 0 5%;
+    padding: 1% 2% 5% 5%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    border-style: solid;
+    border-color: rgb(226, 224, 224);
+    border-left: white;
+    border-right: white;
+    border-top: rgb(158, 158, 158);
 }
 
 .navbar-home {

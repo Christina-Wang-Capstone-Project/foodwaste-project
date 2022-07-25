@@ -7,7 +7,10 @@ import "./MarketDetail.css";
 
 ("use strict");
 
-export default function MarketDetail({ currentUserLocationOnLogin }) {
+export default function MarketDetail({
+  currentUserLocationOnLogin,
+  currentUser,
+}) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
