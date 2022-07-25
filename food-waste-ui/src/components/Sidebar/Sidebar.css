@@ -17,11 +17,12 @@
     overflow-y: scroll;
     padding-top: 10px;
     border-radius: 10px;
+    opacity: 90%;
 }
 
 .sidebar.open {
     width: 25%;
-    background-color: #ffc8dd;
+    background-color: #f5f5f5;
 }
 
 .toggle-button {

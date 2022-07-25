@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 ("use strict");
 
@@ -42,7 +45,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
 
   const handleDateChange = (date) => {
     setExpDate(date);
-    console.log("expDate", expDate);
   };
 
   const URL = "http://localhost:3001";
@@ -136,7 +138,11 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
         ></TextInputField>
         <div className="expiration-container">
           <div className="expiration-title">Expiration Date</div>
-          <Calendar onChange={handleDateChange} expDate={expDate}></Calendar>
+          <DatePicker
+            onChange={handleDateChange}
+            expDate={expDate}
+            selected={expDate}
+          ></DatePicker>
         </div>
         {isLoading ? (
           <Button disabled type="submit" appearance="default">

@@ -27,6 +27,9 @@ export default function MarketCard(product) {
           <div className="product-description">{curProduct.description}</div>
           <div className="product-quantity">{curProduct.quantity}</div>
         </div>
+        <div className="product-button">
+          <Button>Add to Basket</Button>
+        </div>
       </div>
     </div>
   );
