@@ -1,0 +1,17 @@
+.basket-container {
+    padding-top: 10%;
+    padding-left: 20%;
+}
+.basket-card {
+    background-color: white;
+    font-size: 10px;
+}
+
+.trash-can-icon {
+    cursor: pointer;
+}
+
+.empty-basket {
+    padding-top: 10%;
+    padding-left: 10%;
+}

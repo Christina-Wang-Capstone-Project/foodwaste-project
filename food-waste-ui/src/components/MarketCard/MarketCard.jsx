@@ -27,7 +27,6 @@ export default function MarketCard({ product, currentUser }) {
         const res = await axios.post(PRODUCT_URL, {
           userId: currentUser.objectId,
         });
-        alert("success!");
       } catch (error) {
         alert(error);
       }

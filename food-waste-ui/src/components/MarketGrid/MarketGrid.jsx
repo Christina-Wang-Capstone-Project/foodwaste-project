@@ -14,7 +14,7 @@ export default function MarketGrid({ products, currentUser }) {
     );
   } else {
     return (
-      <div className="market">
+      <div id="market" className="market">
         <div className="grid">
           {products &&
             products.map((item) => (

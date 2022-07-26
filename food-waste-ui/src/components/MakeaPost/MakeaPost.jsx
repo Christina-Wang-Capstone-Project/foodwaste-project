@@ -1,5 +1,11 @@
 import * as React from "react";
-import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui";
+import {
+  FileUploader,
+  FileCard,
+  TextInputField,
+  Button,
+  Alert,
+} from "evergreen-ui";
 import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
@@ -122,14 +128,17 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           }}
           values={file}
         ></FileUploader>
-        <input
-          type="number"
-          className="quantity"
-          placeholder="How much?"
-          label="Quantity"
-          ref={productQuantity}
-          validationMessage="This field is required"
-        ></input>
+        <div className="quantity-container">
+          Quantity
+          <input
+            type="number"
+            className="quantity"
+            placeholder="How much?"
+            label="Quantity"
+            ref={productQuantity}
+            validationMessage="This field is required"
+          ></input>
+        </div>
         <TextInputField
           className="description"
           placeholder="Description of Product"
@@ -146,9 +155,12 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           ></DatePicker>
         </div>
         {isLoading ? (
-          <Button disabled type="submit" appearance="default">
-            Submit
-          </Button>
+          <>
+            <Alert intent="success" title="Post successfully created!" />
+            <Button disabled type="submit" appearance="default">
+              Submit
+            </Button>
+          </>
         ) : (
           <Button type="submit" appearance="default">
             Submit

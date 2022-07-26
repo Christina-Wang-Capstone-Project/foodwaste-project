@@ -13,7 +13,6 @@ import { IconButton } from "@mui/material";
 import MapMarkers from "../MapMarkers/MapMarkers";
 import { Link } from "react-router-dom";
 import Geocoder from "react-native-geocoding";
-// import Loading from "../Loading/Loading";
 
 ("use strict");
 
@@ -76,10 +75,6 @@ export default function Map({
     setOrigin();
     setDestination([]);
   };
-
-  // if (!isLoaded) {
-  //   return <Loading />;
-  // }
 
   const center = isLoaded
     ? new google.maps.LatLng({

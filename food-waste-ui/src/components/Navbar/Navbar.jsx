@@ -8,6 +8,7 @@ import { Popover, Position, Menu } from "evergreen-ui";
 ("use strict");
 import { useNavigate } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/solid";
+import { HashLink } from "react-router-hash-link";
 
 export default function Navbar({
   isLoggedIn,
@@ -45,7 +46,7 @@ export default function Navbar({
         <Logo />
         <a href="/home">
           <img
-            className="store-name"
+            className="store-name-img"
             src="../../src/inapinch.jpg"
             alt="In A Pinch"
           />
@@ -61,15 +62,15 @@ export default function Navbar({
         <SearchIcon className="search-icon" />
       </div>
       <div className="navbar-menu-items">
-        {screenWidth > sideBarWidth &&
-          navPages.map((page) => {
-            let navItem = page.replace(/\s+/g, "");
-            return (
-              <Link to={`${navItem.toLowerCase()}`} key={page}>
-                {page}
-              </Link>
-            );
-          })}
+        {screenWidth > sideBarWidth && (
+          <>
+            <HashLink smooth to="/home/#market">
+              Market
+            </HashLink>
+            <Link to="/home/makeapost">Make a Post</Link>
+            <Link to="/home/basket">Basket</Link>
+          </>
+        )}
         <Popover
           position={Position.BOTTOM_LEFT}
           content={

@@ -8,8 +8,6 @@ import "./MapMarkers.css";
 
 export default function MapMarkers({
   item,
-  setDestination,
-  setOrigin,
   currentUserLocationOnLogin,
   reverseGeoCodeDestinationAddress,
   reverseGeoCodeOriginAddress,
@@ -20,26 +18,6 @@ export default function MapMarkers({
     url: item.file.url,
     scaledSize: new google.maps.Size(40, 35),
   };
-
-  // function reverseGeoCodeOriginAddress(input) {
-  //   Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
-  //   Geocoder.from(input)
-  //     .then((res) => {
-  //       var addressComponent = res.results[0].formatted_address;
-  //       setOrigin(addressComponent);
-  //     })
-  //     .catch((error) => console.warn(error));
-  // }
-
-  // function reverseGeoCodeDestinationAddress(input) {
-  //   Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
-  //   Geocoder.from(input)
-  //     .then((res) => {
-  //       var addressComponent = res.results[0].formatted_address;
-  //       setDestination(addressComponent);
-  //     })
-  //     .catch((error) => console.warn(error));
-  // }
 
   const handleOpen = (e) => {
     const location = e.latLng;
