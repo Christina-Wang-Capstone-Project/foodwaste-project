@@ -9,7 +9,7 @@ export default function Basket({ currentUser }) {
   const currentUserId = localStorage.getItem("current_user_id");
 
   const handleRemoveItemFromBasket = (product) => {
-    let tempBasket = [...basket]; //make a deep copy of basket
+    let tempBasket = [...basket]; //makes a deep copy of basket
     tempBasket = tempBasket.filter((item) => item !== product);
     setBasket(tempBasket);
     try {
@@ -29,7 +29,7 @@ export default function Basket({ currentUser }) {
       allProducts.map((product) => {
         if (product.basket && product.basket.includes(currentUserId)) {
           allProductsInBasket.push(product);
-        } //check if user has product in basket from the product object
+        } //checks if user has product in basket from the product basket object
       });
       setBasket(allProductsInBasket);
     });
