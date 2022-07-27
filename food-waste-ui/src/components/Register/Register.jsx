@@ -3,9 +3,12 @@ import * as React from "react";
 import axios from "axios";
 import { Button, TextInputField } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+
 ("use strict");
 
 export default function Register({ handleLogin, coordinates, isLoggedIn }) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const email = React.createRef();
   const username = React.createRef();
   const password = React.createRef();
@@ -18,6 +21,7 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
     }
   }, []);
 
+  setIsLoading(true);
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -38,7 +42,12 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
       }
     };
     register();
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

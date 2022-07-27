@@ -3,6 +3,7 @@ import "./MarketCard.css";
 import { Pane, Badge, Button } from "evergreen-ui";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loading from "../Loading/Loading";
 
 ("use strict");
 
@@ -34,6 +35,10 @@ export default function MarketCard({ product, currentUser }) {
     addProductToBasket();
     setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="product-card ">

@@ -10,10 +10,9 @@ import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRef } from "react";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import DatePicker from "react-datepicker";
-
+import Loading from "../Loading/Loading";
 import "react-datepicker/dist/react-datepicker.css";
 
 ("use strict");
@@ -33,7 +32,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const productDescription = useRef();
   const productQuantity = useRef();
   const [expDate, setExpDate] = React.useState(new Date());
-
   const [file, setFile] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
   const acceptedContent = ["image/png", "image/jpeg"];
@@ -56,6 +54,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const URL = "http://localhost:3001";
 
   useEffect(() => {
+    setIsLoading(true);
     getLocation();
   }, []);
 
@@ -79,14 +78,20 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           location: coordinates,
           date: expDate,
           basket: [],
+          placedOnHoldBy: "",
         });
       } catch (error) {
         alert(error);
       }
     };
     addProduct();
+    setIsLoading(false);
     setSuccess(true);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="form-container">

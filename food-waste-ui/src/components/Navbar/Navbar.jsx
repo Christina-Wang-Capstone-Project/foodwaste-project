@@ -76,7 +76,7 @@ export default function Navbar({
           content={
             <Menu>
               <Menu.Group>
-                <Menu.Item>Profile Settings</Menu.Item>
+                <Menu.Item>My Items on Hold</Menu.Item>
                 <Menu.Item>
                   <Link to="myposts">My Posts</Link>
                 </Menu.Item>

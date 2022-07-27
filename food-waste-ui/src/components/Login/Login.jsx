@@ -3,6 +3,7 @@ import "./Login.css";
 import axios from "axios";
 import { Button } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
 ("use strict");
 
 export default function Login({
@@ -16,8 +17,10 @@ export default function Login({
   const password = React.createRef();
   const LOGIN_URL = "http://localhost:3001/login";
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
+    setIsLoading(true);
     if (isLoggedIn) {
       navigate("../home", { replace: true });
     }
@@ -40,7 +43,12 @@ export default function Login({
       }
     };
     login();
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

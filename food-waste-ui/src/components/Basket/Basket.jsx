@@ -2,6 +2,8 @@ import * as React from "react";
 import axios from "axios";
 import "./Basket.css";
 import BasketCard from "../BasketCard/BasketCard";
+import { Button, Pane, Spinner } from "evergreen-ui";
+import Loading from "../Loading/Loading";
 
 export default function Basket({ currentUser }) {
   const [basket, setBasket] = React.useState([]);
@@ -20,6 +22,15 @@ export default function Basket({ currentUser }) {
       console.log("Error deleting item from cart", error);
     }
   };
+
+  const handleAddItemsOnHold = () => {
+    console.log("basket right now", basket);
+    axios.post([URL], {
+      products: basket,
+    });
+    //TODO: IF SUCCESS, RESET BASKET
+  };
+
   React.useEffect(() => {
     setIsLoading(true);
     axios.get("http://localhost:3001/makeapost").then((response) => {
@@ -32,8 +43,13 @@ export default function Basket({ currentUser }) {
         } //checks if user has product in basket from the product basket object
       });
       setBasket(allProductsInBasket);
+      setIsLoading(false);
     });
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return basket.length > 0 ? (
     <div className="basket-container">
@@ -46,6 +62,7 @@ export default function Basket({ currentUser }) {
           />
         );
       })}
+      <Button>Put These Items on Hold!</Button>
     </div>
   ) : (
     <p className="empty-basket">
@@ -54,3 +71,5 @@ export default function Basket({ currentUser }) {
     </p>
   );
 }
+
+//TODO: WHEN CLICK ON HOLD, handle add item on hold, handle remove item on hold, that way when checking to add products will just remove from market, add on hold by

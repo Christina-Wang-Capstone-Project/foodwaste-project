@@ -14,6 +14,10 @@ router.get('/:objectId', async (req, res) => {
     }
 })
 
+router.post('/', async (req, res) => {
+    const listOfProducts = req.body.products
+})
+
 router.post('/basket', async (req, res) => {
     const productId = req.body.productId
     let currentUserId = req.headers["current_user_id"]

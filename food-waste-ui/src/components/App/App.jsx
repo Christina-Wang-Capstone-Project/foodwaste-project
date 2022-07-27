@@ -15,6 +15,7 @@ import MarketDetail from "../MarketDetail/MarketDetail";
 import Map from "../Map/Map";
 import NotFound from "../NotFound/NotFound";
 import Basket from "../Basket/Basket";
+import Loading from "../Loading/Loading";
 
 ("use strict");
 
@@ -124,6 +125,7 @@ export function MainApp({
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     getLocation();
     axios
       .get(`${URL}/makeapost`)
@@ -144,7 +146,7 @@ export function MainApp({
             (item) => item.user.objectId == curUser.objectId
           );
           setMyProducts(userProducts);
-          //TODO: set loading screen
+          setIsLoading(false);
         });
       })
       .catch((err) => {
@@ -228,7 +230,7 @@ export function MainApp({
           </Routes>
         </>
       )}
-      {isLoading && <h1>Loading</h1>}
+      {isLoading && <Loading />}
     </main>
   );
 }
