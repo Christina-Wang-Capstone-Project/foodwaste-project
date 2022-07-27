@@ -8,13 +8,8 @@ import Loading from "../Loading/Loading";
 ("use strict");
 
 export default function MarketCard({ product, currentUser }) {
-  const [isOnHold, setIsOnHold] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const PRODUCT_URL = `http://localhost:3001/home/${product.objectId}`;
-
-  const handleOnToggle = () => {
-    setIsOnHold(!isOnHold);
-  };
 
   const handleAddToBasket = (event) => {
     event.preventDefault();
@@ -24,6 +19,7 @@ export default function MarketCard({ product, currentUser }) {
       return;
     }
     const addProductToBasket = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.post(PRODUCT_URL, {
           userId: currentUser.objectId,

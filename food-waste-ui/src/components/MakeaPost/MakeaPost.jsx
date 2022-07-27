@@ -78,7 +78,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           location: coordinates,
           date: expDate,
           basket: [],
-          placedOnHoldBy: "",
+          placedOnHoldBy: [],
         });
       } catch (error) {
         alert(error);

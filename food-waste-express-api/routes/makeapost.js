@@ -33,8 +33,14 @@ router.get('/', async (req, res) => {
     try {
         const query = new Parse.Query("Products")
         query.descending("createdAt")
-        products = await query.find()
-  
+        allProducts = await query.find()
+        let products = []
+
+        allProducts.map((product) => {
+            if (!product.get("placedOnHoldBy")) {
+              products.push(product)
+          }
+        })
         res.send({"products" : products})
     } catch (error) {
         res.status(400) 

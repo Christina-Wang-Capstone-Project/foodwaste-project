@@ -14,8 +14,24 @@ router.get('/:objectId', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
     const listOfProducts = req.body.products
+    let currentUserId = req.headers["current_user_id"]
+
+    try {
+        const Product = Parse.Object.extend("Products")
+        const query = new Parse.Query(Product)
+
+       listOfProducts.map(async (item) => {
+           var product = await query.get(item.objectId)
+            product.set("placedOnHoldBy", currentUserId)
+            product.save()
+        })
+        res.send("Successfully placed product(s) on hold!")
+    }
+    catch (error) {
+        res.send(error)
+    }
 })
 
 router.post('/basket', async (req, res) => {

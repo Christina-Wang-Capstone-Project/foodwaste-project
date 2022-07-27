@@ -24,10 +24,13 @@ export default function Basket({ currentUser }) {
   };
 
   const handleAddItemsOnHold = () => {
-    console.log("basket right now", basket);
-    axios.post([URL], {
-      products: basket,
-    });
+    try {
+      axios.post("http://localhost:3001/home", {
+        products: basket,
+      });
+    } catch (error) {
+      console.log("Error putting items on hold", error);
+    }
     //TODO: IF SUCCESS, RESET BASKET
   };
 
@@ -62,7 +65,9 @@ export default function Basket({ currentUser }) {
           />
         );
       })}
-      <Button>Put These Items on Hold!</Button>
+      <Button onClick={() => handleAddItemsOnHold()}>
+        Put These Items on Hold!
+      </Button>
     </div>
   ) : (
     <p className="empty-basket">

@@ -136,12 +136,14 @@ export function MainApp({
           setCurrentUser(curUser);
 
           let allProducts = response.data.products;
+
           let newProducts = allProducts.filter((item) =>
             item.name
               .toLowerCase()
               .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
           );
           setProducts(newProducts);
+
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
           );
