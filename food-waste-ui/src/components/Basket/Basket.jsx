@@ -31,7 +31,10 @@ export default function Basket({ currentUser }) {
     } catch (error) {
       console.log("Error putting items on hold", error);
     }
-    //TODO: IF SUCCESS, RESET BASKET
+  };
+
+  const clearBasket = () => {
+    //TODO: CLEAR BASKET
   };
 
   React.useEffect(() => {

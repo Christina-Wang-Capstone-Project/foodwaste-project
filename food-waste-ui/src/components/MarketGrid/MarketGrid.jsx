@@ -4,7 +4,7 @@ import MarketCard from "../MarketCard/MarketCard";
 ("use strict");
 
 export default function MarketGrid({ products, currentUser }) {
-  //post products from make a post
+  //posts products from make a post
   if (products == 0) {
     return (
       <h3 className="noProducts-message">

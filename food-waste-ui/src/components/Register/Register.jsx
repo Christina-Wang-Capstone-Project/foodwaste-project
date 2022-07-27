@@ -1,5 +1,4 @@
 import * as React from "react";
-//import "./Register.css"
 import axios from "axios";
 import { Button, TextInputField } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";

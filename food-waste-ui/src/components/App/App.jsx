@@ -16,6 +16,7 @@ import Map from "../Map/Map";
 import NotFound from "../NotFound/NotFound";
 import Basket from "../Basket/Basket";
 import Loading from "../Loading/Loading";
+import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
 
 ("use strict");
 
@@ -228,6 +229,7 @@ export function MainApp({
               path="/basket"
               element={<Basket currentUser={currentUser} />}
             />
+            <Route path="/onhold" element={<ProductsOnHold />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </>

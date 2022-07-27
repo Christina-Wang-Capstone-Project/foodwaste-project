@@ -33,7 +33,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const productQuantity = useRef();
   const [expDate, setExpDate] = React.useState(new Date());
   const [file, setFile] = React.useState();
-  const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
+  const [isLoading, setIsLoading] = React.useState(false);
   const acceptedContent = ["image/png", "image/jpeg"];
   const [success, setSuccess] = React.useState(false);
   const [fileRejections, setFileRejections] = React.useState([]);
@@ -63,10 +63,10 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
     setIsLoading(true);
     const addProduct = async () => {
       try {
-        //Get array buffer from file
+        //Gets array buffer from file
         const itemImageArrayBuffer = await file[0].arrayBuffer();
 
-        //Convert the array to a base64 string
+        //Converts the array to a base64 string
         const imageInBase64 = _arrayBufferToBase64(itemImageArrayBuffer);
 
         const res = await axios.post(`${URL}/makeapost`, {
