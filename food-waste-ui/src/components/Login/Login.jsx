@@ -20,7 +20,6 @@ export default function Login({
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    setIsLoading(true);
     if (isLoggedIn) {
       navigate("../home", { replace: true });
     }
@@ -28,6 +27,7 @@ export default function Login({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     getLocation();
     const login = async () => {
       try {

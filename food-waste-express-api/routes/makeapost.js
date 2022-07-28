@@ -7,6 +7,7 @@ const Parse = require('parse/node');
 
 router.post('/', async (req, res, next) => {
     try {
+
     const products = new Parse.Object("Products", req.body)
     let currentUserId = req.headers["current_user_id"]
     const user = new Parse.User()
@@ -33,14 +34,8 @@ router.get('/', async (req, res) => {
     try {
         const query = new Parse.Query("Products")
         query.descending("createdAt")
-        allProducts = await query.find()
-        let products = []
+        let products = await query.find()
 
-        allProducts.map((product) => {
-            if (!product.get("placedOnHoldBy")) {
-              products.push(product)
-          }
-        })
         res.send({"products" : products})
     } catch (error) {
         res.status(400) 

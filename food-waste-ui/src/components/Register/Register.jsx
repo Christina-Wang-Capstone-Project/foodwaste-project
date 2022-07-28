@@ -20,10 +20,9 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
     }
   }, []);
 
-  setIsLoading(true);
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     const register = async () => {
       try {
         const res = await axios.post(`${URL}/register`, {

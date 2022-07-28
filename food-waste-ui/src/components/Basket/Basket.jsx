@@ -8,7 +8,19 @@ import Loading from "../Loading/Loading";
 export default function Basket({ currentUser }) {
   const [basket, setBasket] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const currentUserId = localStorage.getItem("current_user_id");
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    axios.get("http://localhost:3001/home/addtobasket").then((response) => {
+      let allProductsInBasket = response.data.productsInBasket;
+      console.log(
+        "all products inbasket in basket.jsx",
+        response.data.productsInBasket
+      );
+      setBasket(allProductsInBasket);
+      setIsLoading(false);
+    });
+  }, []);
 
   const handleRemoveItemFromBasket = (product) => {
     let tempBasket = [...basket]; //makes a deep copy of basket
@@ -23,49 +35,36 @@ export default function Basket({ currentUser }) {
     }
   };
 
-  const handleAddItemsOnHold = () => {
-    try {
-      axios.post("http://localhost:3001/home", {
-        products: basket,
-      });
-    } catch (error) {
-      console.log("Error putting items on hold", error);
-    }
-  };
+  //TODO:
+  //   const handleAddItemsOnHold = () => {
+  //     try {
+  //       axios.post("http://localhost:3001/home", {
+  //         products: basket,
+  //       });
+  //     } catch (error) {
+  //       console.log("Error putting items on hold", error);
+  //     }
+  //   };
 
   const clearBasket = () => {
     //TODO: CLEAR BASKET
   };
 
-  React.useEffect(() => {
-    setIsLoading(true);
-    axios.get("http://localhost:3001/makeapost").then((response) => {
-      let allProducts = response.data.products;
-      let allProductsInBasket = [];
-
-      allProducts.map((product) => {
-        if (product.basket && product.basket.includes(currentUserId)) {
-          allProductsInBasket.push(product);
-        } //checks if user has product in basket from the product basket object
-      });
-      setBasket(allProductsInBasket);
-      setIsLoading(false);
-    });
-  }, []);
-
   if (isLoading) {
     return <Loading />;
   }
 
-  return basket.length > 0 ? (
+  return basket != null && basket.length > 0 ? (
     <div className="basket-container">
       {basket.map((product) => {
         return (
-          <BasketCard
-            key={product.objectId}
-            product={product}
-            handleRemoveItemFromBasket={handleRemoveItemFromBasket}
-          />
+          <div className="basket-container">
+            <BasketCard
+              key={product.objectId}
+              product={product}
+              handleRemoveItemFromBasket={handleRemoveItemFromBasket}
+            />
+          </div>
         );
       })}
       <Button onClick={() => handleAddItemsOnHold()}>

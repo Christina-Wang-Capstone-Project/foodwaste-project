@@ -10,7 +10,6 @@ import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRef } from "react";
-import "react-calendar/dist/Calendar.css";
 import DatePicker from "react-datepicker";
 import Loading from "../Loading/Loading";
 import "react-datepicker/dist/react-datepicker.css";
@@ -54,7 +53,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const URL = "http://localhost:3001";
 
   useEffect(() => {
-    setIsLoading(true);
     getLocation();
   }, []);
 
@@ -102,7 +100,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           placeholder="Name of Item"
           label="Name of Product"
           ref={productName}
-          validationMessage="This field is required"
         ></TextInputField>
 
         <FileUploader
@@ -110,7 +107,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           maxFiles={1}
           maxSizeInBytes={50000}
           acceptedMimeTypes={acceptedContent}
-          validationMessage="This field is required"
           onChange={handleChange}
           onRejected={handleRejected}
           renderFile={(file) => {
@@ -141,7 +137,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
             placeholder="How much?"
             label="Quantity"
             ref={productQuantity}
-            validationMessage="This field is required"
           ></input>
         </div>
         <TextInputField
@@ -149,7 +144,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           placeholder="Description of Product"
           label="Description"
           ref={productDescription}
-          validationMessage="This field is required"
         ></TextInputField>
         <div className="expiration-container">
           <div className="expiration-title">Expiration Date</div>

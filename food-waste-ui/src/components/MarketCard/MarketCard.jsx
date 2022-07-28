@@ -9,26 +9,29 @@ import Loading from "../Loading/Loading";
 
 export default function MarketCard({ product, currentUser }) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const PRODUCT_URL = `http://localhost:3001/home/${product.objectId}`;
+  const ADD_TO_BASKET_URL = `http://localhost:3001/home/${product.objectId}`;
 
-  const handleAddToBasket = (event) => {
-    event.preventDefault();
+  const handleAddToBasket = (product) => {
     setIsLoading(true);
     if (currentUser.objectId == product.user.objectId) {
       alert("Error: Cannot add your own product to basket.");
+      setIsLoading(false);
       return;
     }
-    const addProductToBasket = async () => {
+    const addProductToBasket = async (product) => {
       setIsLoading(true);
       try {
-        const res = await axios.post(PRODUCT_URL, {
-          userId: currentUser.objectId,
+        console.log("product see if its going", product);
+        const res = await axios.post(ADD_TO_BASKET_URL, {
+          currentUserId: currentUser.objectId,
+          productId: product.objectId,
         });
+        alert("Successfully added to basket!");
       } catch (error) {
         alert(error);
       }
     };
-    addProductToBasket();
+    addProductToBasket(product);
     setIsLoading(false);
   };
 
@@ -52,7 +55,9 @@ export default function MarketCard({ product, currentUser }) {
           <div className="product-quantity">{product.quantity}</div>
         </div>
         <div className="product-button">
-          <Button onClick={handleAddToBasket}>Add to Basket</Button>
+          <Button onClick={() => handleAddToBasket(product)}>
+            Add to Basket
+          </Button>
         </div>
       </div>
     </div>
