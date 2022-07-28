@@ -13,10 +13,6 @@ export default function Basket({ currentUser }) {
     setIsLoading(true);
     axios.get("http://localhost:3001/home/addtobasket").then((response) => {
       let allProductsInBasket = response.data.productsInBasket;
-      console.log(
-        "all products inbasket in basket.jsx",
-        response.data.productsInBasket
-      );
       setBasket(allProductsInBasket);
       setIsLoading(false);
     });
@@ -27,24 +23,15 @@ export default function Basket({ currentUser }) {
     tempBasket = tempBasket.filter((item) => item !== product);
     setBasket(tempBasket);
     try {
-      axios.post("http://localhost:3001/home/basket", {
+      axios.post("http://localhost:3001/home/removefrombasket", {
         productId: product.objectId,
       });
     } catch (error) {
-      console.log("Error deleting item from cart", error);
+      res.status(400).send(error);
     }
   };
 
-  //TODO:
-  //   const handleAddItemsOnHold = () => {
-  //     try {
-  //       axios.post("http://localhost:3001/home", {
-  //         products: basket,
-  //       });
-  //     } catch (error) {
-  //       console.log("Error putting items on hold", error);
-  //     }
-  //   };
+  //TODO: add items on hold
 
   const clearBasket = () => {
     //TODO: CLEAR BASKET
@@ -78,5 +65,3 @@ export default function Basket({ currentUser }) {
     </p>
   );
 }
-
-//TODO: WHEN CLICK ON HOLD, handle add item on hold, handle remove item on hold, that way when checking to add products will just remove from market, add on hold by

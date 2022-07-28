@@ -21,7 +21,6 @@ export default function MarketCard({ product, currentUser }) {
     const addProductToBasket = async (product) => {
       setIsLoading(true);
       try {
-        console.log("product see if its going", product);
         const res = await axios.post(ADD_TO_BASKET_URL, {
           currentUserId: currentUser.objectId,
           productId: product.objectId,

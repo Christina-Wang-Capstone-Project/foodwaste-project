@@ -21,7 +21,6 @@ router.get("/addtobasket", async (req, res) => {
     try {
         let userBasket = await getUserBasket(currentUserId)
         let userBasketOfIds = await userBasket.get("basketOfProductId") //returns first instance
-        console.log("userBasketOfIds", userBasketOfIds)
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
@@ -31,7 +30,6 @@ router.get("/addtobasket", async (req, res) => {
                 productsInBasket.push(product) 
             }
             res.status(200).send({ productsInBasket })
-            console.log("products after map in basket", productsInBasket)
         }
         else {
             res.status(200).send({})
@@ -39,7 +37,6 @@ router.get("/addtobasket", async (req, res) => {
     }
     catch (error) {
         res.status(400).send(error)
-        console.log(error)
     }
     
 }) 
@@ -52,28 +49,32 @@ router.get('/:objectId', async (req, res) => {
         res.send({ product })
     }
     catch (err) {
-        res.send({err})
+        res.status(400).send({err})
     }
 })
 
 
-// router.post('/removefrombasket', async (req, res) => {
-//     const productId = req.body.productId
-//     let currentUserId = req.headers["current_user_id"]
-//     try {
-       
-//         let product = await getProduct(productId)
+router.post('/removefrombasket', async (req, res) => {
+    const productId = req.body.productId
+    let currentUserId = req.headers["current_user_id"]
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        let userBasketOfIds = await userBasket.get("basketOfProductId") //returns first instance
+        let productsInBasket = []
 
-//         let usersInBasket = product.get("basket"); 
-//         usersInBasket = usersInBasket.filter((user) => user !== currentUserId)
-//         product.set("basket", usersInBasket)
-//         product.save()
-//     }
-//     catch (error) {
-//         res.send(error)
-//         console.log("Error deleting item from basket")
-//     }
-// })
+        if (userBasketOfIds != null) {
+            userBasket.remove("basketOfProductId", productId)
+            await userBasket.save()
+            res.status(200).send({ productsInBasket })
+        }
+        else {
+            res.status(200).send({})
+        }
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
 
 router.post('/:objectId', async (req, res) => {
     const productId = req.params.objectId
@@ -81,7 +82,6 @@ router.post('/:objectId', async (req, res) => {
 
     try {
         let userBasket = await getUserBasket(currentUserId) //returns first instance
-        console.log("userbasket", userBasket.get("basketOfProductId")) //returns array of productId
         if (userBasket != null) {
             userBasket.addUnique("basketOfProductId", productId)
             await userBasket.save()
