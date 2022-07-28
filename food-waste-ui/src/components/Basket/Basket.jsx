@@ -31,7 +31,7 @@ export default function Basket({ currentUser }) {
     }
   };
 
-  //TODO: add items on hold
+  const handleAddItemsOnHold = () => {};
 
   const clearBasket = () => {
     //TODO: CLEAR BASKET
