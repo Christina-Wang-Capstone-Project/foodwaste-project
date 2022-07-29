@@ -8,7 +8,6 @@ export default function BasketCard({ product, handleRemoveItemFromBasket }) {
   const [location, setLocation] = React.useState("");
 
   useEffect(() => {
-    console.log("product location", product.location);
     reverseGeoCodeAddress(product.location)
       .then((address) => setLocation(address))
       .catch((error) => console.error(error));
@@ -23,7 +22,7 @@ export default function BasketCard({ product, handleRemoveItemFromBasket }) {
           src={product.file.url}
           alt={product.name}
         ></img>
-        <p clasName="product-quantity">{product.quantity} </p>
+        <p className="product-quantity">{product.quantity} </p>
         <p className="product-location">{location}</p>
 
         <IconButton

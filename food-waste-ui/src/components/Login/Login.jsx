@@ -39,7 +39,6 @@ export default function Login({
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
-        console.log(err);
       }
     };
     login();

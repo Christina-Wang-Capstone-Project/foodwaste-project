@@ -12,7 +12,6 @@ import "./Map.css";
 import { IconButton } from "@mui/material";
 import MapMarkers from "../MapMarkers/MapMarkers";
 import { Link } from "react-router-dom";
-import Geocoder from "react-native-geocoding";
 import { reverseGeoCodeAddress } from "../../constants/geoCodesToAddress";
 
 ("use strict");

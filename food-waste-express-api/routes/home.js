@@ -19,8 +19,8 @@ function getProduct(productId) {
 router.get("/addtobasket", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
     try {
-        let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfIds = await userBasket.get("basketOfProductId") //returns first instance
+        let userBasket = await getUserBasket(currentUserId) //gets the Basket object with the currentuserId
+        let userBasketOfIds = await userBasket.get("basketOfProductId") //returns the array of ids
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
@@ -40,6 +40,24 @@ router.get("/addtobasket", async (req, res) => {
     }
     
 }) 
+
+router.get("/onhold", async (req, res) => {
+    const currentUserId = req.headers["current_user_id"]
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        let userBasketOfProductIdsOnHold = await userBasket.get("productsOnHold")
+        let productsOnHold = []
+
+        for (let productId of userBasketOfProductIdsOnHold) {
+            let product = await getProduct(productId)
+            productsOnHold.push(product)
+        }
+        res.status(200).send({productsOnHold})
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
 
 router.get('/:objectId', async (req, res) => {
     const productId = req.params.objectId;
@@ -70,6 +88,27 @@ router.post('/removefrombasket', async (req, res) => {
         else {
             res.status(200).send({})
         }
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post("/onhold", async (req, res) => {
+    const currentUserId = req.body.currentUserId
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        let userBasketOfIds = await userBasket.get("basketOfProductId")
+        for (let productId of userBasketOfIds) {
+            userBasket.addUnique("productsOnHold", productId) //add to an on hold for easier retrieval
+            let product = await getProduct(productId)
+            product.set("isOnHoldBy", currentUserId)
+            await product.save()
+        }
+        userBasket.set("basketOfProductId", [])
+        await userBasket.save()
+
+        res.status(200).send({})
     }
     catch (error) {
         res.status(400).send(error)

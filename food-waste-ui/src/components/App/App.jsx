@@ -153,7 +153,7 @@ export function MainApp({
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [searchTerm]);
   const handleOnToggle = () => {

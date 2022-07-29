@@ -36,7 +36,6 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
-        console.log(err);
       }
     };
     register();

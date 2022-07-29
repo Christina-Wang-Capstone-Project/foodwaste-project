@@ -21,25 +21,28 @@ router.post('/', async (req, res, next) => {
     products.set('file', file)
 
     await products.save()
-    res.status(201)
-    res.send({ "products": products })
+    res.status(200).send({ "products": products })
     } 
     
     catch (error) {
-        console.log(error)
-        res.status(400).send({error:error})
+        res.status(400).send({error})
     }
 })
 router.get('/', async (req, res) => {
     try {
         const query = new Parse.Query("Products")
         query.descending("createdAt")
-        let products = await query.find()
+        let allProducts = await query.find()
+        let products = []
 
-        res.send({"products" : products})
-    } catch (error) {
-        res.status(400) 
-        res.send({"error" : "Products query failed" + error})
+    allProducts.map((product) => {
+        if (!product.get("isOnHoldBy")) {
+            products.push(product)
+        }
+      })
+      res.send({"products" : products})
+  }catch (error) {
+        res.status(400).send({"error" : "Products query failed" + error})
         
   }
   })
