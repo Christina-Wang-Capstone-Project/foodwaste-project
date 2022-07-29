@@ -2,6 +2,7 @@ import * as React from "react";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { animated } from "react-spring";
+import { HashLink } from "react-router-hash-link";
 ("use strict");
 
 export default function Sidebar(props) {
@@ -12,13 +13,7 @@ export default function Sidebar(props) {
     buttonProperty = "toggle-button button-open";
   }
 
-  const sidebarPages = [
-    "Market",
-    "Map",
-    "Make a Post",
-    "About Us",
-    "Contact Us",
-  ];
+  const sidebarPages = ["Map", "Make a Post", "About Us", "Contact Us"];
 
   return (
     <animated.div className={sidebarProperty}>
@@ -32,6 +27,9 @@ export default function Sidebar(props) {
             ></img>
           </button>{" "}
           <div className="sidebar-container">
+            <HashLink smooth to="/home/#market">
+              Market
+            </HashLink>
             {sidebarPages.map((page) => {
               let sidebarItem = page.replace(/\s+/g, "");
               return (

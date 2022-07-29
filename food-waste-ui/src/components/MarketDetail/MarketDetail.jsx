@@ -3,11 +3,15 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Map from "../Map/Map";
+import Loading from "../Loading/Loading";
 import "./MarketDetail.css";
 
 ("use strict");
 
-export default function MarketDetail({ currentUserLocationOnLogin }) {
+export default function MarketDetail({
+  currentUserLocationOnLogin,
+  currentUser,
+}) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -26,11 +30,11 @@ export default function MarketDetail({ currentUserLocationOnLogin }) {
   }, []);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
   return (
     <div className="product-detail">
-      {curProduct && (
+      {curProduct && !isLoading && (
         <>
           <div className="marketdetail-product-card ">
             <img

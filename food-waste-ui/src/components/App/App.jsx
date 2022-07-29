@@ -14,6 +14,9 @@ import MyPosts from "../MyPosts/MyPosts";
 import MarketDetail from "../MarketDetail/MarketDetail";
 import Map from "../Map/Map";
 import NotFound from "../NotFound/NotFound";
+import Basket from "../Basket/Basket";
+import Loading from "../Loading/Loading";
+import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
 
 ("use strict");
 
@@ -112,6 +115,7 @@ export function MainApp({
   const [myProducts, setMyProducts] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
+
   const URL = "http://localhost:3001";
   const navigate = useNavigate();
 
@@ -122,6 +126,7 @@ export function MainApp({
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     getLocation();
     axios
       .get(`${URL}/makeapost`)
@@ -132,21 +137,23 @@ export function MainApp({
           setCurrentUser(curUser);
 
           let allProducts = response.data.products;
+
           let newProducts = allProducts.filter((item) =>
             item.name
               .toLowerCase()
               .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
           );
           setProducts(newProducts);
+
           const userProducts = allProducts.filter(
             (item) => item.user.objectId == curUser.objectId
           );
           setMyProducts(userProducts);
-          //TODO: set loading screen
+          setIsLoading(false);
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [searchTerm]);
   const handleOnToggle = () => {
@@ -178,10 +185,14 @@ export function MainApp({
                 <Home
                   products={products}
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  currentUser={currentUser}
                 />
               }
             />
-            <Route path="/market" element={<>{<MarketGrid />}</>} />
+            <Route
+              path="/market"
+              element={<MarketGrid currentUser={currentUser} />}
+            />
             <Route
               path="/makeapost"
               element={
@@ -201,6 +212,7 @@ export function MainApp({
               element={
                 <MarketDetail
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  currentUser={currentUser}
                 />
               }
             />
@@ -213,11 +225,16 @@ export function MainApp({
                 />
               }
             />
+            <Route
+              path="/basket"
+              element={<Basket currentUser={currentUser} />}
+            />
+            <Route path="/onhold" element={<ProductsOnHold />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </>
       )}
-      {isLoading && <h1>Loading</h1>}
+      {isLoading && <Loading />}
     </main>
   );
 }

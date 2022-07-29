@@ -6,15 +6,13 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { FaLocationArrow } from "react-icons/fa";
 import Button from "@mui/material/Button";
 import "./Map.css";
 import { IconButton } from "@mui/material";
 import MapMarkers from "../MapMarkers/MapMarkers";
 import { Link } from "react-router-dom";
-import Geocoder from "react-native-geocoding";
+import { reverseGeoCodeAddress } from "../../constants/geoCodesToAddress";
 
 ("use strict");
 
@@ -78,10 +76,6 @@ export default function Map({
     setDestination([]);
   };
 
-  if (!isLoaded) {
-    return <Skeleton />;
-  }
-
   const center = isLoaded
     ? new google.maps.LatLng({
         lat: currentUserLocationOnLogin[0],
@@ -90,23 +84,17 @@ export default function Map({
     : 0;
 
   function reverseGeoCodeOriginAddress(input) {
-    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
-    Geocoder.from(input)
-      .then((res) => {
-        var addressComponent = res.results[0].formatted_address;
-        setOrigin(addressComponent);
-      })
-      .catch((error) => console.warn(error));
+    if (!input) return;
+    reverseGeoCodeAddress(input)
+      .then((addressComponent) => setOrigin(addressComponent))
+      .catch((error) => console.error(error));
   }
 
   function reverseGeoCodeDestinationAddress(input) {
-    Geocoder.init(import.meta.env.VITE_GOOGLE_API_KEY, { language: "en" });
-    Geocoder.from(input)
-      .then((res) => {
-        var addressComponent = res.results[0].formatted_address;
-        setDestination(addressComponent);
-      })
-      .catch((error) => console.warn(error));
+    if (!input) return;
+    reverseGeoCodeAddress(input)
+      .then((addressComponent) => setDestination(addressComponent))
+      .catch((error) => console.error(error));
   }
 
   return (

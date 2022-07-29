@@ -42,7 +42,7 @@
     
 }
 
-body {
+/* body {
     background: linear-gradient(-45deg, #ffc8dd, #e9edc9, #bde0fe, #faedcd);
     background-size: 400% 400%;
     animation: gradient 40s ease infinite;
@@ -58,4 +58,4 @@ body {
     100% {
         background-position: 0% 50%;
     }
-}
+} */

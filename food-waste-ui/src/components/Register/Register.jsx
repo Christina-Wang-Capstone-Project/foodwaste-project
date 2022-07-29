@@ -1,11 +1,13 @@
 import * as React from "react";
-//import "./Register.css"
 import axios from "axios";
 import { Button, TextInputField } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+
 ("use strict");
 
 export default function Register({ handleLogin, coordinates, isLoggedIn }) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const email = React.createRef();
   const username = React.createRef();
   const password = React.createRef();
@@ -20,7 +22,7 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     const register = async () => {
       try {
         const res = await axios.post(`${URL}/register`, {
@@ -34,11 +36,15 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
         navigate("../home", { replace: true });
       } catch (err) {
         alert(err);
-        console.log(err);
       }
     };
     register();
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
+("use strict")
 
 router.get('/:userId', async (req, res) => {
     const userId = req.params.userId;

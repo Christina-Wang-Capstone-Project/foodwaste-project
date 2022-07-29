@@ -1,0 +1,12 @@
+.basket-container {
+padding: 5%
+}
+
+.trash-can-icon {
+    cursor: pointer;
+}
+
+.empty-basket {
+    padding-top: 10%;
+    padding-left: 10%;
+}

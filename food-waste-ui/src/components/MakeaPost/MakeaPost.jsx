@@ -1,11 +1,18 @@
 import * as React from "react";
-import { FileUploader, FileCard, TextInputField, Button } from "evergreen-ui";
+import {
+  FileUploader,
+  FileCard,
+  TextInputField,
+  Button,
+  Alert,
+} from "evergreen-ui";
 import "./MakeaPost.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRef } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import DatePicker from "react-datepicker";
+import Loading from "../Loading/Loading";
+import "react-datepicker/dist/react-datepicker.css";
 
 ("use strict");
 
@@ -24,9 +31,8 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
   const productDescription = useRef();
   const productQuantity = useRef();
   const [expDate, setExpDate] = React.useState(new Date());
-
   const [file, setFile] = React.useState();
-  const [isLoading, setIsLoading] = React.useState(false); //TODO fix into loading state and display success message with link to market or make a new post which refreshes page
+  const [isLoading, setIsLoading] = React.useState(false);
   const acceptedContent = ["image/png", "image/jpeg"];
   const [success, setSuccess] = React.useState(false);
   const [fileRejections, setFileRejections] = React.useState([]);
@@ -42,7 +48,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
 
   const handleDateChange = (date) => {
     setExpDate(date);
-    console.log("expDate", expDate);
   };
 
   const URL = "http://localhost:3001";
@@ -56,10 +61,10 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
     setIsLoading(true);
     const addProduct = async () => {
       try {
-        //Get array buffer from file
+        //Gets array buffer from file
         const itemImageArrayBuffer = await file[0].arrayBuffer();
 
-        //Convert the array to a base64 string
+        //Converts the array to a base64 string
         const imageInBase64 = _arrayBufferToBase64(itemImageArrayBuffer);
 
         const res = await axios.post(`${URL}/makeapost`, {
@@ -70,14 +75,21 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           file: imageInBase64,
           location: coordinates,
           date: expDate,
+          basket: [],
+          placedOnHoldBy: [],
         });
       } catch (error) {
         alert(error);
       }
     };
     addProduct();
+    setIsLoading(false);
     setSuccess(true);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="form-container">
@@ -88,7 +100,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           placeholder="Name of Item"
           label="Name of Product"
           ref={productName}
-          validationMessage="This field is required"
         ></TextInputField>
 
         <FileUploader
@@ -96,7 +107,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           maxFiles={1}
           maxSizeInBytes={50000}
           acceptedMimeTypes={acceptedContent}
-          validationMessage="This field is required"
           onChange={handleChange}
           onRejected={handleRejected}
           renderFile={(file) => {
@@ -119,29 +129,37 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           }}
           values={file}
         ></FileUploader>
-        <input
-          type="number"
-          className="quantity"
-          placeholder="How much?"
-          label="Quantity"
-          ref={productQuantity}
-          validationMessage="This field is required"
-        ></input>
+        <div className="quantity-container">
+          Quantity
+          <input
+            type="number"
+            className="quantity"
+            placeholder="How much?"
+            label="Quantity"
+            ref={productQuantity}
+          ></input>
+        </div>
         <TextInputField
           className="description"
           placeholder="Description of Product"
           label="Description"
           ref={productDescription}
-          validationMessage="This field is required"
         ></TextInputField>
         <div className="expiration-container">
           <div className="expiration-title">Expiration Date</div>
-          <Calendar onChange={handleDateChange} expDate={expDate}></Calendar>
+          <DatePicker
+            onChange={handleDateChange}
+            expDate={expDate}
+            selected={expDate}
+          ></DatePicker>
         </div>
         {isLoading ? (
-          <Button disabled type="submit" appearance="default">
-            Submit
-          </Button>
+          <>
+            <Alert intent="success" title="Post successfully created!" />
+            <Button disabled type="submit" appearance="default">
+              Submit
+            </Button>
+          </>
         ) : (
           <Button type="submit" appearance="default">
             Submit

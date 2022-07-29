@@ -3,8 +3,8 @@ import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
 ("use strict");
 
-export default function MarketGrid({ products }) {
-  //post products from make a post
+export default function MarketGrid({ products, currentUser }) {
+  //posts products from make a post
   if (products == 0) {
     return (
       <h3 className="noProducts-message">
@@ -14,11 +14,15 @@ export default function MarketGrid({ products }) {
     );
   } else {
     return (
-      <div className="market">
+      <div id="market" className="market">
         <div className="grid">
           {products &&
             products.map((item) => (
-              <MarketCard product={item} key={item.objectId} />
+              <MarketCard
+                product={item}
+                key={item.objectId}
+                currentUser={currentUser}
+              />
             ))}
         </div>
       </div>

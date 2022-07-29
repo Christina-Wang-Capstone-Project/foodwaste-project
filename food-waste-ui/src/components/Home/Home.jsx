@@ -7,7 +7,11 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 ("use strict");
 
-export default function Home({ products, currentUserLocationOnLogin }) {
+export default function Home({
+  products,
+  currentUserLocationOnLogin,
+  currentUser,
+}) {
   const [showMapView, setShowMapView] = React.useState(false);
   const [typeOfView, setTypeOfView] = React.useState("Map View");
   const [mapPage, setMapPage] = React.useState("map");
@@ -15,7 +19,7 @@ export default function Home({ products, currentUserLocationOnLogin }) {
   const handleShowMapOrProductView = () => {
     setShowMapView(!showMapView);
     setTypeOfView(showMapView ? "Map View" : "List of Products");
-    setPage(setMapPage ? "map" : "home");
+    setMapPage(showMapView ? "map" : "home");
   };
 
   return (
@@ -25,7 +29,10 @@ export default function Home({ products, currentUserLocationOnLogin }) {
           <>
             <Hero />
             <div className="home">
-              <MarketGrid products={products}></MarketGrid>
+              <MarketGrid
+                products={products}
+                currentUser={currentUser}
+              ></MarketGrid>
             </div>
           </>
         ) : (
