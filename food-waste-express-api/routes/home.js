@@ -48,6 +48,14 @@ router.get("/onhold", async (req, res) => {
         let userBasketOfProductIdsOnHold = await userBasket.get("productsOnHold")
         let productsOnHold = []
 
+        if (userBasket == null) {
+            res.status(200).send({})
+            return;
+        }
+        if (userBasketOfProductIdsOnHold == null) {
+            res.status(200).send({})
+            return;
+        }
         for (let productId of userBasketOfProductIdsOnHold) {
             let product = await getProduct(productId)
             productsOnHold.push(product)
@@ -126,6 +134,7 @@ router.post('/:objectId', async (req, res) => {
             await userBasket.save()
         }
         else {
+            const Basket = Parse.Object.extend("Basket");
             let basket = new Basket();
             basket.set("userId", currentUserId);
             basket.set("basketOfProductId", [productId])
@@ -134,7 +143,7 @@ router.post('/:objectId', async (req, res) => {
         res.status(200).send({})
     }
     catch (error) {
-        res.status(400).send(error)
+        res.status(400).send({ error })
     }
 })
 

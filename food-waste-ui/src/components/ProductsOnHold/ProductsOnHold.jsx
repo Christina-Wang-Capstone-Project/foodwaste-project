@@ -8,7 +8,7 @@ import BasketCard from "../BasketCard/BasketCard";
 export default function ProductsOnHold() {
   const ON_HOLD_URL = "http://localhost:3001/home/onhold";
   const [productsOnHold, setProductsOnHold] = useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -17,9 +17,9 @@ export default function ProductsOnHold() {
       .then((response) => {
         let allProductsOnHold = response.data.productsOnHold;
         setProductsOnHold(allProductsOnHold);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
-    setIsLoading(false);
   }, []);
 
   if (isLoading) {
@@ -37,8 +37,8 @@ export default function ProductsOnHold() {
     </div>
   ) : (
     <p className="empty-basket">
-      You have no products currently on hold. Check out the market to see what
-      your neighbors are sharing!
+      You have no products currently checked out. Check out the market to see
+      what your neighbors are sharing!
     </p>
   );
 }

@@ -19,9 +19,9 @@ export default function Basket({ currentUser }) {
       .then((response) => {
         let allProductsInBasket = response.data.productsInBasket;
         setBasket(allProductsInBasket);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
-    setIsLoading(false);
   }, []);
 
   const handleRemoveItemFromBasket = (product) => {
@@ -72,7 +72,7 @@ export default function Basket({ currentUser }) {
         );
       })}
       <Button onClick={() => handleAddItemsOnHold()}>
-        Put These Items on Hold!
+        Check These Items Out!
       </Button>
     </div>
   ) : (

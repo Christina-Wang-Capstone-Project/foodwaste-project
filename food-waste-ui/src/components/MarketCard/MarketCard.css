@@ -33,3 +33,6 @@
     display: flex;
     flex-wrap: wrap;
 }
+.product-name {
+    font-size: 30px;
+}

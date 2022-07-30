@@ -136,6 +136,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
             className="quantity"
             placeholder="How much?"
             label="Quantity"
+            min="1"
             ref={productQuantity}
           ></input>
         </div>

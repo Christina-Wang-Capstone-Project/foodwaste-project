@@ -117,6 +117,7 @@ export function MainApp({
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const URL = "http://localhost:3001";
+  let HOME_URL = `http://localhost:3001/home/`;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -165,6 +166,32 @@ export function MainApp({
     setSearchTerm(event.target.value);
   };
 
+  const handleAddToBasket = (product) => {
+    setIsLoading(true);
+    if (currentUser.objectId == product.user.objectId) {
+      alert("Error: Cannot add your own product to basket.");
+      setIsLoading(false);
+      return;
+    }
+    const addProductToBasket = async (product) => {
+      setIsLoading(true);
+      try {
+        const res = await axios.post(`${HOME_URL}${product.objectId}`, {
+          currentUserId: currentUser.objectId,
+          productId: product.objectId,
+        });
+        alert("Successfully added to basket!");
+      } catch (error) {
+        alert(error);
+      }
+    };
+    addProductToBasket(product);
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <main>
       {currentUser && (
@@ -213,6 +240,7 @@ export function MainApp({
                 <MarketDetail
                   currentUserLocationOnLogin={currentUserLocationOnLogin}
                   currentUser={currentUser}
+                  handleAddToBasket={handleAddToBasket}
                 />
               }
             />

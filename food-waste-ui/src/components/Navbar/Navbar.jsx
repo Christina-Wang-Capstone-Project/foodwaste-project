@@ -77,7 +77,7 @@ export default function Navbar({
             <Menu>
               <Menu.Group>
                 <Menu.Item>
-                  <Link to="onhold">My Items on Hold</Link>
+                  <Link to="onhold">My Item Orders</Link>
                 </Menu.Item>
                 <Menu.Item>
                   <Link to="myposts">My Posts</Link>

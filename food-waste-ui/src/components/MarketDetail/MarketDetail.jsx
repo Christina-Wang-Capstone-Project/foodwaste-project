@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Map from "../Map/Map";
 import Loading from "../Loading/Loading";
+import { Button } from "evergreen-ui";
 import "./MarketDetail.css";
 
 ("use strict");
 
 export default function MarketDetail({
   currentUserLocationOnLogin,
-  currentUser,
+  handleAddToBasket,
 }) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
@@ -50,6 +51,11 @@ export default function MarketDetail({
                   {curProduct[0].description}
                 </div>
                 <div className="product-quantity">{curProduct[0].quantity}</div>
+                <div className="product-button">
+                  <Button onClick={() => handleAddToBasket(curProduct[0])}>
+                    Add to Basket
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
