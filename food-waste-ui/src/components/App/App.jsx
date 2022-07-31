@@ -171,7 +171,6 @@ export function MainApp({
 
   const handleAddToBasket = (product, quantity) => {
     setIsLoading(true);
-    console.log("quantity after adding to basket", quantity);
     if (currentUser.objectId == product.user.objectId) {
       toaster.danger("Cannot add your own product to basket.");
       setIsLoading(false);

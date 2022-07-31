@@ -33,7 +33,6 @@ router.get("/addtobasket", async (req, res) => {
                 productsInBasket.push({ product, basketQuantity }) 
             }
             res.status(200).send({ productsInBasket })
-            console.log("products in basket", {productsInBasket})
         }
         else {
             res.status(200).send({})

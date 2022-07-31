@@ -17,7 +17,6 @@ export default function Basket({ currentUser, basket, setBasket }) {
       .get(ADD_TO_BASKET_URL)
       .then((response) => {
         let allProductsInBasket = response.data.productsInBasket;
-        console.log("basket sent to frontend", response.data.productsInBasket);
         setBasket(allProductsInBasket);
         setIsLoading(false);
       })

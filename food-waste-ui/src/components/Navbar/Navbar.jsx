@@ -74,6 +74,7 @@ export default function Navbar({
           </>
         )}
         <Popover
+          className="menu-items"
           position={Position.BOTTOM_LEFT}
           content={
             <Menu>
