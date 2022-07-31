@@ -3,15 +3,10 @@ import "./MarketCard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-
+import { formatDate } from "../../constants/formatDate";
 ("use strict");
 
 export default function MarketCard({ product }) {
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
   return (
     <div className="product-card ">
       <Link to={product.objectId}>

@@ -22,7 +22,8 @@ export default function Basket({ currentUser, basket, setBasket }) {
       })
       .catch((error) => console.error(error));
   }, []);
-  const handleRemoveItemFromBasket = (product) => {
+
+  const handleRemoveItemFromBasket = (product, quantity) => {
     setIsLoading(true);
     let tempBasket = [...basket];
     tempBasket = tempBasket.filter((item) => item.product !== product);
@@ -30,6 +31,7 @@ export default function Basket({ currentUser, basket, setBasket }) {
     try {
       axios.post(REMOVE_FROM_BASKET_URL, {
         productId: product.objectId,
+        quantity: quantity,
       });
     } catch (error) {
       res.status(400).send(error);
@@ -58,11 +60,11 @@ export default function Basket({ currentUser, basket, setBasket }) {
 
   return basket != null && basket.length > 0 ? (
     <div className="basket-container">
+      <div className="basket-title">Basket</div>
       {basket.map((product) => {
         return (
-          <div className="basket-container">
+          <div key={product.product.objectId} className="basket-container">
             <BasketCard
-              key={product.product.objectId}
               product={product.product}
               handleRemoveItemFromBasket={handleRemoveItemFromBasket}
               quantity={product.basketQuantity}

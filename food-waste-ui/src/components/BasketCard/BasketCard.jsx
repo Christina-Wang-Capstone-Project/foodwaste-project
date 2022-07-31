@@ -33,7 +33,7 @@ export default function BasketCard({
           <IconButton
             icon={TrashIcon}
             className="remove-button"
-            onClick={() => handleRemoveItemFromBasket(product)}
+            onClick={() => handleRemoveItemFromBasket(product, quantity)}
           ></IconButton>
         </div>
       </div>

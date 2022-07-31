@@ -64,9 +64,7 @@ export default function Navbar({
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (
           <>
-            <HashLink smooth to="/home/#market">
-              Market
-            </HashLink>
+            <Link to="/home">Market</Link>
             <Link to="/home/makeapost">Make a Post</Link>
             <Link to="/home/basket">
               <ShoppingBasketIcon />

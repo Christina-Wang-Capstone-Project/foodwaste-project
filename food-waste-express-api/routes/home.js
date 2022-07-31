@@ -85,6 +85,7 @@ router.get('/:objectId', async (req, res) => {
 
 router.post('/removefrombasket', async (req, res) => {
     const productId = req.body.productId
+    const quantity = req.body.quantity
     let currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId)
@@ -92,7 +93,7 @@ router.post('/removefrombasket', async (req, res) => {
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
-            userBasket.remove("basketOfProductId", productId)
+            userBasket.remove("basketOfProductId", { productId, quantity})
             await userBasket.save()
             res.status(200).send({ productsInBasket })
         }

@@ -93,7 +93,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
 
   return (
     <div className="form-container">
-      <h1>Post Your Extra Items</h1>
+      <div className="post-title">Post Your Extra Items</div>
       <form onSubmit={handleOnSubmit}>
         <TextInputField
           className="name"

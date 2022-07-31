@@ -153,13 +153,11 @@ export default function Map({
                 animation={google.maps.Animation.DROP}
                 optimized={true}
               ></Marker>
-
               {products.map((item) => {
                 return (
                   <>
                     <MapMarkers
                       item={item}
-                      key={item.objectId}
                       setDestination={setDestination}
                       setOrigin={setOrigin}
                       currentUserLocationOnLogin={currentUserLocationOnLogin}
