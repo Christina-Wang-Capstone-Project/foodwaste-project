@@ -1,7 +1,13 @@
 .hero {
-    padding-top: 10%;
+    padding-top: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.welcome {
+    width: 95%;
+    object-fit: contain;
+
 }

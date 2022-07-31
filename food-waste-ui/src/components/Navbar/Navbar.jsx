@@ -1,24 +1,27 @@
 import * as React from "react";
 import "./Navbar.css";
-import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
-import { Popover, Position, Menu } from "evergreen-ui";
+import { Popover, Position, Menu, Badge } from "evergreen-ui";
 ("use strict");
 import { useNavigate } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/solid";
 import { HashLink } from "react-router-hash-link";
+import axios from "axios";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 export default function Navbar({
   isLoggedIn,
   handleLogout,
   currentUser,
   handleSearchChange,
+  basket,
 }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 1050;
 
+  const ADD_TO_BASKET_URL = `http://localhost:3001/home/addtobasket`;
   const navigate = useNavigate();
 
   const logOut = async (event) => {
@@ -36,14 +39,11 @@ export default function Navbar({
     return () => {
       window.removeEventListener("resize", changeWidth);
     };
-  }, []);
-
-  const navPages = ["Market", "Make A Post", "Basket"];
+  }, [basket]);
 
   return (
     <header className="navbar">
       <div className="navbar-home">
-        <Logo />
         <a href="/home">
           <img
             className="store-name-img"
@@ -68,7 +68,9 @@ export default function Navbar({
               Market
             </HashLink>
             <Link to="/home/makeapost">Make a Post</Link>
-            <Link to="/home/basket">Basket</Link>
+            <Link to="/home/basket">
+              <ShoppingBasketIcon />
+            </Link>
           </>
         )}
         <Popover

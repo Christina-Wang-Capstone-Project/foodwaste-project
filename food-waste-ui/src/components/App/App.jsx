@@ -17,6 +17,7 @@ import NotFound from "../NotFound/NotFound";
 import Basket from "../Basket/Basket";
 import Loading from "../Loading/Loading";
 import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
+import { toaster } from "evergreen-ui";
 
 ("use strict");
 
@@ -115,9 +116,11 @@ export function MainApp({
   const [myProducts, setMyProducts] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [basket, setBasket] = React.useState([]);
 
   const URL = "http://localhost:3001";
   let HOME_URL = `http://localhost:3001/home/`;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -166,10 +169,11 @@ export function MainApp({
     setSearchTerm(event.target.value);
   };
 
-  const handleAddToBasket = (product) => {
+  const handleAddToBasket = (product, quantity) => {
     setIsLoading(true);
+    console.log("quantity after adding to basket", quantity);
     if (currentUser.objectId == product.user.objectId) {
-      alert("Error: Cannot add your own product to basket.");
+      toaster.danger("Cannot add your own product to basket.");
       setIsLoading(false);
       return;
     }
@@ -179,8 +183,9 @@ export function MainApp({
         const res = await axios.post(`${HOME_URL}${product.objectId}`, {
           currentUserId: currentUser.objectId,
           productId: product.objectId,
+          quantity: quantity,
         });
-        alert("Successfully added to basket!");
+        toaster.success("Successfully added to Basket!");
       } catch (error) {
         alert(error);
       }
@@ -192,6 +197,7 @@ export function MainApp({
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <main>
       {currentUser && (
@@ -203,6 +209,7 @@ export function MainApp({
               handleLogout={handleLogout}
               currentUser={currentUser}
               handleSearchChange={handleSearchChange}
+              basket={basket}
             />
           </div>
           <Routes>
@@ -255,7 +262,13 @@ export function MainApp({
             />
             <Route
               path="/basket"
-              element={<Basket currentUser={currentUser} />}
+              element={
+                <Basket
+                  currentUser={currentUser}
+                  basket={basket}
+                  setBasket={setBasket}
+                />
+              }
             />
             <Route path="/onhold" element={<ProductsOnHold />} />
             <Route path="*" element={<NotFound />} />

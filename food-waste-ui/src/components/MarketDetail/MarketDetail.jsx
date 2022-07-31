@@ -12,12 +12,14 @@ import "./MarketDetail.css";
 export default function MarketDetail({
   currentUserLocationOnLogin,
   handleAddToBasket,
+  currentUser,
 }) {
   const [curProduct, setCurProduct] = React.useState(null);
   let { objectId } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
   const [productDetailDestination, setProductDetailDescription] =
     React.useState(null);
+  const [count, setCount] = React.useState(1);
 
   const URL = "http://localhost:3001/home";
 
@@ -51,8 +53,37 @@ export default function MarketDetail({
                   {curProduct[0].description}
                 </div>
                 <div className="product-quantity">{curProduct[0].quantity}</div>
+                <div className="product-dates">
+                  <p>Post Created on: July 17, 2022</p>
+                  <p> Expiration Date: September 9, 2023</p>
+                </div>
+                <>
+                  Quantity: {count}
+                  <button
+                    onClick={() =>
+                      setCount((prevCount) =>
+                        prevCount > 2 ? prevCount - 1 : 1
+                      )
+                    }
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() =>
+                      setCount((prevCount) =>
+                        prevCount < curProduct[0].quantity
+                          ? prevCount + 1
+                          : curProduct[0].quantity
+                      )
+                    }
+                  >
+                    +
+                  </button>
+                </>
                 <div className="product-button">
-                  <Button onClick={() => handleAddToBasket(curProduct[0])}>
+                  <Button
+                    onClick={() => handleAddToBasket(curProduct[0], count)}
+                  >
                     Add to Basket
                   </Button>
                 </div>

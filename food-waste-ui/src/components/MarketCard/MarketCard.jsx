@@ -23,6 +23,10 @@ export default function MarketCard({ product }) {
             {product.description.substring(0, 20)}...
           </div>
           <div className="product-quantity">Quantity: {product.quantity}</div>
+          <div className="product-dates">
+            <p>Post Created on: July 17, 2022</p>
+            <p> Expiration Date: September 9, 2023</p>
+          </div>
         </div>
       </div>
     </div>

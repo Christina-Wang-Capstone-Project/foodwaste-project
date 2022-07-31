@@ -37,8 +37,8 @@ export default function ProductsOnHold() {
     </div>
   ) : (
     <p className="empty-basket">
-      You have no products currently checked out. Check out the market to see
-      what your neighbors are sharing!
+      You have no products currently on hold. Check out the market to see what
+      your neighbors are sharing!
     </p>
   );
 }

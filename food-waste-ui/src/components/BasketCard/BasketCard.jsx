@@ -4,7 +4,11 @@ import "./BasketCard.css";
 import { reverseGeoCodeAddress } from "../../constants/geoCodesToAddress";
 import { useEffect } from "react";
 
-export default function BasketCard({ product, handleRemoveItemFromBasket }) {
+export default function BasketCard({
+  product,
+  handleRemoveItemFromBasket,
+  quantity,
+}) {
   const [location, setLocation] = React.useState("");
 
   useEffect(() => {
@@ -16,20 +20,22 @@ export default function BasketCard({ product, handleRemoveItemFromBasket }) {
   return (
     <>
       <div className="basket-card">
-        <p className="product-name">{product.name}</p>
         <img
-          className="product-image"
+          className="basket-image"
           src={product.file.url}
           alt={product.name}
         ></img>
-        <p className="product-quantity">{product.quantity} </p>
-        <p className="product-location">{location}</p>
+        <div className="basket-details">
+          <p className="product-name">{product.name}</p>
+          <p className="product-quantity"> Quantity: {quantity} </p>
+          <p className="product-location">{location}</p>
 
-        <IconButton
-          icon={TrashIcon}
-          className="remove-button"
-          onClick={() => handleRemoveItemFromBasket(product)}
-        ></IconButton>
+          <IconButton
+            icon={TrashIcon}
+            className="remove-button"
+            onClick={() => handleRemoveItemFromBasket(product)}
+          ></IconButton>
+        </div>
       </div>
     </>
   );

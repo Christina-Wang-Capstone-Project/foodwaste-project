@@ -21,15 +21,19 @@ router.get("/addtobasket", async (req, res) => {
     try {
         let userBasket = await getUserBasket(currentUserId) //gets the Basket object with the currentuserId
         let userBasketOfIds = await userBasket.get("basketOfProductId") //returns the array of ids
+        
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
 
-            for (let productId of userBasketOfIds) {
+            for (let productDetails of userBasketOfIds) {
+                let productId = productDetails.productId
                 let product = await getProduct(productId)
-                productsInBasket.push(product) 
+                let basketQuantity = productDetails.quantity
+                productsInBasket.push({ product, basketQuantity }) 
             }
             res.status(200).send({ productsInBasket })
+            console.log("products in basket", {productsInBasket})
         }
         else {
             res.status(200).send({})
@@ -126,18 +130,19 @@ router.post("/onhold", async (req, res) => {
 router.post('/:objectId', async (req, res) => {
     const productId = req.params.objectId
     const currentUserId = req.headers["current_user_id"]
-
+    const quantity = req.body.quantity
+    
     try {
         let userBasket = await getUserBasket(currentUserId) //returns first instance
         if (userBasket != null) {
-            userBasket.addUnique("basketOfProductId", productId)
+            userBasket.addUnique("basketOfProductId", {productId, quantity})
             await userBasket.save()
         }
         else {
             const Basket = Parse.Object.extend("Basket");
             let basket = new Basket();
             basket.set("userId", currentUserId);
-            basket.set("basketOfProductId", [productId])
+            basket.set("basketOfProductId", [{productId, quantity}])
             await basket.save();
         }
         res.status(200).send({})
