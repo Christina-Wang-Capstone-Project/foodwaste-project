@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
         let products = []
 
     allProducts.map((product) => {
-        if (!product.get("isOnHoldBy")) {
+        if (product.get("quantity") > 0) {
             products.push(product)
         }
       })

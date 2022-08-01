@@ -20,7 +20,7 @@ router.get("/addtobasket", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId) //gets the Basket object with the currentuserId
-        let userBasketOfIds = await userBasket.get("basketOfProductId") //returns the array of ids
+        let userBasketOfIds = await userBasket.get("basketOfProducts") //returns the array of ids
         
         let productsInBasket = []
 
@@ -48,20 +48,22 @@ router.get("/onhold", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfProductIdsOnHold = await userBasket.get("productsOnHold")
+        let userBasketOfProductsOnHold = await userBasket.get("productsOnHold")
+        
         let productsOnHold = []
 
         if (userBasket == null) {
             res.status(200).send({})
             return;
         }
-        if (userBasketOfProductIdsOnHold == null) {
+        if (userBasketOfProductsOnHold == null) {
             res.status(200).send({})
             return;
         }
-        for (let productId of userBasketOfProductIdsOnHold) {
-            let product = await getProduct(productId)
-            productsOnHold.push(product)
+        for (let productDetail of userBasketOfProductsOnHold) {
+            let product = await getProduct(productDetail.productId)
+            let quantity = productDetail.quantity
+            productsOnHold.push({ product, quantity })
         }
         res.status(200).send({productsOnHold})
     }
@@ -89,11 +91,11 @@ router.post('/removefrombasket', async (req, res) => {
     let currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfIds = await userBasket.get("basketOfProductId") //returns first instance
+        let userBasketOfIds = await userBasket.get("basketOfProducts") //returns first instance
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
-            userBasket.remove("basketOfProductId", { productId, quantity})
+            userBasket.remove("basketOfProducts", { productId, quantity})
             await userBasket.save()
             res.status(200).send({ productsInBasket })
         }
@@ -110,14 +112,16 @@ router.post("/onhold", async (req, res) => {
     const currentUserId = req.body.currentUserId
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfIds = await userBasket.get("basketOfProductId")
-        for (let productId of userBasketOfIds) {
-            userBasket.addUnique("productsOnHold", productId) //add to an on hold for easier retrieval
-            let product = await getProduct(productId)
-            product.set("isOnHoldBy", currentUserId)
+        let userBasketOfIds = await userBasket.get("basketOfProducts")
+        
+        for (let productDetails of userBasketOfIds) {
+            userBasket.addUnique("productsOnHold", productDetails) //add to an on hold for easier retrieval
+            let product = await getProduct(productDetails.productId)
+            let productQuantityLeft = (await product.get("quantity")) - productDetails.quantity;
+            product.set("quantity", productQuantityLeft.toString())
             await product.save()
         }
-        userBasket.set("basketOfProductId", [])
+        userBasket.set("basketOfProducts", [])
         await userBasket.save()
 
         res.status(200).send({})
@@ -134,15 +138,35 @@ router.post('/:objectId', async (req, res) => {
     
     try {
         let userBasket = await getUserBasket(currentUserId) //returns first instance
+        let tempBasket = []
+
         if (userBasket != null) {
-            userBasket.addUnique("basketOfProductId", {productId, quantity})
-            await userBasket.save()
+            let doesNotHaveDuplicate = true;
+            if (userBasket.get("basketOfProducts").length > 0) {
+                for (productDetail of userBasket.get("basketOfProducts")) {
+                    if (productDetail.productId == productId) {
+                        let newQuantity = productDetail.quantity + quantity
+                        tempBasket.push({ "productId": productId, "quantity": newQuantity.toString() })
+                        doesNotHaveDuplicate = false;
+                    }
+                    else {
+                        tempBasket.push(productDetail)
+                    }
+                }
+                userBasket.removeAll("basketOfProducts", { productId, quantity })
+                userBasket.set("basketOfProducts", tempBasket)
+                await userBasket.save()
+            }
+            if (doesNotHaveDuplicate) {
+                userBasket.addUnique("basketOfProducts", { productId, quantity })
+                await userBasket.save()
+            }
         }
         else {
             const Basket = Parse.Object.extend("Basket");
             let basket = new Basket();
             basket.set("userId", currentUserId);
-            basket.set("basketOfProductId", [{productId, quantity}])
+            basket.set("basketOfProducts", [{productId, quantity}])
             await basket.save();
         }
         res.status(200).send({})

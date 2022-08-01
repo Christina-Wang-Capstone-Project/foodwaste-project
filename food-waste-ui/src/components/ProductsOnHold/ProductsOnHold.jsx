@@ -30,7 +30,11 @@ export default function ProductsOnHold() {
       {productsOnHold.map((product) => {
         return (
           <div className="basket-container">
-            <BasketCard key={product.objectId} product={product} />
+            <BasketCard
+              key={product.product.objectId}
+              product={product.product}
+              quantity={product.quantity}
+            />
           </div>
         );
       })}

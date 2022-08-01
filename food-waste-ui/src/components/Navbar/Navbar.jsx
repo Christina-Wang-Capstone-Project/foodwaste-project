@@ -64,7 +64,7 @@ export default function Navbar({
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (
           <>
-            <Link to="/home">Market</Link>
+            <a href="/home">Market</a>
             <Link to="/home/makeapost">Make a Post</Link>
             <Link to="/home/basket">
               <ShoppingBasketIcon />
