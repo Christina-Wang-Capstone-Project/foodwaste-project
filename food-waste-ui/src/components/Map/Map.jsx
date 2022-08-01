@@ -133,8 +133,8 @@ export default function Map({
           </div>
           {distance && (
             <div className="mapbox-results">
-              <h1>Distance: {distance}</h1>
-              <h1>Duration: {duration}</h1>
+              <div>Distance: {distance}</div>
+              <div>Duration: {duration}</div>
             </div>
           )}
         </div>

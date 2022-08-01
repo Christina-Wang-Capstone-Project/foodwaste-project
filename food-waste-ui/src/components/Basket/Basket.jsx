@@ -4,6 +4,7 @@ import "./Basket.css";
 import BasketCard from "../BasketCard/BasketCard";
 import { Button } from "evergreen-ui";
 import Loading from "../Loading/Loading";
+("use strict");
 
 export default function Basket({ currentUser, basket, setBasket }) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -72,9 +73,11 @@ export default function Basket({ currentUser, basket, setBasket }) {
           </div>
         );
       })}
-      <Button onClick={() => handleAddItemsOnHold()}>
-        Check These Items Out!
-      </Button>
+      <div className="basket-button">
+        <Button onClick={() => handleAddItemsOnHold()}>
+          Check These Items Out!
+        </Button>
+      </div>
     </div>
   ) : (
     <p className="empty-basket">

@@ -3,6 +3,7 @@ import { IconButton, TrashIcon } from "evergreen-ui";
 import "./BasketCard.css";
 import { reverseGeoCodeAddress } from "../../constants/geoCodesToAddress";
 import { useEffect } from "react";
+("use strict");
 
 export default function BasketCard({
   product,
@@ -28,7 +29,7 @@ export default function BasketCard({
         <div className="basket-details">
           <p className="product-name">{product.name}</p>
           <p className="product-quantity"> Quantity: {quantity} </p>
-          <p className="product-location">{location}</p>
+          <p className="product-location"> Pickup Location: {location}</p>
 
           <IconButton
             icon={TrashIcon}

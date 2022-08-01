@@ -13,6 +13,7 @@ import { useRef } from "react";
 import DatePicker from "react-datepicker";
 import Loading from "../Loading/Loading";
 import "react-datepicker/dist/react-datepicker.css";
+import { toaster } from "evergreen-ui";
 
 ("use strict");
 
@@ -78,13 +79,15 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           basket: [],
           placedOnHoldBy: [],
         });
+        toaster.success("Successfully made a post!");
+        setSuccess(true);
       } catch (error) {
-        alert(error);
+        toaster.warning("Error: Could not make a post. Please try again");
+        console.error(error);
       }
     };
     addProduct();
     setIsLoading(false);
-    setSuccess(true);
   };
 
   if (isLoading) {
@@ -154,9 +157,8 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
             selected={expDate}
           ></DatePicker>
         </div>
-        {isLoading ? (
+        {success ? (
           <>
-            <Alert intent="success" title="Post successfully created!" />
             <Button disabled type="submit" appearance="default">
               Submit
             </Button>

@@ -3,7 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import "./ProductsOnHold.css";
 import Loading from "../Loading/Loading";
-import BasketCard from "../BasketCard/BasketCard";
+import OnHoldCard from "../OnHoldCard/OnHoldCard";
+("use strict");
 
 export default function ProductsOnHold() {
   const ON_HOLD_URL = "http://localhost:3001/home/onhold";
@@ -27,10 +28,11 @@ export default function ProductsOnHold() {
   }
   return productsOnHold != null && productsOnHold.length > 0 ? (
     <div className="basket-container">
+      <div className="onhold-title">Order List</div>
       {productsOnHold.map((product) => {
         return (
           <div className="basket-container">
-            <BasketCard
+            <OnHoldCard
               key={product.product.objectId}
               product={product.product}
               quantity={product.quantity}
