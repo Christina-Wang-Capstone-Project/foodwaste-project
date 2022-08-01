@@ -11,6 +11,7 @@ export default function Home({
   products,
   currentUserLocationOnLogin,
   currentUser,
+  searchTerm,
 }) {
   const [showMapView, setShowMapView] = React.useState(false);
   const [typeOfView, setTypeOfView] = React.useState("Map View");
@@ -27,7 +28,11 @@ export default function Home({
       <div className="container">
         {!showMapView ? (
           <>
-            <Hero />
+            {searchTerm.length == 0 ? (
+              <Hero />
+            ) : (
+              <div className="padding"></div>
+            )}
             <div className="home">
               <MarketGrid
                 products={products}

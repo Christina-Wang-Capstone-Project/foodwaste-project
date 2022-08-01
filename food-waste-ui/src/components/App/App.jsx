@@ -160,6 +160,7 @@ export function MainApp({
         console.error(err);
       });
   }, [searchTerm]);
+
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -193,10 +194,6 @@ export function MainApp({
     setIsLoading(false);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <main>
       {currentUser && (
@@ -211,70 +208,76 @@ export function MainApp({
               basket={basket}
             />
           </div>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  products={products}
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
-                  currentUser={currentUser}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    products={products}
+                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    currentUser={currentUser}
+                    searchTerm={searchTerm}
+                  />
+                }
+              />
+              <>
+                <Route
+                  path="/market"
+                  element={<MarketGrid currentUser={currentUser} />}
                 />
-              }
-            />
-            <Route
-              path="/market"
-              element={<MarketGrid currentUser={currentUser} />}
-            />
-            <Route
-              path="/makeapost"
-              element={
-                <MakeaPost
-                  currentUser={currentUser}
-                  getLocation={getLocation}
-                  coordinates={coordinates}
+                <Route
+                  path="/makeapost"
+                  element={
+                    <MakeaPost
+                      currentUser={currentUser}
+                      getLocation={getLocation}
+                      coordinates={coordinates}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/myposts"
-              element={<MyPosts myProducts={myProducts} />}
-            />
-            <Route
-              path="/:objectId"
-              element={
-                <MarketDetail
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
-                  currentUser={currentUser}
-                  handleAddToBasket={handleAddToBasket}
+                <Route
+                  path="/myposts"
+                  element={<MyPosts myProducts={myProducts} />}
                 />
-              }
-            />
-            <Route
-              path="/map"
-              element={
-                <Map
-                  products={products}
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                <Route
+                  path="/:objectId"
+                  element={
+                    <MarketDetail
+                      currentUserLocationOnLogin={currentUserLocationOnLogin}
+                      currentUser={currentUser}
+                      handleAddToBasket={handleAddToBasket}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/basket"
-              element={
-                <Basket
-                  currentUser={currentUser}
-                  basket={basket}
-                  setBasket={setBasket}
+                <Route
+                  path="/map"
+                  element={
+                    <Map
+                      products={products}
+                      currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    />
+                  }
                 />
-              }
-            />
-            <Route path="/onhold" element={<ProductsOnHold />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+                <Route
+                  path="/basket"
+                  element={
+                    <Basket
+                      currentUser={currentUser}
+                      basket={basket}
+                      setBasket={setBasket}
+                    />
+                  }
+                />
+                <Route path="/onhold" element={<ProductsOnHold />} />
+                <Route path="*" element={<NotFound />} />
+              </>
+            </Routes>
+          )}
         </>
       )}
-      {isLoading && <Loading />}
     </main>
   );
 }

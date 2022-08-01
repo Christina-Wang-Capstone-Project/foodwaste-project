@@ -83,7 +83,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
         setSuccess(true);
       } catch (error) {
         toaster.warning("Error: Could not make a post. Please try again");
-        console.error(error);
       }
     };
     addProduct();

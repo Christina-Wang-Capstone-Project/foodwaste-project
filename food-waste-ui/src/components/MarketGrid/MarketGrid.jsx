@@ -1,9 +1,16 @@
 import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
+import { Combobox } from "evergreen-ui";
 ("use strict");
 
 export default function MarketGrid({ products, currentUser }) {
+  const [range, setRange] = React.useState("<25 miles");
+
+  const handleRangeChange = (e) => {
+    setRange(e);
+  };
+
   //posts products from make a post
   if (products == 0) {
     return (
@@ -17,6 +24,21 @@ export default function MarketGrid({ products, currentUser }) {
       <div className="market">
         <div id="market" className="market-title">
           Marketplace
+        </div>
+        <div className="market-range">
+          Check out what your neighbors {range} away have to share!
+        </div>
+        <div className="market-location">
+          <Combobox
+            initialSelectedItem={{ label: "<25 miles" }}
+            items={[
+              { label: "<5 miles" },
+              { label: "<10 miles" },
+              { label: "<25 miles" },
+            ]}
+            itemToString={(item) => (item ? item.label : "")}
+            onChange={(selected) => handleRangeChange(selected.label)}
+          />
         </div>
         <div className="grid">
           {products &&

@@ -155,7 +155,7 @@ export default function Map({
               ></Marker>
               {products.map((item) => {
                 return (
-                  <>
+                  <div key={item.objectId}>
                     <MapMarkers
                       item={item}
                       setDestination={setDestination}
@@ -172,7 +172,7 @@ export default function Map({
                     {directions && (
                       <DirectionsRenderer directions={directions} />
                     )}
-                  </>
+                  </div>
                 );
               })}
             </div>
