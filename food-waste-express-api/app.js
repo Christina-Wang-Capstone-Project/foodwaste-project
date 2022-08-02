@@ -8,12 +8,10 @@ const makeAPostRouter = require('./routes/makeapost.js')
 const userIdRouter = require('./routes/users.js')
 const loginRouter = require('./routes/login.js')
 const homeRouter = require('./routes/home.js')
-dce
 
 app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
 app.use(cors())
-
 
 Parse.initialize(
     process.env.APP_ID, process.env.JS_KEY

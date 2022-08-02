@@ -187,7 +187,9 @@ export function MainApp({
   const handleAddToBasket = (product, quantity) => {
     setIsLoading(true);
     if (currentUser.objectId == product.user.objectId) {
-      toaster.danger("Cannot add your own product to basket.");
+      toaster.danger("Cannot add your own product to basket.", {
+        duration: 3,
+      });
       setIsLoading(false);
       return;
     }
@@ -199,7 +201,9 @@ export function MainApp({
           productId: product.objectId,
           quantity: quantity,
         });
-        toaster.success("Successfully added to Basket!");
+        toaster.success("Successfully added to Basket!", {
+          duration: 3,
+        });
       } catch (error) {
         alert(error);
       }

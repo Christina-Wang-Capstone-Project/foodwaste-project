@@ -42,15 +42,15 @@ export default function LoggedOutView({
               setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
             />
           </div>
-          <div className="side-image">
-            <img src="../../src/neighbors.jpg" />
+          <div className="image">
+            <img className="side-image" src="../../src/neighbors.jpg" />
           </div>
         </div>
       )}
       {isNewUser && (
         <div className="register-box">
-          <div className="side-image">
-            <img src="../../src/registration.png" />
+          <div className="image">
+            <img className="side-image" src="../../src/registration.png" />
           </div>
           <div className="register-container">
             <div className="logo-container">

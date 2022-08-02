@@ -13,19 +13,29 @@ label {
 input {
     display: flex;
     width: 100%;
-    border-radius: 8px;
-    border: none;
-    padding: 5px 20px 5px 20px;
+    padding: 10px 20px;
     margin: 5px 0px 5px 0px;
+    border-color: #e5e3e3ec;
+    border-style:solid;
+    border-radius: 30px;
+    margin: 7px 5px;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    box-shadow: 2px 1px 1px rgb(223, 222, 222);
 }
 
 .submit {
    margin-top: 10px;
    border-radius: 10px;
-   border: none;
+   border: solid;
+   border-color:#e5e3e3ec;
    padding: 5px 10px 5px 10px;
-
+   color: #b4945b;
 }
+
 
 .top-label {
     margin-top: 15px;

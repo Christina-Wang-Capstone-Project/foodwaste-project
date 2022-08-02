@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Lobster&display=swap');
 
-.block {
-    margin-top: 10%;
-}
 
 .title {
     display: flex;
@@ -10,10 +7,6 @@
     font-family: Lobster;
     font-size: 60px;
     padding-bottom: 15px;
-}
-
-.title-container {
-    padding: 0px 0px 7% 0px;
 }
 
 .switch-button {
@@ -42,7 +35,7 @@
 
 .login-container {
     padding-bottom: 4%;
-    border-style: solid;
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,8 +45,8 @@
 
 .register-container {
     padding-top: 3%;
+    width: 40%;
     padding-bottom: 4%;
-    border-style: solid;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,15 +56,23 @@
  
 .login-box {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    width: 100%;
 }
 
 .register-box {
 display: flex;
-justify-content: center;
+flex-direction: row;
+width: 100%;
 }
 
 .side-image {
- object-fit: contain;
- width: 10%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.image {
+    flex: 1;
+    height: 100vh;
 }

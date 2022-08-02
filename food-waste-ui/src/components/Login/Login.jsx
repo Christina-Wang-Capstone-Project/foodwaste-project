@@ -37,11 +37,16 @@ export default function Login({
         await handleLogin(res.data.user);
         navigate("../home", { replace: true });
       } catch (err) {
-        alert(err);
+        toaster.danger("Error logging in. Please try again", {
+          duration: 3,
+        });
       }
     };
     login();
-    toaster.notify("Logging in now...");
+    toaster.notify("Logging in now...", {
+      duration: 3,
+    });
+    toaster.success("Successfully logged in!");
     setIsLoading(false);
   };
 
