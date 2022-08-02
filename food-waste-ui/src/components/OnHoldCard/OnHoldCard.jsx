@@ -26,6 +26,7 @@ export default function OnHoldCard({ product, quantity }) {
       quantity: quantity,
     });
     toaster.success("Thank you for picking up your item!");
+    window.location.reload(false);
   };
 
   const handleNotPickedUp = (product) => {
@@ -38,12 +39,18 @@ export default function OnHoldCard({ product, quantity }) {
   };
 
   const handleDeleteItemFromOnHold = (product) => {
+    try {
+      axios.post(DELETE_ON_HOLD_URL, {
+        productId: product.objectId,
+        quantity: quantity,
+      });
+    } catch (error) {
+      throw error;
+    }
     toaster.danger("Removing your item from checkout now...");
-    axios.post(DELETE_ON_HOLD_URL, {
-      productId: product.objectId,
-      quantity: quantity,
-    });
+    window.location.reload(false);
   };
+
   return (
     <>
       <div className="onhold-container">

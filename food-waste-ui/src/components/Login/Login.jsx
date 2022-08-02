@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./Login.css";
 import axios from "axios";
-import { Button } from "evergreen-ui";
+import { Button, toaster } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 ("use strict");
@@ -41,6 +41,7 @@ export default function Login({
       }
     };
     login();
+    toaster.notify("Logging in now...");
     setIsLoading(false);
   };
 
@@ -50,7 +51,7 @@ export default function Login({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
+      <label className="username">
         <span className="top-label">Username</span>
         <input placeholder="Username..." ref={username}></input>
       </label>

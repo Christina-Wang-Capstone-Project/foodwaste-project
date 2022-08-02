@@ -8,7 +8,7 @@ const makeAPostRouter = require('./routes/makeapost.js')
 const userIdRouter = require('./routes/users.js')
 const loginRouter = require('./routes/login.js')
 const homeRouter = require('./routes/home.js')
-
+dce
 
 app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
@@ -39,6 +39,4 @@ app.use('/home',homeRouter)
     }
   })
 
-  
-  
 module.exports = app //makes it like export default function

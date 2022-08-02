@@ -52,6 +52,8 @@ router.get('/', async (req, res) => {
         res.status(400).send({ "error": "Products query failed" + error })
         
   }
-  })
+})
+
+
   
 module.exports = router
