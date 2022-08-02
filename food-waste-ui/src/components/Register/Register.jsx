@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, TextInputField } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import { toaster } from "evergreen-ui";
 
 ("use strict");
 
@@ -38,6 +39,10 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
         alert(err);
       }
     };
+    toaster.notify("Registering account now...", {
+      duration: 3,
+    });
+    toaster.success("Successfully signed up!");
     register();
     setIsLoading(false);
   };
