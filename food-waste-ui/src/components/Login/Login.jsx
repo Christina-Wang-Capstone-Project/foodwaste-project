@@ -9,7 +9,6 @@ import Loading from "../Loading/Loading";
 export default function Login({
   handleLogin,
   isLoggedIn,
-  setCurrentUserLocationOnLogin,
   getLocation,
   coordinates,
 }) {

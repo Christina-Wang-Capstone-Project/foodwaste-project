@@ -3,7 +3,13 @@ const router = express.Router()
 const Parse = require('parse/node');
 ("use strict")
 
+function getQuantity(product) {
+    return product.get("quantity")
+}
 
+function getDistance(product) {
+    return product.get("distance")
+}
 
 router.post('/', async (req, res, next) => {
     try {
@@ -28,21 +34,22 @@ router.post('/', async (req, res, next) => {
         res.status(400).send(error)
     }
 })
+
 router.get('/', async (req, res) => {
+    
     try {
         const query = new Parse.Query("Products")
         query.descending("createdAt")
         let allProducts = await query.find()
         let products = []
-
-    allProducts.map((product) => {
-        if (product.get("quantity") > 0) {
+        allProducts.map((product) => {
+            if (getQuantity(product) > 0) {
             products.push(product)
         }
       })
       res.send({"products" : products})
   }catch (error) {
-        res.status(400).send({"error" : "Products query failed" + error})
+        res.status(400).send({ "error": "Products query failed" + error })
         
   }
   })

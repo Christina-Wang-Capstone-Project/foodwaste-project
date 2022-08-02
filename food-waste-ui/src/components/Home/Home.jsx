@@ -12,6 +12,8 @@ export default function Home({
   currentUserLocationOnLogin,
   currentUser,
   searchTerm,
+  setDistance,
+  distance,
 }) {
   const [showMapView, setShowMapView] = React.useState(false);
   const [typeOfView, setTypeOfView] = React.useState("Map View");
@@ -37,6 +39,8 @@ export default function Home({
               <MarketGrid
                 products={products}
                 currentUser={currentUser}
+                setDistance={setDistance}
+                distance={distance}
               ></MarketGrid>
             </div>
           </>

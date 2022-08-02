@@ -9,6 +9,7 @@ const userIdRouter = require('./routes/users.js')
 const loginRouter = require('./routes/login.js')
 const homeRouter = require('./routes/home.js')
 
+
 app.use(express.json({limit: '50mb'}))
 app.use(morgan("tiny"))
 app.use(cors())
@@ -19,6 +20,8 @@ Parse.initialize(
   );
   //Point to Back4App Parse API address
 Parse.serverURL = "https://parseapi.back4app.com";
+
+
 
 app.use('/makeapost', makeAPostRouter)
 app.use('/user', userIdRouter)
@@ -37,7 +40,6 @@ app.use('/home',homeRouter)
         res.send({"error" : "Failed to create user: " + error })
     }
   })
-  
 
   
   

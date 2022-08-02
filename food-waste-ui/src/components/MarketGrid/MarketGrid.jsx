@@ -4,11 +4,17 @@ import MarketCard from "../MarketCard/MarketCard";
 import { Combobox } from "evergreen-ui";
 ("use strict");
 
-export default function MarketGrid({ products, currentUser }) {
-  const [range, setRange] = React.useState("<25 miles");
+export default function MarketGrid({
+  products,
+  currentUser,
+  setDistance,
+  distance,
+}) {
+  const [range, setRange] = React.useState(`<${distance} miles`);
 
   const handleRangeChange = (e) => {
     setRange(e);
+    setDistance(e.replace(/\D/g, ""));
   };
 
   //posts products from make a post

@@ -16,12 +16,48 @@ function getProduct(productId) {
     return productQuery.get(productId)
 }
 
+function getAllProductsInBasket(userBasket) {
+    return userBasket.get("basketOfProducts")
+}
+    
+function getAllProductsOnHold(userBasket) {
+    return userBasket.get("productsOnHold")
+}
+
+function setProductsInBasket(userBasket,product) {
+    return userBasket.set("basketOfProducts", product)
+}
+
+function setQuantity(product, quantity) {
+return product.set("quantity", quantity.toString())
+}
+
+function removeProductFromBasket(userBasket, productId, quantity) {
+   return userBasket.remove("basketOfProducts", {productId, quantity})
+}
+
+function addProductToBasket(userBasket, productId, quantity) {
+    return userBasket.add("basketOfProducts", { productId, quantity })
+}
+
+function addProductOnHold(userBasket, product) {
+   return userBasket.add("productsOnHold", product)
+
+}
+
+function getQuantity(product) {
+   return product.get("quantity")
+}
+
 router.get("/addtobasket", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId) //gets the Basket object with the currentuserId
-        let userBasketOfIds = await userBasket.get("basketOfProducts") //returns the array of ids
-        
+        if (userBasket == null) {
+            res.status(200).send({});
+            return;
+        }
+        let userBasketOfIds = await getAllProductsInBasket(userBasket)//returns the array of ids
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
@@ -40,6 +76,7 @@ router.get("/addtobasket", async (req, res) => {
     }
     catch (error) {
         res.status(400).send(error)
+        
     }
     
 }) 
@@ -48,14 +85,14 @@ router.get("/onhold", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfProductsOnHold = await userBasket.get("productsOnHold")
-        
-        let productsOnHold = []
-
         if (userBasket == null) {
             res.status(200).send({})
             return;
         }
+        let userBasketOfProductsOnHold = await getAllProductsOnHold(userBasket)
+        
+        let productsOnHold = []
+
         if (userBasketOfProductsOnHold == null) {
             res.status(200).send({})
             return;
@@ -91,11 +128,11 @@ router.post('/removefrombasket', async (req, res) => {
     let currentUserId = req.headers["current_user_id"]
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfIds = await userBasket.get("basketOfProducts") //returns first instance
+        let userBasketOfIds = await getAllProductsInBasket(userBasket) //returns first instance
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
-            userBasket.remove("basketOfProducts", { productId, quantity})
+            removeProductFromBasket(userBasket, productId, quantity)
             await userBasket.save()
             res.status(200).send({ productsInBasket })
         }
@@ -112,16 +149,16 @@ router.post("/onhold", async (req, res) => {
     const currentUserId = req.body.currentUserId
     try {
         let userBasket = await getUserBasket(currentUserId)
-        let userBasketOfIds = await userBasket.get("basketOfProducts")
+        let userBasketOfIds = await getAllProductsInBasket(userBasket)
         
         for (let productDetails of userBasketOfIds) {
-            userBasket.addUnique("productsOnHold", productDetails) //add to an on hold for easier retrieval
+            addProductOnHold(userBasket, productDetails) //add to an on hold for easier retrieval
             let product = await getProduct(productDetails.productId)
-            let productQuantityLeft = (await product.get("quantity")) - productDetails.quantity;
-            product.set("quantity", productQuantityLeft.toString())
+            let productQuantityLeft = (getQuantity(product)) - productDetails.quantity;
+            setQuantity(product, productQuantityLeft)
             await product.save()
         }
-        userBasket.set("basketOfProducts", [])
+        setProductsInBasket(userBasket, [])
         await userBasket.save()
 
         res.status(200).send({})
@@ -142,8 +179,9 @@ router.post('/:objectId', async (req, res) => {
 
         if (userBasket != null) {
             let doesNotHaveDuplicate = true;
-            if (userBasket.get("basketOfProducts").length > 0) {
-                for (productDetail of userBasket.get("basketOfProducts")) {
+            let allProductsInBasket = await getAllProductsInBasket(userBasket)
+            if (allProductsInBasket.length > 0) {
+                for (productDetail of allProductsInBasket) {
                     if (productDetail.productId == productId) {
                         let newQuantity = productDetail.quantity + quantity
                         tempBasket.push({ "productId": productId, "quantity": newQuantity.toString() })
@@ -153,12 +191,12 @@ router.post('/:objectId', async (req, res) => {
                         tempBasket.push(productDetail)
                     }
                 }
-                userBasket.removeAll("basketOfProducts", { productId, quantity })
-                userBasket.set("basketOfProducts", tempBasket)
+                removeProductFromBasket(userBasket, productId, quantity)
+                setProductsInBasket(userBasket, tempBasket)
                 await userBasket.save()
             }
             if (doesNotHaveDuplicate) {
-                userBasket.addUnique("basketOfProducts", { productId, quantity })
+                addProductToBasket(userBasket, productId, quantity)
                 await userBasket.save()
             }
         }
@@ -166,7 +204,7 @@ router.post('/:objectId', async (req, res) => {
             const Basket = Parse.Object.extend("Basket");
             let basket = new Basket();
             basket.set("userId", currentUserId);
-            basket.set("basketOfProducts", [{productId, quantity}])
+            setProductsInBasket(basket, [{productId, quantity}])
             await basket.save();
         }
         res.status(200).send({})
