@@ -2,11 +2,11 @@ import * as React from "react";
 import axios from "axios";
 import "./Basket.css";
 import BasketCard from "../BasketCard/BasketCard";
-import { Button } from "evergreen-ui";
+import { Button, toaster } from "evergreen-ui";
 import Loading from "../Loading/Loading";
+("use strict");
 
-export default function Basket({ currentUser }) {
-  const [basket, setBasket] = React.useState([]);
+export default function Basket({ currentUser, basket, setBasket }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const ADD_TO_BASKET_URL = `http://localhost:3001/home/addtobasket`;
   const REMOVE_FROM_BASKET_URL = "http://localhost:3001/home/removefrombasket";
@@ -19,19 +19,20 @@ export default function Basket({ currentUser }) {
       .then((response) => {
         let allProductsInBasket = response.data.productsInBasket;
         setBasket(allProductsInBasket);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
-    setIsLoading(false);
   }, []);
 
-  const handleRemoveItemFromBasket = (product) => {
+  const handleRemoveItemFromBasket = (product, quantity) => {
     setIsLoading(true);
     let tempBasket = [...basket];
-    tempBasket = tempBasket.filter((item) => item !== product);
+    tempBasket = tempBasket.filter((item) => item.product !== product);
     setBasket(tempBasket);
     try {
       axios.post(REMOVE_FROM_BASKET_URL, {
         productId: product.objectId,
+        quantity: quantity,
       });
     } catch (error) {
       res.status(400).send(error);
@@ -48,6 +49,7 @@ export default function Basket({ currentUser }) {
       res.status(400).send(error);
     }
     clearBasket();
+    toaster.success("Successfully checked your products out!");
   };
 
   const clearBasket = () => {
@@ -60,20 +62,23 @@ export default function Basket({ currentUser }) {
 
   return basket != null && basket.length > 0 ? (
     <div className="basket-container">
+      <div className="basket-title">Basket</div>
       {basket.map((product) => {
         return (
-          <div className="basket-container">
+          <div key={product.product.objectId} className="basket-container">
             <BasketCard
-              key={product.objectId}
-              product={product}
+              product={product.product}
               handleRemoveItemFromBasket={handleRemoveItemFromBasket}
+              quantity={product.basketQuantity}
             />
           </div>
         );
       })}
-      <Button onClick={() => handleAddItemsOnHold()}>
-        Put These Items on Hold!
-      </Button>
+      <div className="basket-button">
+        <Button onClick={() => handleAddItemsOnHold()}>
+          Check These Items Out!
+        </Button>
+      </div>
     </div>
   ) : (
     <p className="empty-basket">

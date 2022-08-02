@@ -4,12 +4,17 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Map from "../Map/Map";
 import Loading from "../Loading/Loading";
+import { Button } from "evergreen-ui";
 import "./MarketDetail.css";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { formatDate } from "../../constants/formatDate";
 
 ("use strict");
 
 export default function MarketDetail({
   currentUserLocationOnLogin,
+  handleAddToBasket,
   currentUser,
 }) {
   const [curProduct, setCurProduct] = React.useState(null);
@@ -17,6 +22,7 @@ export default function MarketDetail({
   const [isLoading, setIsLoading] = React.useState(false);
   const [productDetailDestination, setProductDetailDescription] =
     React.useState(null);
+  const [count, setCount] = React.useState(1);
 
   const URL = "http://localhost:3001/home";
 
@@ -49,11 +55,47 @@ export default function MarketDetail({
                 <div className="product-description">
                   {curProduct[0].description}
                 </div>
-                <div className="product-quantity">{curProduct[0].quantity}</div>
+                <div className="product-quantity">
+                  In Stock: {curProduct[0].quantity}
+                </div>
+
+                <div className="quantity-container">
+                  Quantity:
+                  <div className="quantity-buttons">
+                    <RemoveCircleOutlineIcon
+                      onClick={() =>
+                        setCount((prevCount) =>
+                          prevCount > 2 ? prevCount - 1 : 1
+                        )
+                      }
+                    />
+                    <div className="quantity-label">{count}</div>
+                    <AddCircleOutlineIcon
+                      onClick={() =>
+                        setCount((prevCount) =>
+                          prevCount < curProduct[0].quantity
+                            ? prevCount + 1
+                            : curProduct[0].quantity
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="product-button">
+                  <Button
+                    onClick={() => handleAddToBasket(curProduct[0], count)}
+                  >
+                    Add to Basket
+                  </Button>
+                </div>
               </div>
             </div>
+            <div className="product-dates">
+              <p>Post Created on: {formatDate(curProduct[0].createdAt)}</p>
+              <p> Expiration Date: {formatDate(curProduct[0].date)}</p>
+            </div>
           </div>
-          <div className="market-detail-map">
+          <div className="market-detail-map" key={curProduct.objectId}>
             <Map
               products={curProduct}
               currentUserLocationOnLogin={currentUserLocationOnLogin}

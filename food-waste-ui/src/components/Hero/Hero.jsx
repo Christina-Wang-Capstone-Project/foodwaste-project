@@ -4,9 +4,8 @@ import "./Hero.css";
 
 export default function Hero() {
   return (
-    //TODO: add details of what this website is and does
     <div className="hero">
-      <div className="welcome">WELCOME!</div>
+      <img className="welcome" src="../../src/banner.png" alt="banner" />
     </div>
   );
 }

@@ -1,21 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Lobster&display=swap');
-.block {
-   margin-top: 12%;
-}
 
-.login-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    
-    
+.block {
+    margin-top: 10%;
 }
 
 .title {
     display: flex;
     justify-content: center;
     font-family: Lobster;
+    font-size: 60px;
+    padding-bottom: 15px;
+}
+
+.title-container {
+    padding: 0px 0px 7% 0px;
 }
 
 .switch-button {
@@ -32,30 +30,48 @@
     color: rosybrown;
 }
 
-.register-container {
+.logo {
+    width: 70%;
+    object-fit: contain;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.login-container {
+    padding-bottom: 4%;
+    border-style: solid;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-   
-    
-    
+    background-color: white;
 }
 
-/* body {
-    background: linear-gradient(-45deg, #ffc8dd, #e9edc9, #bde0fe, #faedcd);
-    background-size: 400% 400%;
-    animation: gradient 40s ease infinite;
+.register-container {
+    padding-top: 3%;
+    padding-bottom: 4%;
+    border-style: solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+}
+ 
+.login-box {
+    display: flex;
+    justify-content: center;
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-} */
+.register-box {
+display: flex;
+justify-content: center;
+}
+
+.side-image {
+ object-fit: contain;
+ width: 10%;
+}

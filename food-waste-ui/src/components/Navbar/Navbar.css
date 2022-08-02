@@ -5,8 +5,8 @@
     background-color: white;
     width: 100%;
     height: 60px;
-    z-index: 50;
-    padding: 1% 2% 4% 5%;
+    z-index: 3;
+    padding: 1% 2% 5% 3%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     border-style: solid;
@@ -22,9 +22,8 @@
 }
 
 .store-name-img {
-   width: 50%;
+   width: 60%;
    height: auto;
-   margin-left: 2%;
 }
 
 a {
@@ -34,7 +33,7 @@ a {
 }
 
 a:hover {
-    color: #eca8ab;
+    color: #b4945b;
 }
 
 
@@ -72,7 +71,7 @@ a:hover {
     padding: 5px;
     filter: brightness(0);
     filter: invert(1);
-    background-color: #ce6560;
+    background-color: #be78c6; 
     cursor: pointer;
 }
 
@@ -80,3 +79,8 @@ a:hover {
     outline: none;
     font-family: 'Manrope', sans-serif;
 }
+
+.menu-items {
+    z-index: 1;
+}
+

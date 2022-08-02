@@ -1,24 +1,30 @@
 import * as React from "react";
 import "./Navbar.css";
-import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Pane, Avatar } from "evergreen-ui";
-import { Popover, Position, Menu } from "evergreen-ui";
+import { Popover, Position, Menu, Badge } from "evergreen-ui";
 ("use strict");
 import { useNavigate } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/solid";
 import { HashLink } from "react-router-hash-link";
+import axios from "axios";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 export default function Navbar({
   isLoggedIn,
   handleLogout,
   currentUser,
   handleSearchChange,
+  setSearchTerm,
+  searchTerm,
+  basket,
+  products,
 }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 1050;
 
+  const ADD_TO_BASKET_URL = `http://localhost:3001/home/addtobasket`;
   const navigate = useNavigate();
 
   const logOut = async (event) => {
@@ -36,14 +42,11 @@ export default function Navbar({
     return () => {
       window.removeEventListener("resize", changeWidth);
     };
-  }, []);
-
-  const navPages = ["Market", "Make A Post", "Basket"];
+  }, [basket]);
 
   return (
     <header className="navbar">
       <div className="navbar-home">
-        <Logo />
         <a href="/home">
           <img
             className="store-name-img"
@@ -56,28 +59,34 @@ export default function Navbar({
         <input
           className="search-input"
           type="text"
+          value={searchTerm}
           placeholder="Search for an item"
           onChange={(e) => handleSearchChange(e)}
         />
-        <SearchIcon className="search-icon" />
+
+        <SearchIcon
+          className="search-icon"
+          onClick={() => setSearchTerm(searchTerm)}
+        />
       </div>
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (
           <>
-            <HashLink smooth to="/home/#market">
-              Market
-            </HashLink>
+            <a href="/home">Market</a>
             <Link to="/home/makeapost">Make a Post</Link>
-            <Link to="/home/basket">Basket</Link>
+            <Link to="/home/basket">
+              <ShoppingBasketIcon />
+            </Link>
           </>
         )}
         <Popover
+          className="menu-items"
           position={Position.BOTTOM_LEFT}
           content={
             <Menu>
               <Menu.Group>
                 <Menu.Item>
-                  <Link to="onhold">My Items on Hold</Link>
+                  <Link to="onhold">My Item Orders</Link>
                 </Menu.Item>
                 <Menu.Item>
                   <Link to="myposts">My Posts</Link>

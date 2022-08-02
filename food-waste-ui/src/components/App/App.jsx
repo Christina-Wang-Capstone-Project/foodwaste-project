@@ -17,6 +17,7 @@ import NotFound from "../NotFound/NotFound";
 import Basket from "../Basket/Basket";
 import Loading from "../Loading/Loading";
 import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
+import { toaster } from "evergreen-ui";
 
 ("use strict");
 
@@ -115,8 +116,12 @@ export function MainApp({
   const [myProducts, setMyProducts] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [basket, setBasket] = React.useState([]);
+  const [distance, setDistance] = React.useState(25);
 
   const URL = "http://localhost:3001";
+  let HOME_URL = `http://localhost:3001/home/`;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -126,36 +131,50 @@ export function MainApp({
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
     getLocation();
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
-        const currentUserId = localStorage.getItem("current_user_id");
-        axios.get(`${URL}/user/${currentUserId}`).then((res) => {
-          let curUser = res.data.user;
-          setCurrentUser(curUser);
-
-          let allProducts = response.data.products;
-
-          let newProducts = allProducts.filter((item) =>
-            item.name
-              .toLowerCase()
-              .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
-          );
-          setProducts(newProducts);
-
-          const userProducts = allProducts.filter(
-            (item) => item.user.objectId == curUser.objectId
-          );
-          setMyProducts(userProducts);
-          setIsLoading(false);
+        let allProducts = response.data.products;
+        let allProductsWithinRange = [];
+        allProducts.filter((product) => {
+          if (parseInt(product.distance) < distance) {
+            allProductsWithinRange.push(product);
+          }
         });
+        let newProducts = allProductsWithinRange.filter((item) =>
+          item.name
+            .toLowerCase()
+            .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
+        );
+        setProducts(newProducts);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [searchTerm]);
+  }, [searchTerm, distance]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const currentUserId = localStorage.getItem("current_user_id");
+    axios
+      .get(`${URL}/user/${currentUserId}`)
+      .then((res) => {
+        let curUser = res.data.user;
+        let myProducts = res.data.myProducts;
+
+        setCurrentUser(curUser);
+        const userProducts = myProducts.filter(
+          (item) => item.user.objectId == curUser.objectId
+        );
+        setMyProducts(userProducts);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   const handleOnToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -163,6 +182,30 @@ export function MainApp({
   const handleSearchChange = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
+  };
+
+  const handleAddToBasket = (product, quantity) => {
+    setIsLoading(true);
+    if (currentUser.objectId == product.user.objectId) {
+      toaster.danger("Cannot add your own product to basket.");
+      setIsLoading(false);
+      return;
+    }
+    const addProductToBasket = async (product) => {
+      setIsLoading(true);
+      try {
+        const res = await axios.post(`${HOME_URL}${product.objectId}`, {
+          currentUserId: currentUser.objectId,
+          productId: product.objectId,
+          quantity: quantity,
+        });
+        toaster.success("Successfully added to Basket!");
+      } catch (error) {
+        alert(error);
+      }
+    };
+    addProductToBasket(product);
+    setIsLoading(false);
   };
 
   return (
@@ -176,65 +219,84 @@ export function MainApp({
               handleLogout={handleLogout}
               currentUser={currentUser}
               handleSearchChange={handleSearchChange}
+              basket={basket}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              products={products}
             />
           </div>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  products={products}
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
-                  currentUser={currentUser}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    products={products}
+                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    currentUser={currentUser}
+                    searchTerm={searchTerm}
+                    setDistance={setDistance}
+                    distance={distance}
+                  />
+                }
+              />
+              <>
+                <Route
+                  path="/market"
+                  element={<MarketGrid currentUser={currentUser} />}
                 />
-              }
-            />
-            <Route
-              path="/market"
-              element={<MarketGrid currentUser={currentUser} />}
-            />
-            <Route
-              path="/makeapost"
-              element={
-                <MakeaPost
-                  currentUser={currentUser}
-                  getLocation={getLocation}
-                  coordinates={coordinates}
+                <Route
+                  path="/makeapost"
+                  element={
+                    <MakeaPost
+                      currentUser={currentUser}
+                      getLocation={getLocation}
+                      coordinates={coordinates}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/myposts"
-              element={<MyPosts myProducts={myProducts} />}
-            />
-            <Route
-              path="/:objectId"
-              element={
-                <MarketDetail
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
-                  currentUser={currentUser}
+                <Route
+                  path="/myposts"
+                  element={<MyPosts myProducts={myProducts} />}
                 />
-              }
-            />
-            <Route
-              path="/map"
-              element={
-                <Map
-                  products={products}
-                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                <Route
+                  path="/:objectId"
+                  element={
+                    <MarketDetail
+                      currentUserLocationOnLogin={currentUserLocationOnLogin}
+                      currentUser={currentUser}
+                      handleAddToBasket={handleAddToBasket}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/basket"
-              element={<Basket currentUser={currentUser} />}
-            />
-            <Route path="/onhold" element={<ProductsOnHold />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+                <Route
+                  path="/map"
+                  element={
+                    <Map
+                      products={products}
+                      currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    />
+                  }
+                />
+                <Route
+                  path="/basket"
+                  element={
+                    <Basket
+                      currentUser={currentUser}
+                      basket={basket}
+                      setBasket={setBasket}
+                    />
+                  }
+                />
+                <Route path="/onhold" element={<ProductsOnHold />} />
+                <Route path="*" element={<NotFound />} />
+              </>
+            </Routes>
+          )}
         </>
       )}
-      {isLoading && <Loading />}
     </main>
   );
 }

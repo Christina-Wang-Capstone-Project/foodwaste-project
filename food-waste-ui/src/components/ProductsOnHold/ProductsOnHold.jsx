@@ -3,12 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import "./ProductsOnHold.css";
 import Loading from "../Loading/Loading";
-import BasketCard from "../BasketCard/BasketCard";
+import OnHoldCard from "../OnHoldCard/OnHoldCard";
+("use strict");
 
 export default function ProductsOnHold() {
   const ON_HOLD_URL = "http://localhost:3001/home/onhold";
   const [productsOnHold, setProductsOnHold] = useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -17,9 +18,9 @@ export default function ProductsOnHold() {
       .then((response) => {
         let allProductsOnHold = response.data.productsOnHold;
         setProductsOnHold(allProductsOnHold);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
-    setIsLoading(false);
   }, []);
 
   if (isLoading) {
@@ -27,10 +28,11 @@ export default function ProductsOnHold() {
   }
   return productsOnHold != null && productsOnHold.length > 0 ? (
     <div className="basket-container">
+      <div className="onhold-title">Order List</div>
       {productsOnHold.map((product) => {
         return (
-          <div className="basket-container">
-            <BasketCard key={product.objectId} product={product} />
+          <div className="basket-container" key={product.product.objectId}>
+            <OnHoldCard product={product.product} quantity={product.quantity} />
           </div>
         );
       })}

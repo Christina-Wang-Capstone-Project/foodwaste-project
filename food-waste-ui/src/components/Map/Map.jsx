@@ -133,8 +133,8 @@ export default function Map({
           </div>
           {distance && (
             <div className="mapbox-results">
-              <h1>Distance: {distance}</h1>
-              <h1>Duration: {duration}</h1>
+              <div>Distance: {distance}</div>
+              <div>Duration: {duration}</div>
             </div>
           )}
         </div>
@@ -153,13 +153,11 @@ export default function Map({
                 animation={google.maps.Animation.DROP}
                 optimized={true}
               ></Marker>
-
               {products.map((item) => {
                 return (
-                  <>
+                  <div key={item.objectId}>
                     <MapMarkers
                       item={item}
-                      key={item.objectId}
                       setDestination={setDestination}
                       setOrigin={setOrigin}
                       currentUserLocationOnLogin={currentUserLocationOnLogin}
@@ -174,7 +172,7 @@ export default function Map({
                     {directions && (
                       <DirectionsRenderer directions={directions} />
                     )}
-                  </>
+                  </div>
                 );
               })}
             </div>

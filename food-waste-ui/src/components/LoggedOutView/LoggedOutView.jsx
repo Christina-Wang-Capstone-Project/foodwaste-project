@@ -2,6 +2,7 @@ import * as React from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import "./LoggedOutView.css";
+import { toaster } from "evergreen-ui";
 ("use strict");
 
 export default function LoggedOutView({
@@ -19,14 +20,19 @@ export default function LoggedOutView({
   };
 
   return (
-    <>
-      <div className="block">
-        {!isNewUser && (
+    <div className="block">
+      {!isNewUser && (
+        <div className="login-box">
           <div className="login-container">
-            <h1 className="title"> Login</h1>
-            <button className="switch-button" onClick={handleNewUser}>
-              New User? Sign up
-            </button>
+            <div className="logo-container">
+              <img className="logo" src="../../src/inapinch.jpg" />
+            </div>
+            <div className="title-container">
+              <div className="title">Login</div>
+              <button className="switch-button" onClick={handleNewUser}>
+                New User? Sign up here!
+              </button>
+            </div>
             <Login
               handleLogin={handleLogin}
               coordinates={coordinates}
@@ -36,14 +42,26 @@ export default function LoggedOutView({
               setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
             />
           </div>
-        )}
-        {isNewUser && (
+          <div className="side-image">
+            <img src="../../src/neighbors.jpg" />
+          </div>
+        </div>
+      )}
+      {isNewUser && (
+        <div className="register-box">
+          <div className="side-image">
+            <img src="../../src/registration.png" />
+          </div>
           <div className="register-container">
-            <h1 className="title">Register</h1>
-            <button className="switch-button" onClick={handleNewUser}>
-              {" "}
-              Already have an account? Log in
-            </button>
+            <div className="logo-container">
+              <img className="logo" src="../../src/inapinch.jpg" />
+            </div>
+            <div className="title-container">
+              <div className="title">Register</div>
+              <button className="switch-button" onClick={handleNewUser}>
+                Already have an account? Log in here!
+              </button>
+            </div>
             <Register
               handleLogin={handleLogin}
               coordinates={coordinates}
@@ -51,8 +69,8 @@ export default function LoggedOutView({
               getLocation={getLocation}
             />
           </div>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 }
