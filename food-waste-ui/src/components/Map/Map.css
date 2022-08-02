@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 2% 0;
+    padding: 8% 0 0 0;
     flex-direction: column;
     align-content: center;
     align-items: center;
@@ -15,7 +15,7 @@
 }
 .map-direction-button {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .map-directions-clear {
@@ -23,8 +23,14 @@ display: flex;
 justify-content: center;
 }
 
-input {
+.map-input {
     width: 320px;
+    padding: 5px 20px;
+    border-radius: 30px;
+    margin: 3px;
+    border-color: #e5e3e3ec;
+    border-style:solid;
+    font-family: 'Manrope', sans-serif;
 }
 
 .mapbox-results {

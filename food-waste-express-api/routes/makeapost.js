@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
     
     try {
         const query = new Parse.Query("Products")
-        query.descending("createdAt")
+        query.ascending("distance")
         let allProducts = await query.find()
         let products = []
         allProducts.map((product) => {

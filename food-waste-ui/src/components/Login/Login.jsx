@@ -44,9 +44,8 @@ export default function Login({
     };
     login();
     toaster.notify("Logging in now...", {
-      duration: 3,
+      duration: 2,
     });
-    toaster.success("Successfully logged in!");
     setIsLoading(false);
   };
 
@@ -58,11 +57,20 @@ export default function Login({
     <form onSubmit={handleSubmit}>
       <label className="username">
         <span className="top-label">Username</span>
-        <input placeholder="Username..." ref={username}></input>
+        <input
+          className="general-input"
+          placeholder="Username..."
+          ref={username}
+        ></input>
       </label>
       <label>
         <span className="current-password">Password</span>
-        <input placeholder="Password..." type="password" ref={password}></input>
+        <input
+          className="general-input"
+          placeholder="Password..."
+          type="password"
+          ref={password}
+        ></input>
       </label>
       <Button className="submit" type="submit" appearance="default">
         Login
