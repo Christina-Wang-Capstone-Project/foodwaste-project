@@ -9,6 +9,9 @@ import { Popover, Position, Menu, Button, toaster } from "evergreen-ui";
 export default function OnHoldCard({ product, quantity }) {
   const [location, setLocation] = React.useState("");
   const [status, setStatus] = React.useState("Not Picked Up Yet ✘");
+  const PICKED_UP_URL = `http://localhost:3001/home/pickedup`;
+  const REVERSE_PICK_UP_BACK_TO_ON_HOLD_URL = `http://localhost:3001/home/reversepickup`;
+  const DELETE_ON_HOLD_URL = `http://localhost:3001/home/deleteoffonhold`;
 
   React.useEffect(() => {
     reverseGeoCodeAddress(product.location)
@@ -16,14 +19,30 @@ export default function OnHoldCard({ product, quantity }) {
       .catch((error) => console.error(error));
   }, []);
 
-  const handlePickUp = () => {
+  const handlePickUp = (product) => {
     setStatus("Picked Up ✔");
+    axios.post(PICKED_UP_URL, {
+      productId: product.objectId,
+      quantity: quantity,
+    });
     toaster.success("Thank you for picking up your item!");
   };
 
-  const handleNotPickedUp = () => {
+  const handleNotPickedUp = (product) => {
     setStatus("Not Picked Up Yet ✘");
+    axios.post(REVERSE_PICK_UP_BACK_TO_ON_HOLD_URL, {
+      productId: product.objectId,
+      quantity: quantity,
+    });
     toaster.notify(`Please pick up your item within 5 days at ${location}`);
+  };
+
+  const handleDeleteItemFromOnHold = (product) => {
+    toaster.danger("Removing your item from checkout now...");
+    axios.post(DELETE_ON_HOLD_URL, {
+      productId: product.objectId,
+      quantity: quantity,
+    });
   };
   return (
     <>
@@ -46,19 +65,17 @@ export default function OnHoldCard({ product, quantity }) {
             content={
               <Menu>
                 <Menu.Group>
-                  <Menu.Item onSelect={() => handleNotPickedUp()}>
+                  <Menu.Item onSelect={() => handleNotPickedUp(product)}>
                     Not Picked Up Yet ✘
                   </Menu.Item>
-                  <Menu.Item onSelect={() => handlePickUp()}>
+                  <Menu.Item onSelect={() => handlePickUp(product)}>
                     Picked Up ✔
                   </Menu.Item>
                 </Menu.Group>
                 <Menu.Divider />
                 <Menu.Group>
                   <Menu.Item
-                    onSelect={() =>
-                      toaster.danger("Removing your item from checkout now...")
-                    }
+                    onSelect={() => handleDeleteItemFromOnHold(product)}
                     intent="danger"
                   >
                     I don't want this item anymore

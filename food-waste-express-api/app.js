@@ -21,8 +21,6 @@ Parse.initialize(
   //Point to Back4App Parse API address
 Parse.serverURL = "https://parseapi.back4app.com";
 
-
-
 app.use('/makeapost', makeAPostRouter)
 app.use('/user', userIdRouter)
 app.use('/login', loginRouter)

@@ -220,6 +220,9 @@ export function MainApp({
               currentUser={currentUser}
               handleSearchChange={handleSearchChange}
               basket={basket}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              products={products}
             />
           </div>
           {isLoading ? (

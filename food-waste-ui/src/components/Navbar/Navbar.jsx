@@ -16,7 +16,10 @@ export default function Navbar({
   handleLogout,
   currentUser,
   handleSearchChange,
+  setSearchTerm,
+  searchTerm,
   basket,
+  products,
 }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 1050;
@@ -56,10 +59,15 @@ export default function Navbar({
         <input
           className="search-input"
           type="text"
+          value={searchTerm}
           placeholder="Search for an item"
           onChange={(e) => handleSearchChange(e)}
         />
-        <SearchIcon className="search-icon" />
+
+        <SearchIcon
+          className="search-icon"
+          onClick={() => setSearchTerm(searchTerm)}
+        />
       </div>
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (

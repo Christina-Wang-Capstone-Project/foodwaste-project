@@ -2,7 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import "./Basket.css";
 import BasketCard from "../BasketCard/BasketCard";
-import { Button } from "evergreen-ui";
+import { Button, toaster } from "evergreen-ui";
 import Loading from "../Loading/Loading";
 ("use strict");
 
@@ -49,6 +49,7 @@ export default function Basket({ currentUser, basket, setBasket }) {
       res.status(400).send(error);
     }
     clearBasket();
+    toaster.success("Successfully checked your products out!");
   };
 
   const clearBasket = () => {

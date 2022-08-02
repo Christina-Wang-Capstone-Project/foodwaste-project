@@ -2,52 +2,8 @@ const e = require("express");
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
+const { __RouterContext } = require("react-router");
 ("use strict")
-
-function getUserBasket(currentUserId) {
-    const Basket = Parse.Object.extend("Basket");
-    const query = new Parse.Query(Basket)
-    return query.equalTo("userId", currentUserId).first()
-}
-
-function getProduct(productId) {
-    const Product = Parse.Object.extend("Products")
-    const productQuery = new Parse.Query(Product)
-    return productQuery.get(productId)
-}
-
-function getAllProductsInBasket(userBasket) {
-    return userBasket.get("basketOfProducts")
-}
-    
-function getAllProductsOnHold(userBasket) {
-    return userBasket.get("productsOnHold")
-}
-
-function setProductsInBasket(userBasket,product) {
-    return userBasket.set("basketOfProducts", product)
-}
-
-function setQuantity(product, quantity) {
-return product.set("quantity", quantity.toString())
-}
-
-function removeProductFromBasket(userBasket, productId, quantity) {
-   return userBasket.remove("basketOfProducts", {productId, quantity})
-}
-
-function addProductToBasket(userBasket, productId, quantity) {
-    return userBasket.add("basketOfProducts", { productId, quantity })
-}
-
-function addProductOnHold(userBasket, product) {
-   return userBasket.add("productsOnHold", product)
-
-}
-
-function getQuantity(product) {
-   return product.get("quantity")
-}
 
 router.get("/addtobasket", async (req, res) => {
     const currentUserId = req.headers["current_user_id"]
@@ -61,7 +17,6 @@ router.get("/addtobasket", async (req, res) => {
         let productsInBasket = []
 
         if (userBasketOfIds != null) {
-
             for (let productDetails of userBasketOfIds) {
                 let productId = productDetails.productId
                 let product = await getProduct(productId)
@@ -76,7 +31,6 @@ router.get("/addtobasket", async (req, res) => {
     }
     catch (error) {
         res.status(400).send(error)
-        
     }
     
 }) 
@@ -168,6 +122,53 @@ router.post("/onhold", async (req, res) => {
     }
 })
 
+router.post("/pickedup", async (req, res) => {
+    let productId = req.body.productId;
+    let quantity = req.body.quantity;
+    const currentUserId = req.headers["current_user_id"]
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        console.log("quantity", quantity)
+        addProductToIsPickedUp(userBasket, productId, quantity)
+        await userBasket.save();
+        res.status(200).send({})
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post("/reversepickup", async (req, res) => {
+    let productId = req.body.productId;
+    let quantity = req.body.quantity;
+    const currentUserId = req.headers["current_user_id"]
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        reversePickedUpProductToOnHold(userBasket, productId, quantity)
+        await userBasket.save();
+        res.status(200).send({})
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post("/deleteoffonhold", async (req, res) => {
+    let productId = req.body.productId;
+    let quantity = req.body.quantity;
+    const currentUserId = req.headers["current_user_id"]
+
+    try {
+        let userBasket = await getUserBasket(currentUserId)
+        deleteProductOffOnHold(userBasket, productId, quantity)
+        await userBasket.save();
+        res.status(200).send({})
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+})
+
 router.post('/:objectId', async (req, res) => {
     const productId = req.params.objectId
     const currentUserId = req.headers["current_user_id"]
@@ -214,7 +215,70 @@ router.post('/:objectId', async (req, res) => {
     }
 })
 
-   
+function getUserBasket(currentUserId) {
+    const Basket = Parse.Object.extend("Basket");
+    const query = new Parse.Query(Basket)
+    return query.equalTo("userId", currentUserId).first()
+}
 
+function getProduct(productId) {
+    const Product = Parse.Object.extend("Products")
+    const productQuery = new Parse.Query(Product)
+    return productQuery.get(productId)
+}
+
+function getAllProductsInBasket(userBasket) {
+    return userBasket.get("basketOfProducts")
+}
+    
+function getAllProductsOnHold(userBasket) {
+    return userBasket.get("productsOnHold")
+}
+
+function setProductsInBasket(userBasket,product) {
+    return userBasket.set("basketOfProducts", product)
+}
+
+function setQuantity(product, quantity) {
+return product.set("quantity", quantity.toString())
+}
+
+function removeProductFromBasket(userBasket, productId, quantity) {
+   return userBasket.remove("basketOfProducts", {productId, quantity})
+}
+
+function addProductToBasket(userBasket, productId, quantity) {
+    return userBasket.add("basketOfProducts", { productId, quantity })
+}
+
+function addProductOnHold(userBasket, product) {
+   return userBasket.add("productsOnHold", product)
+}
+
+function getQuantity(product) {
+   return product.get("quantity")
+}
+
+function addProductToIsPickedUp(userBasket, productId, quantity) {
+    if (userBasket.get("isPickedUp") == null) {
+        userBasket.set("isPickedUp", [{ productId, quantity }])
+        return userBasket.remove("productsOnHold", {productId, quantity})
+    }
+    userBasket.add("isPickedUp", { productId, quantity })
+    return userBasket.remove("productsOnHold", {productId, quantity})
+}
+
+function reversePickedUpProductToOnHold(userBasket, productId, quantity) {
+    userBasket.addUnique("productsOnHold", { productId, quantity })
+    return userBasket.remove("isPickedUp", { productId, quantity })
+}
+   
+async function deleteProductOffOnHold(userBasket, productId, quantity) {
+    userBasket.remove("productsOnHold", { productId, quantity })
+    let curProduct = await getProduct(productId);
+    let newQuantity = await parseInt(getQuantity(curProduct)) + quantity
+    curProduct.set("quantity", newQuantity.toString())
+    await curProduct.save()
+}
 
 module.exports = router

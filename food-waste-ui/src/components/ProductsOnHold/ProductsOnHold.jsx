@@ -31,12 +31,8 @@ export default function ProductsOnHold() {
       <div className="onhold-title">Order List</div>
       {productsOnHold.map((product) => {
         return (
-          <div className="basket-container">
-            <OnHoldCard
-              key={product.product.objectId}
-              product={product.product}
-              quantity={product.quantity}
-            />
+          <div className="basket-container" key={product.product.objectId}>
+            <OnHoldCard product={product.product} quantity={product.quantity} />
           </div>
         );
       })}
