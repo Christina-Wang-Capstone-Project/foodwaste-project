@@ -25,11 +25,14 @@ router.post('/', async (req, res, next) => {
     const contentType = 'image/png' 
     const file = new Parse.File('image', {base64: req.body.file}, contentType)
     await file.save()
-
+    
+    const quantity = req.body.quantity
+    products.set("quantity", parseInt(quantity))
+        
     products.set('file', file)
 
     await products.save()
-    res.status(200).send({ "products": products })
+    res.status(200).send({products})
     } 
     
     catch (error) {

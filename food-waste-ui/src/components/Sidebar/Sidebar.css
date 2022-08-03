@@ -14,7 +14,6 @@
     z-index: 100;
     top: 0px;
     height: 100vh;
-    overflow-y: scroll;
     padding-top: 1.5%;
     border-radius: 10px;
     opacity: 90%;
@@ -26,18 +25,18 @@
     background-color: #f5f5f5;
 }
 
-.toggle-button {
+.toggle-btn {
     background-color: transparent;
     border: none;
     display: flex;
     justify-content: center;
 }
 
-.toggle-button:hover {
+.toggle-btn:hover {
     cursor: pointer;
 }
 
-.button-open {
+.btn-open {
     background-color: transparent;
     border: none;
     width: 27%;

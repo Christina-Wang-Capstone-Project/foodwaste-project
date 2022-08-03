@@ -185,7 +185,7 @@ router.post('/:objectId', async (req, res) => {
                 for (productDetail of allProductsInBasket) {
                     if (productDetail.productId == productId) {
                         let newQuantity = productDetail.quantity + quantity
-                        tempBasket.push({ "productId": productId, "quantity": newQuantity.toString() })
+                        tempBasket.push({ "productId": productId, "quantity": newQuantity })
                         doesNotHaveDuplicate = false;
                     }
                     else {
@@ -240,7 +240,7 @@ function setProductsInBasket(userBasket,product) {
 }
 
 function setQuantity(product, quantity) {
-return product.set("quantity", quantity.toString())
+return product.set("quantity", quantity)
 }
 
 function removeProductFromBasket(userBasket, productId, quantity) {
@@ -276,8 +276,8 @@ function reversePickedUpProductToOnHold(userBasket, productId, quantity) {
 async function deleteProductOffOnHold(userBasket, productId, quantity) {
     userBasket.remove("productsOnHold", { productId, quantity })
     let curProduct = await getProduct(productId);
-    let newQuantity = await parseInt(getQuantity(curProduct)) + quantity
-    curProduct.set("quantity", newQuantity.toString())
+    let newQuantity = await getQuantity(curProduct) + quantity
+    curProduct.set("quantity", newQuantity)
     await curProduct.save()
 }
 

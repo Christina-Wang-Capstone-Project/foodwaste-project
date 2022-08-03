@@ -118,7 +118,7 @@ export function MainApp({
   const [searchTerm, setSearchTerm] = React.useState("");
   const [basket, setBasket] = React.useState([]);
   const [distance, setDistance] = React.useState(25);
-  const [dropdown, setDropdown] = React.useState(2);
+  const [dropdown, setDropdown] = React.useState(0);
 
   const URL = "http://localhost:3001";
   let HOME_URL = `http://localhost:3001/home/`;

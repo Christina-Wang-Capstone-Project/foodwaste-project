@@ -7,10 +7,10 @@ import { HashLink } from "react-router-hash-link";
 
 export default function Sidebar(props) {
   let sidebarProperty = "sidebar";
-  let buttonProperty = "toggle-button";
+  let buttonProperty = "toggle-btn";
   if (props.isOpen) {
     sidebarProperty = "sidebar open";
-    buttonProperty = "toggle-button button-open";
+    buttonProperty = "toggle-btn btn-open";
   }
 
   const sidebarPages = ["Map", "Make a Post", "About Us", "Contact Us"];

@@ -59,6 +59,7 @@ export default function Navbar({
         <input
           className="search-input"
           type="text"
+          size="50"
           value={searchTerm}
           placeholder="Search for an item"
           onChange={(e) => handleSearchChange(e)}
