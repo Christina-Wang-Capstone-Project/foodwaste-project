@@ -42,3 +42,8 @@
     margin-top: 20px;
     line-height: 3px;
 }
+
+.product-badge {
+    display: flex;
+    justify-content: center;
+}

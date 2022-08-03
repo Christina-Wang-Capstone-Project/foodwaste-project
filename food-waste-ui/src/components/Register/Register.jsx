@@ -42,7 +42,6 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
     toaster.notify("Registering account now...", {
       duration: 3,
     });
-    toaster.success("Successfully signed up!");
     register();
     setIsLoading(false);
   };
@@ -55,15 +54,28 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
     <form onSubmit={handleSubmit}>
       <label>
         <span className="top-label">Email</span>
-        <input placeholder="Email..." ref={email}></input>
+        <input
+          className="general-input"
+          placeholder="Email..."
+          ref={email}
+        ></input>
       </label>
       <label>
         <span>Username</span>
-        <input placeholder="Username..." ref={username}></input>
+        <input
+          className="general-input"
+          placeholder="Username..."
+          ref={username}
+        ></input>
       </label>
       <label>
         <span>Password</span>
-        <input placeholder="Password..." type="password" ref={password}></input>
+        <input
+          className="general-input"
+          placeholder="Password..."
+          type="password"
+          ref={password}
+        ></input>
       </label>
       <Button className="submit" type="submit" appearance="default">
         Register

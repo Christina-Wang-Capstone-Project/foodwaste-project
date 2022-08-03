@@ -105,21 +105,26 @@ export default function Map({
       >
         <div className="map-box">
           <div className="map-directions-clear">
-            <div className="map-input">
-              <input
-                type="text"
-                placeholder="My Location"
-                onChange={setOrigin}
-                defaultValue={origin}
-                disabled={true}
-              />
-
-              <input
-                type="text"
-                placeholder="Product Location"
-                disabled={true}
-                defaultValue={destination}
-              />
+            <div className="map-input-container">
+              <div className="map-label">
+                My Location:
+                <input
+                  className="map-input"
+                  type="text"
+                  placeholder="My Location"
+                  onChange={setOrigin}
+                  defaultValue={origin}
+                  disabled={true}
+                />
+                Pickup Location:
+                <input
+                  className="map-input"
+                  type="text"
+                  placeholder="Pickup Location"
+                  disabled={true}
+                  defaultValue={destination}
+                />
+              </div>
             </div>
             <Button onClick={clearRoute}>x</Button>
           </div>

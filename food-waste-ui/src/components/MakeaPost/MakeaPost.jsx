@@ -135,7 +135,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           Quantity
           <input
             type="number"
-            className="quantity"
+            className="post-input"
             placeholder="How much?"
             label="Quantity"
             min="1"
@@ -151,6 +151,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
         <div className="expiration-container">
           <div className="expiration-title">Expiration Date</div>
           <DatePicker
+            className="post-input"
             onChange={handleDateChange}
             expDate={expDate}
             selected={expDate}

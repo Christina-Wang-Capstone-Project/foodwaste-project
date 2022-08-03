@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { formatDate } from "../../constants/formatDate";
+import { Badge } from "evergreen-ui";
 ("use strict");
 
 export default function MarketCard({ product }) {
@@ -28,6 +29,11 @@ export default function MarketCard({ product }) {
             <p> Expiration Date: {formatDate(product.date)}</p>
           </div>
         </div>
+      </div>
+      <div className="product-badge">
+        <Badge color="teal" marginRight={8}>
+          {product.distance} mile(s) away
+        </Badge>
       </div>
     </div>
   );

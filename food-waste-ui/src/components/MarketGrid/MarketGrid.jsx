@@ -2,6 +2,7 @@ import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
 import { Combobox } from "evergreen-ui";
+import Loading from "../Loading/Loading";
 ("use strict");
 
 export default function MarketGrid({
@@ -9,9 +10,9 @@ export default function MarketGrid({
   currentUser,
   setDistance,
   distance,
+  isLoading,
 }) {
   const [range, setRange] = React.useState(`<${distance} miles`);
-
   const handleRangeChange = (e) => {
     setRange(e);
     setDistance(e.replace(/\D/g, ""));
@@ -46,16 +47,20 @@ export default function MarketGrid({
             onChange={(selected) => handleRangeChange(selected.label)}
           />
         </div>
-        <div className="grid">
-          {products &&
-            products.map((item) => (
-              <MarketCard
-                product={item}
-                key={item.objectId}
-                currentUser={currentUser}
-              />
-            ))}
-        </div>
+        {!isLoading ? (
+          <div className="grid">
+            {products &&
+              products.map((item) => (
+                <MarketCard
+                  product={item}
+                  key={item.objectId}
+                  currentUser={currentUser}
+                />
+              ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
     );
   }
