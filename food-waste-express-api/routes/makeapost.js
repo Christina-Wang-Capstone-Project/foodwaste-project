@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
+require('dotenv').config();
+    
 ("use strict")
 
 function getQuantity(product) {
@@ -43,7 +45,7 @@ router.get('/', async (req, res) => {
         let allProducts = await query.find()
         let products = []
         allProducts.map((product) => {
-            if (getQuantity(product) > 0 && parseInt(getDistance(product)) < 25) {
+            if (getQuantity(product) > 0 && getDistance(product) < process.env.DEFAULT_RANGE) {
             products.push(product)
         }
       })

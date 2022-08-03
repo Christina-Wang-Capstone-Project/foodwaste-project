@@ -15,6 +15,8 @@ export default function Home({
   setDistance,
   distance,
   isLoading,
+  dropdown,
+  setDropdown,
 }) {
   const [showMapView, setShowMapView] = React.useState(false);
   const [typeOfView, setTypeOfView] = React.useState("Map View");
@@ -43,6 +45,8 @@ export default function Home({
                 setDistance={setDistance}
                 distance={distance}
                 isLoading={isLoading}
+                dropdown={dropdown}
+                setDropdown={setDropdown}
               ></MarketGrid>
             </div>
           </>

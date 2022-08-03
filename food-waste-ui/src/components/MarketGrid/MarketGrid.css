@@ -36,5 +36,8 @@
   justify-content: center;
   font-size: 25px;
   font-family: 'Bebas Neue', cursive;
+}
 
+.dropdown {
+   padding-top: 10px;
 }
