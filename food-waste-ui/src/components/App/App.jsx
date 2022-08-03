@@ -132,6 +132,7 @@ export function MainApp({
 
   useEffect(() => {
     getLocation();
+    setIsLoading(true);
     axios
       .get(`${URL}/makeapost`)
       .then((response) => {
@@ -148,6 +149,7 @@ export function MainApp({
             .includes(searchTerm.replace(/\s+/g, "").toLowerCase())
         );
         setProducts(newProducts);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -229,76 +231,75 @@ export function MainApp({
               products={products}
             />
           </div>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  products={products}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  currentUser={currentUser}
+                  searchTerm={searchTerm}
+                  setDistance={setDistance}
+                  distance={distance}
+                  isLoading={isLoading}
+                />
+              }
+            />
+            <>
               <Route
-                path="/"
+                path="/market"
                 element={
-                  <Home
-                    products={products}
-                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  <MarketGrid currentUser={currentUser} isLoading={isLoading} />
+                }
+              />
+              <Route
+                path="/makeapost"
+                element={
+                  <MakeaPost
                     currentUser={currentUser}
-                    searchTerm={searchTerm}
-                    setDistance={setDistance}
-                    distance={distance}
+                    getLocation={getLocation}
+                    coordinates={coordinates}
                   />
                 }
               />
-              <>
-                <Route
-                  path="/market"
-                  element={<MarketGrid currentUser={currentUser} />}
-                />
-                <Route
-                  path="/makeapost"
-                  element={
-                    <MakeaPost
-                      currentUser={currentUser}
-                      getLocation={getLocation}
-                      coordinates={coordinates}
-                    />
-                  }
-                />
-                <Route
-                  path="/myposts"
-                  element={<MyPosts myProducts={myProducts} />}
-                />
-                <Route
-                  path="/:objectId"
-                  element={
-                    <MarketDetail
-                      currentUserLocationOnLogin={currentUserLocationOnLogin}
-                      currentUser={currentUser}
-                      handleAddToBasket={handleAddToBasket}
-                    />
-                  }
-                />
-                <Route
-                  path="/map"
-                  element={
-                    <Map
-                      products={products}
-                      currentUserLocationOnLogin={currentUserLocationOnLogin}
-                    />
-                  }
-                />
-                <Route
-                  path="/basket"
-                  element={
-                    <Basket
-                      currentUser={currentUser}
-                      basket={basket}
-                      setBasket={setBasket}
-                    />
-                  }
-                />
-                <Route path="/onhold" element={<ProductsOnHold />} />
-                <Route path="*" element={<NotFound />} />
-              </>
-            </Routes>
-          )}
+              <Route
+                path="/myposts"
+                element={<MyPosts myProducts={myProducts} />}
+              />
+              <Route
+                path="/:objectId"
+                element={
+                  <MarketDetail
+                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                    currentUser={currentUser}
+                    handleAddToBasket={handleAddToBasket}
+                  />
+                }
+              />
+              <Route
+                path="/map"
+                element={
+                  <Map
+                    products={products}
+                    currentUserLocationOnLogin={currentUserLocationOnLogin}
+                  />
+                }
+              />
+              <Route
+                path="/basket"
+                element={
+                  <Basket
+                    currentUser={currentUser}
+                    basket={basket}
+                    setBasket={setBasket}
+                  />
+                }
+              />
+              <Route path="/onhold" element={<ProductsOnHold />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          </Routes>
         </>
       )}
     </main>

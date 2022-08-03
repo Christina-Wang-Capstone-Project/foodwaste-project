@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
         let allProducts = await query.find()
         let products = []
         allProducts.map((product) => {
-            if (getQuantity(product) > 0) {
+            if (getQuantity(product) > 0 && parseInt(getDistance(product)) < 25) {
             products.push(product)
         }
       })
