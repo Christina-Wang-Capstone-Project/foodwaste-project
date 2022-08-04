@@ -12,7 +12,7 @@ const dropDownRouter = require('./routes/dropdown.js')
 const locationRouter = require('./routes/location')
 const emailRouter = require('./routes/email')
 const path = require('path');
-const publicPath = path.join(__dirname, '..', 'public');
+const publicPath = path.join(__dirname, '..', 'food-waste-ui/dist');
 
 app.use(express.static(publicPath));
 app.get('*', (req, res) => {
