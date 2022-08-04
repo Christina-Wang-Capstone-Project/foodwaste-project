@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
             let productId = await product.id
             getDistance(userLocation, productLocation, productId)
         })
+        res.status(200).send({})
     }
     catch (error) {
         throw (error)
