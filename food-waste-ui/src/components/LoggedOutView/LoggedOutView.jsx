@@ -2,7 +2,8 @@ import * as React from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import "./LoggedOutView.css";
-import { toaster } from "evergreen-ui";
+import axios from "axios";
+
 ("use strict");
 
 export default function LoggedOutView({
@@ -12,12 +13,27 @@ export default function LoggedOutView({
   isLoggedIn,
   currentUser,
   setCurrentUserLocationOnLogin,
+  currentUserLocationOnLogin,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
+  const LOCATION_URL = "http://localhost:3001/location";
 
   const handleNewUser = () => {
     setIsNewUser(!isNewUser);
+    getLocation();
   };
+
+  React.useEffect(() => {
+    if (currentUserLocationOnLogin) {
+      axios
+        .post(LOCATION_URL, {
+          userLocation: currentUserLocationOnLogin,
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [currentUserLocationOnLogin]);
 
   return (
     <div className="block">
