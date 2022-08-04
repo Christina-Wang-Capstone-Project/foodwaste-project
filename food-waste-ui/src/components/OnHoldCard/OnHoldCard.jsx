@@ -12,12 +12,20 @@ export default function OnHoldCard({ product, quantity }) {
   const PICKED_UP_URL = `http://localhost:3001/home/pickedup`;
   const REVERSE_PICK_UP_BACK_TO_ON_HOLD_URL = `http://localhost:3001/home/reversepickup`;
   const DELETE_ON_HOLD_URL = `http://localhost:3001/home/deleteoffonhold`;
+  const EMAIL_URL = `http://localhost:3001/email`;
 
   React.useEffect(() => {
     reverseGeoCodeAddress(product.location)
       .then((address) => setLocation(address))
       .catch((error) => console.error(error));
   }, []);
+
+  const handleEmail = () => {
+    axios.post(EMAIL_URL, {
+      product: product,
+      quantity: quantity,
+    });
+  };
 
   const handlePickUp = (product) => {
     setStatus("Picked Up ✔");
@@ -93,6 +101,7 @@ export default function OnHoldCard({ product, quantity }) {
           >
             <Button marginRight={16}>{status}</Button>
           </Popover>
+          <Button onClick={() => handleEmail()}>Send Email</Button>
         </div>
       </div>
     </>
