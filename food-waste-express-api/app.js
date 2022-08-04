@@ -10,6 +10,7 @@ const loginRouter = require('./routes/login.js')
 const homeRouter = require('./routes/home.js')
 const dropDownRouter = require('./routes/dropdown.js')
 const locationRouter = require('./routes/location')
+const emailRouter = require('./routes/email')
 const path = require('path');
 const publicPath = path.join(__dirname, '..', 'public');
 
@@ -34,6 +35,7 @@ app.use('/login', loginRouter)
 app.use('/home', homeRouter)
 app.use('/dropdown', dropDownRouter)
 app.use('/location', locationRouter)
+app.use('/email', emailRouter)
   
   app.post('/register', async (req, res) => {
     let user = new Parse.User(req.body)
