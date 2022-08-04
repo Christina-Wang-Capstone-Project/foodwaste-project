@@ -78,6 +78,7 @@ export default function App() {
                   coordinates={coordinates}
                   currentUser={currentUser}
                   setCurrentUserLocationOnLogin={setCurrentUserLocationOnLogin}
+                  currentUserLocationOnLogin={currentUserLocationOnLogin}
                 />
               }
             />
@@ -119,7 +120,6 @@ export function MainApp({
   const [basket, setBasket] = React.useState([]);
   const [distance, setDistance] = React.useState(25);
   const [dropdown, setDropdown] = React.useState(0);
-
   const URL = "http://localhost:3001";
   let HOME_URL = `http://localhost:3001/home/`;
   const DROPDOWN_URL = "http://localhost:3001/dropdown";

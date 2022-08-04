@@ -5,14 +5,6 @@ require('dotenv').config();
     
 ("use strict")
 
-function getQuantity(product) {
-    return product.get("quantity")
-}
-
-function getDistance(product) {
-    return product.get("distance")
-}
-
 router.post('/', async (req, res, next) => {
     try {
 
@@ -39,26 +31,5 @@ router.post('/', async (req, res, next) => {
         res.status(400).send(error)
     }
 })
-
-router.get('/', async (req, res) => {
-    
-    try {
-        const query = new Parse.Query("Products")
-        query.ascending("distance")
-        let allProducts = await query.find()
-        let products = []
-        allProducts.map((product) => {
-            if (getQuantity(product) > 0 && getDistance(product) < process.env.DEFAULT_RANGE) {
-            products.push(product)
-        }
-      })
-      res.send({"products" : products})
-  }catch (error) {
-        res.status(400).send({ "error": "Products query failed" + error })
-        
-  }
-})
-
-
   
 module.exports = router

@@ -5,8 +5,13 @@ const Parse = require('parse/node');
 const { __RouterContext } = require("react-router");
 ("use strict")
 
+const current_user_id = "current_user_id"
+const basket_of_products = "basketOfProducts"
+const products_on_hold = "productsOnHold"
+const is_picked_up = "isPickedUp"
+
 router.get("/addtobasket", async (req, res) => {
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
     try {
         let userBasket = await getUserBasket(currentUserId) //gets the Basket object with the currentuserId
         if (userBasket == null) {
@@ -36,7 +41,7 @@ router.get("/addtobasket", async (req, res) => {
 }) 
 
 router.get("/onhold", async (req, res) => {
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
     try {
         let userBasket = await getUserBasket(currentUserId)
         if (userBasket == null) {
@@ -79,7 +84,7 @@ router.get('/:objectId', async (req, res) => {
 router.post('/removefrombasket', async (req, res) => {
     const productId = req.body.productId
     const quantity = req.body.quantity
-    let currentUserId = req.headers["current_user_id"]
+    let currentUserId = req.headers[current_user_id]
     try {
         let userBasket = await getUserBasket(currentUserId)
         let userBasketOfIds = await getAllProductsInBasket(userBasket) //returns first instance
@@ -125,7 +130,7 @@ router.post("/onhold", async (req, res) => {
 router.post("/pickedup", async (req, res) => {
     let productId = req.body.productId;
     let quantity = req.body.quantity;
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
     try {
         let userBasket = await getUserBasket(currentUserId)
         console.log("quantity", quantity)
@@ -141,7 +146,7 @@ router.post("/pickedup", async (req, res) => {
 router.post("/reversepickup", async (req, res) => {
     let productId = req.body.productId;
     let quantity = req.body.quantity;
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
     try {
         let userBasket = await getUserBasket(currentUserId)
         reversePickedUpProductToOnHold(userBasket, productId, quantity)
@@ -156,7 +161,7 @@ router.post("/reversepickup", async (req, res) => {
 router.post("/deleteoffonhold", async (req, res) => {
     let productId = req.body.productId;
     let quantity = req.body.quantity;
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
 
     try {
         let userBasket = await getUserBasket(currentUserId)
@@ -171,7 +176,7 @@ router.post("/deleteoffonhold", async (req, res) => {
 
 router.post('/:objectId', async (req, res) => {
     const productId = req.params.objectId
-    const currentUserId = req.headers["current_user_id"]
+    const currentUserId = req.headers[current_user_id]
     const quantity = req.body.quantity
     
     try {
@@ -228,15 +233,15 @@ function getProduct(productId) {
 }
 
 function getAllProductsInBasket(userBasket) {
-    return userBasket.get("basketOfProducts")
+    return userBasket.get(basket_of_products)
 }
     
 function getAllProductsOnHold(userBasket) {
-    return userBasket.get("productsOnHold")
+    return userBasket.get(products_on_hold)
 }
 
 function setProductsInBasket(userBasket,product) {
-    return userBasket.set("basketOfProducts", product)
+    return userBasket.set(basket_of_products, product)
 }
 
 function setQuantity(product, quantity) {
@@ -244,15 +249,15 @@ return product.set("quantity", quantity)
 }
 
 function removeProductFromBasket(userBasket, productId, quantity) {
-   return userBasket.remove("basketOfProducts", {productId, quantity})
+   return userBasket.remove(basket_of_products, {productId, quantity})
 }
 
 function addProductToBasket(userBasket, productId, quantity) {
-    return userBasket.add("basketOfProducts", { productId, quantity })
+    return userBasket.add(basket_of_products, { productId, quantity })
 }
 
 function addProductOnHold(userBasket, product) {
-   return userBasket.add("productsOnHold", product)
+   return userBasket.add(products_on_hold, product)
 }
 
 function getQuantity(product) {
@@ -260,21 +265,21 @@ function getQuantity(product) {
 }
 
 function addProductToIsPickedUp(userBasket, productId, quantity) {
-    if (userBasket.get("isPickedUp") == null) {
-        userBasket.set("isPickedUp", [{ productId, quantity }])
-        return userBasket.remove("productsOnHold", {productId, quantity})
+    if (userBasket.get(is_picked_up) == null) {
+        userBasket.set(is_picked_up, [{ productId, quantity }])
+        return userBasket.remove(products_on_hold, {productId, quantity})
     }
-    userBasket.add("isPickedUp", { productId, quantity })
-    return userBasket.remove("productsOnHold", {productId, quantity})
+    userBasket.add(is_picked_up, { productId, quantity })
+    return userBasket.remove(products_on_hold, {productId, quantity})
 }
 
 function reversePickedUpProductToOnHold(userBasket, productId, quantity) {
-    userBasket.addUnique("productsOnHold", { productId, quantity })
-    return userBasket.remove("isPickedUp", { productId, quantity })
+    userBasket.addUnique(products_on_hold, { productId, quantity })
+    return userBasket.remove(is_picked_up, { productId, quantity })
 }
    
 async function deleteProductOffOnHold(userBasket, productId, quantity) {
-    userBasket.remove("productsOnHold", { productId, quantity })
+    userBasket.remove(products_on_hold, { productId, quantity })
     let curProduct = await getProduct(productId);
     let newQuantity = await getQuantity(curProduct) + quantity
     curProduct.set("quantity", newQuantity)
