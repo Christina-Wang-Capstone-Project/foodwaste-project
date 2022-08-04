@@ -67,7 +67,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
 
         //Converts the array to a base64 string
         const imageInBase64 = _arrayBufferToBase64(itemImageArrayBuffer);
-
+        setSuccess(true);
         const res = await axios.post(`${URL}/makeapost`, {
           userId: currentUser.userId,
           name: productName.current.value,
@@ -80,7 +80,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
           placedOnHoldBy: [],
         });
         toaster.success("Successfully made a post!");
-        setSuccess(true);
       } catch (error) {
         toaster.warning("Error: Could not make a post. Please try again");
       }

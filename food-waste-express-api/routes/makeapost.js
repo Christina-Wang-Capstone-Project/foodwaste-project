@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const Parse = require('parse/node');
+require('dotenv').config();
+    
 ("use strict")
 
 function getQuantity(product) {
@@ -23,11 +25,14 @@ router.post('/', async (req, res, next) => {
     const contentType = 'image/png' 
     const file = new Parse.File('image', {base64: req.body.file}, contentType)
     await file.save()
-
+    
+    const quantity = req.body.quantity
+    products.set("quantity", parseInt(quantity))
+        
     products.set('file', file)
 
     await products.save()
-    res.status(200).send({ "products": products })
+    res.status(200).send({products})
     } 
     
     catch (error) {
@@ -43,7 +48,7 @@ router.get('/', async (req, res) => {
         let allProducts = await query.find()
         let products = []
         allProducts.map((product) => {
-            if (getQuantity(product) > 0 && parseInt(getDistance(product)) < 25) {
+            if (getQuantity(product) > 0 && getDistance(product) < process.env.DEFAULT_RANGE) {
             products.push(product)
         }
       })

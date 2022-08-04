@@ -118,9 +118,11 @@ export function MainApp({
   const [searchTerm, setSearchTerm] = React.useState("");
   const [basket, setBasket] = React.useState([]);
   const [distance, setDistance] = React.useState(25);
+  const [dropdown, setDropdown] = React.useState(0);
 
   const URL = "http://localhost:3001";
   let HOME_URL = `http://localhost:3001/home/`;
+  const DROPDOWN_URL = "http://localhost:3001/dropdown";
 
   const navigate = useNavigate();
 
@@ -134,12 +136,12 @@ export function MainApp({
     getLocation();
     setIsLoading(true);
     axios
-      .get(`${URL}/makeapost`)
+      .get(`${DROPDOWN_URL}/${dropdown}`)
       .then((response) => {
         let allProducts = response.data.products;
         let allProductsWithinRange = [];
         allProducts.filter((product) => {
-          if (parseInt(product.distance) < distance) {
+          if (product.distance < distance) {
             allProductsWithinRange.push(product);
           }
         });
@@ -154,7 +156,7 @@ export function MainApp({
       .catch((err) => {
         console.error(err);
       });
-  }, [searchTerm, distance]);
+  }, [searchTerm, distance, dropdown]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -189,7 +191,7 @@ export function MainApp({
   const handleAddToBasket = (product, quantity) => {
     setIsLoading(true);
     if (currentUser.objectId == product.user.objectId) {
-      toaster.danger("Cannot add your own product to basket.", {
+      toaster.danger("Error: Cannot add your own product to basket.", {
         duration: 3,
       });
       setIsLoading(false);
@@ -243,6 +245,8 @@ export function MainApp({
                   setDistance={setDistance}
                   distance={distance}
                   isLoading={isLoading}
+                  dropdown={dropdown}
+                  setDropdown={setDropdown}
                 />
               }
             />

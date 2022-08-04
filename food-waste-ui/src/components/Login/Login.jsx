@@ -44,7 +44,7 @@ export default function Login({
     };
     login();
     toaster.notify("Logging in now...", {
-      duration: 2,
+      duration: 1,
     });
     setIsLoading(false);
   };

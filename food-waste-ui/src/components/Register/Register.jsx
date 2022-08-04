@@ -40,7 +40,7 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
       }
     };
     toaster.notify("Registering account now...", {
-      duration: 3,
+      duration: 1,
     });
     register();
     setIsLoading(false);

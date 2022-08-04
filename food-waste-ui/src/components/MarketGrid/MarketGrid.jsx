@@ -1,8 +1,9 @@
 import * as React from "react";
 import "./MarketGrid.css";
 import MarketCard from "../MarketCard/MarketCard";
-import { Combobox } from "evergreen-ui";
+import { Combobox, SelectMenu, Button, Position } from "evergreen-ui";
 import Loading from "../Loading/Loading";
+
 ("use strict");
 
 export default function MarketGrid({
@@ -11,11 +12,28 @@ export default function MarketGrid({
   setDistance,
   distance,
   isLoading,
+  dropdown,
+  setDropdown,
 }) {
   const [range, setRange] = React.useState(`<${distance} miles`);
+  const [selected, setSelected] = React.useState(null);
+
   const handleRangeChange = (e) => {
     setRange(e);
     setDistance(e.replace(/\D/g, ""));
+  };
+
+  const handleDropDownSelect = (value) => {
+    setSelected(value);
+    if (value == "Distance: low to high") {
+      setDropdown(0);
+    } else if (value == "Distance: high to low") {
+      setDropdown(1);
+    } else if (value == "Newest arrivals") {
+      setDropdown(2);
+    } else if (value == "About to expire") {
+      setDropdown(3);
+    }
   };
 
   //posts products from make a post
@@ -46,6 +64,24 @@ export default function MarketGrid({
             itemToString={(item) => (item ? item.label : "")}
             onChange={(selected) => handleRangeChange(selected.label)}
           />
+          <div className="dropdown">
+            <SelectMenu
+              title="Sort by:"
+              options={[
+                "Distance: low to high",
+                "Distance: high to low",
+                "Newest arrivals",
+                "About to expire",
+              ].map((label) => ({ label, value: label }))}
+              selected={selected}
+              onSelect={(item) => handleDropDownSelect(item.value)}
+              hasFilter={false}
+              position={Position.BOTTOM_RIGHT}
+              height={180}
+            >
+              <Button>{selected || "Sort by:"}</Button>
+            </SelectMenu>
+          </div>
         </div>
         {!isLoading ? (
           <div className="grid">
