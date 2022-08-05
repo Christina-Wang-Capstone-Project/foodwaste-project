@@ -7,7 +7,6 @@ import { Popover, Position, Menu, Badge } from "evergreen-ui";
 ("use strict");
 import { useNavigate } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/solid";
-import { HashLink } from "react-router-hash-link";
 import axios from "axios";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
@@ -24,7 +23,6 @@ export default function Navbar({
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const sideBarWidth = 1050;
 
-  const ADD_TO_BASKET_URL = `http://localhost:3001/home/addtobasket`;
   const navigate = useNavigate();
 
   const logOut = async (event) => {
