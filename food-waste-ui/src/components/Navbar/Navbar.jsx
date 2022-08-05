@@ -50,7 +50,7 @@ export default function Navbar({
         <a href="/home">
           <img
             className="store-name-img"
-            src="../../src/inapinch.jpg"
+            src="../src/public/inapinch.jpg"
             alt="In A Pinch"
           />
         </a>
