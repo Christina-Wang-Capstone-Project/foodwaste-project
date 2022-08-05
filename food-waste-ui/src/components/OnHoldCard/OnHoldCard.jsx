@@ -9,10 +9,6 @@ import { Popover, Position, Menu, Button, toaster } from "evergreen-ui";
 export default function OnHoldCard({ product, quantity }) {
   const [location, setLocation] = React.useState("");
   const [status, setStatus] = React.useState("Not Picked Up Yet ✘");
-  const PICKED_UP_URL = `http://localhost:3001/home/pickedup`;
-  const REVERSE_PICK_UP_BACK_TO_ON_HOLD_URL = `http://localhost:3001/home/reversepickup`;
-  const DELETE_ON_HOLD_URL = `http://localhost:3001/home/deleteoffonhold`;
-  const EMAIL_URL = `http://localhost:3001/email`;
 
   React.useEffect(() => {
     reverseGeoCodeAddress(product.location)
@@ -21,7 +17,7 @@ export default function OnHoldCard({ product, quantity }) {
   }, []);
 
   const handleEmail = () => {
-    axios.post(EMAIL_URL, {
+    axios.post(`${import.meta.env.VITE_URL}/email`, {
       product: product,
       quantity: quantity,
     });
@@ -29,7 +25,7 @@ export default function OnHoldCard({ product, quantity }) {
 
   const handlePickUp = (product) => {
     setStatus("Picked Up ✔");
-    axios.post(PICKED_UP_URL, {
+    axios.post(`${import.meta.env.VITE_HOME_URL}/pickedup`, {
       productId: product.objectId,
       quantity: quantity,
     });
@@ -39,7 +35,7 @@ export default function OnHoldCard({ product, quantity }) {
 
   const handleNotPickedUp = (product) => {
     setStatus("Not Picked Up Yet ✘");
-    axios.post(REVERSE_PICK_UP_BACK_TO_ON_HOLD_URL, {
+    axios.post(`${import.meta.env.VITE_HOME_URL}/reversepickup`, {
       productId: product.objectId,
       quantity: quantity,
     });
@@ -48,7 +44,7 @@ export default function OnHoldCard({ product, quantity }) {
 
   const handleDeleteItemFromOnHold = (product) => {
     try {
-      axios.post(DELETE_ON_HOLD_URL, {
+      axios.post(`${import.meta.env.VITE_HOME_URL}/deleteoffonhold`, {
         productId: product.objectId,
         quantity: quantity,
       });

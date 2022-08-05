@@ -24,15 +24,15 @@ export default function MarketDetail({
     React.useState(null);
   const [count, setCount] = React.useState(1);
 
-  const URL = "http://localhost:3001/home";
-
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`${URL}/${objectId}`).then((response) => {
-      setCurProduct([response.data.product]);
-      setProductDetailDescription(response.data.product.location);
-      setIsLoading(false);
-    });
+    axios
+      .get(`${import.meta.env.VITE_HOME_URL}/${objectId}`)
+      .then((response) => {
+        setCurProduct([response.data.product]);
+        setProductDetailDescription(response.data.product.location);
+        setIsLoading(false);
+      });
   }, []);
 
   if (isLoading) {

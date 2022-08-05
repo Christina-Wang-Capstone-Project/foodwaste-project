@@ -8,14 +8,11 @@ import Loading from "../Loading/Loading";
 
 export default function Basket({ currentUser, basket, setBasket }) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const ADD_TO_BASKET_URL = `http://localhost:3001/home/addtobasket`;
-  const REMOVE_FROM_BASKET_URL = "http://localhost:3001/home/removefrombasket";
-  const ON_HOLD_URL = "http://localhost:3001/home/onhold";
 
   React.useEffect(() => {
     setIsLoading(true);
     axios
-      .get(ADD_TO_BASKET_URL)
+      .get(`${import.meta.env.VITE_HOME_URL}/addtobasket`)
       .then((response) => {
         let allProductsInBasket = response.data.productsInBasket;
         setBasket(allProductsInBasket);
@@ -30,7 +27,7 @@ export default function Basket({ currentUser, basket, setBasket }) {
     tempBasket = tempBasket.filter((item) => item.product !== product);
     setBasket(tempBasket);
     try {
-      axios.post(REMOVE_FROM_BASKET_URL, {
+      axios.post(`${import.meta.env.VITE_HOME_URL}/removefrombasket`, {
         productId: product.objectId,
         quantity: quantity,
       });
@@ -42,7 +39,7 @@ export default function Basket({ currentUser, basket, setBasket }) {
 
   const handleAddItemsOnHold = () => {
     try {
-      axios.post(ON_HOLD_URL, {
+      axios.post(`${import.meta.env.VITE_HOME_URL}/onhold`, {
         currentUserId: currentUser.objectId,
       });
     } catch (error) {

@@ -14,7 +14,6 @@ export default function Login({
 }) {
   const username = React.createRef();
   const password = React.createRef();
-  const LOGIN_URL = "http://localhost:3001/login";
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -30,7 +29,7 @@ export default function Login({
     getLocation();
     const login = async () => {
       try {
-        const res = await axios.post(LOGIN_URL, {
+        const res = await axios.post(`${import.meta.env.VITE_URL}/login`, {
           username: username.current.value,
           password: password.current.value,
         });

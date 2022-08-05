@@ -23,7 +23,6 @@
     "package": "^1.0.1",
     "parse": "^3.4.3",
     "path": "^0.12.7",
-    "react-native-image-picker": "^4.8.4",
     "supervisor": "^0.12.0"
   },
   "devDependencies": {

@@ -26,7 +26,7 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
     setIsLoading(true);
     const register = async () => {
       try {
-        const res = await axios.post(`${URL}/register`, {
+        const res = await axios.post(`${import.meta.env.VITE_URL}/register`, {
           email: email.current.value,
           username: username.current.value,
           password: password.current.value,

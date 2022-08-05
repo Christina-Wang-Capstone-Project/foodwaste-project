@@ -7,14 +7,13 @@ import OnHoldCard from "../OnHoldCard/OnHoldCard";
 ("use strict");
 
 export default function ProductsOnHold() {
-  const ON_HOLD_URL = "http://localhost:3001/home/onhold";
   const [productsOnHold, setProductsOnHold] = useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     setIsLoading(true);
     axios
-      .get(ON_HOLD_URL)
+      .get(`${import.meta.env.VITE_HOME_URL}/onhold`)
       .then((response) => {
         let allProductsOnHold = response.data.productsOnHold;
         setProductsOnHold(allProductsOnHold);

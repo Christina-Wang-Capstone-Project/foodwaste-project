@@ -16,7 +16,6 @@ export default function LoggedOutView({
   currentUserLocationOnLogin,
 }) {
   const [isNewUser, setIsNewUser] = React.useState(true);
-  const LOCATION_URL = "http://localhost:3001/location";
 
   const handleNewUser = () => {
     setIsNewUser(!isNewUser);
@@ -26,7 +25,7 @@ export default function LoggedOutView({
   React.useEffect(() => {
     if (currentUserLocationOnLogin) {
       axios
-        .post(LOCATION_URL, {
+        .post(`${import.meta.env.VITE_URL}/location`, {
           userLocation: currentUserLocationOnLogin,
         })
         .catch((error) => {

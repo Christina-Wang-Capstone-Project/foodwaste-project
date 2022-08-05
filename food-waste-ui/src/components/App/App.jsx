@@ -120,9 +120,6 @@ export function MainApp({
   const [basket, setBasket] = React.useState([]);
   const [distance, setDistance] = React.useState(25);
   const [dropdown, setDropdown] = React.useState(0);
-  const URL = "http://localhost:3001";
-  let HOME_URL = `http://localhost:3001/home/`;
-  const DROPDOWN_URL = "http://localhost:3001/dropdown";
 
   const navigate = useNavigate();
 
@@ -130,14 +127,13 @@ export function MainApp({
     if (!isLoggedIn) {
       navigate("../", { replace: true });
     }
-    window.location.reload(false);
   }, []);
 
   useEffect(() => {
     getLocation();
     setIsLoading(true);
     axios
-      .get(`${DROPDOWN_URL}/${dropdown}`)
+      .get(`${import.meta.env.VITE_URL}/dropdown/${dropdown}`)
       .then((response) => {
         let allProducts = response.data.products;
         let allProductsWithinRange = [];
@@ -163,7 +159,7 @@ export function MainApp({
     setIsLoading(true);
     const currentUserId = localStorage.getItem("current_user_id");
     axios
-      .get(`${URL}/user/${currentUserId}`)
+      .get(`${import.meta.env.VITE_URL}/user/${currentUserId}`)
       .then((res) => {
         let curUser = res.data.user;
         let myProducts = res.data.myProducts;
@@ -201,11 +197,14 @@ export function MainApp({
     const addProductToBasket = async (product) => {
       setIsLoading(true);
       try {
-        const res = await axios.post(`${HOME_URL}${product.objectId}`, {
-          currentUserId: currentUser.objectId,
-          productId: product.objectId,
-          quantity: quantity,
-        });
+        const res = await axios.post(
+          `${import.meta.env.VITE_HOME_URL}/${product.objectId}`,
+          {
+            currentUserId: currentUser.objectId,
+            productId: product.objectId,
+            quantity: quantity,
+          }
+        );
         toaster.success("Successfully added to Basket!", {
           duration: 3,
         });

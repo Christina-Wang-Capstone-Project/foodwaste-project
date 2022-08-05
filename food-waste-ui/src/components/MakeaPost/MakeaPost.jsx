@@ -51,8 +51,6 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
     setExpDate(date);
   };
 
-  const URL = "http://localhost:3001";
-
   useEffect(() => {
     getLocation();
   }, []);
@@ -68,7 +66,7 @@ export default function MakeaPost({ currentUser, getLocation, coordinates }) {
         //Converts the array to a base64 string
         const imageInBase64 = _arrayBufferToBase64(itemImageArrayBuffer);
         setSuccess(true);
-        const res = await axios.post(`${URL}/makeapost`, {
+        const res = await axios.post(`${import.meta.env.VITE_URL}/makeapost`, {
           userId: currentUser.userId,
           name: productName.current.value,
           description: productDescription.current.value,
