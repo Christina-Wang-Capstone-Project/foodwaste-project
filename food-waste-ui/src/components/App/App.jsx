@@ -61,7 +61,7 @@ export default function App() {
         position.coords.latitude,
         position.coords.longitude,
       ]);
-    }); //getting location of user/product
+    });
   }
 
   return (
@@ -130,6 +130,7 @@ export function MainApp({
     if (!isLoggedIn) {
       navigate("../", { replace: true });
     }
+    window.location.reload(false);
   }, []);
 
   useEffect(() => {

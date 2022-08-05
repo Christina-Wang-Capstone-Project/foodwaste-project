@@ -36,7 +36,9 @@ export default function Register({ handleLogin, coordinates, isLoggedIn }) {
         handleLogin(res.data.user);
         navigate("../home", { replace: true });
       } catch (err) {
-        alert(err);
+        toaster.danger("Error registering account. Please try again", {
+          duration: 3,
+        });
       }
     };
     toaster.notify("Registering account now...", {
