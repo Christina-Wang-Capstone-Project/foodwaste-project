@@ -41,7 +41,7 @@ export default function LoggedOutView({
         <div className="login-box">
           <div className="login-container">
             <div className="logo-container">
-              <img className="logo" src="../../src/inapinch.jpg" />
+              <img className="logo" src="inapinch.jpg" />
             </div>
             <div className="title-container">
               <div className="title">Login</div>
@@ -59,18 +59,18 @@ export default function LoggedOutView({
             />
           </div>
           <div className="image">
-            <img className="side-image" src="../../src/neighbors.jpg" />
+            <img className="side-image" src="neighbors.jpg" />
           </div>
         </div>
       )}
       {isNewUser && (
         <div className="register-box">
           <div className="image">
-            <img className="side-image" src="../../src/registration.png" />
+            <img className="side-image" src="registration.png" />
           </div>
           <div className="register-container">
             <div className="logo-container">
-              <img className="logo" src="../../src/inapinch.jpg" />
+              <img className="logo" src="inapinch.jpg" />
             </div>
             <div className="title-container">
               <div className="title">Register</div>

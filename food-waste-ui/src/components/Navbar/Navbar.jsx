@@ -48,11 +48,7 @@ export default function Navbar({
     <header className="navbar">
       <div className="navbar-home">
         <a href="/home">
-          <img
-            className="store-name-img"
-            src="../../src/inapinch.jpg"
-            alt="In A Pinch"
-          />
+          <img className="store-name-img" src="inapinch.jpg" alt="In A Pinch" />
         </a>
       </div>
       <div className="search-bar">
