@@ -45,9 +45,9 @@ export default function Navbar({
   return (
     <header className="navbar">
       <div className="navbar-home">
-        <a href="/home">
+        <Link to="/home">
           <img className="store-name-img" src="inapinch.jpg" alt="In A Pinch" />
-        </a>
+        </Link>
       </div>
       <div className="search-bar">
         <input
@@ -67,7 +67,7 @@ export default function Navbar({
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (
           <>
-            <a href="/home">Market</a>
+            <Link to="/home">Market</Link>
             <Link to="/home/makeapost">Make a Post</Link>
             <Link to="/home/basket">
               <ShoppingBasketIcon />
