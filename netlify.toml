@@ -1,0 +1,4 @@
+[build]
+  base = "/food-waste-ui/"
+  publish = "dist"
+  command = "npm run build"
