@@ -20,7 +20,11 @@ export default function Sidebar(props) {
       {props.isOpen ? (
         <>
           <button className={buttonProperty} onClick={props.handleOnToggle}>
-            <img className="food-button" src="food.png" alt="food icon"></img>
+            <img
+              className="food-button"
+              src="/foodicon.png"
+              alt="food icon"
+            ></img>
           </button>{" "}
           <div className="sidebar-container">
             <HashLink smooth to="/home/#market">
@@ -43,7 +47,11 @@ export default function Sidebar(props) {
       ) : (
         <button className={buttonProperty} onClick={props.handleOnToggle}>
           {" "}
-          <img className="food-button" src="food.png" alt="food icon"></img>
+          <img
+            className="food-button"
+            src="/foodicon.png"
+            alt="food icon"
+          ></img>
         </button>
       )}
     </animated.div>
