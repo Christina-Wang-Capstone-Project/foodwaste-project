@@ -19,6 +19,7 @@ import Loading from "../Loading/Loading";
 import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
 import { toaster } from "evergreen-ui";
 import Footer from "../Footer/Footer";
+import AboutUs from "../AboutUs/AboutUs";
 
 ("use strict");
 
@@ -302,6 +303,7 @@ export function MainApp({
                 }
               />
               <Route path="/onhold" element={<ProductsOnHold />} />
+              <Route path="/aboutus" element={<AboutUs />} />
               <Route path="*" element={<NotFound />} />
             </>
           </Routes>
