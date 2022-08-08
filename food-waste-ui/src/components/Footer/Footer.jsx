@@ -43,7 +43,7 @@ export default function Footer() {
         <div className="footer-app">
           <img
             className="footer-img"
-            src="appdownload.png"
+            src="/appdownload.png"
             alt="app download icons"
           />
         </div>
