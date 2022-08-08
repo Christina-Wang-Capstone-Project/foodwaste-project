@@ -18,6 +18,7 @@ import Basket from "../Basket/Basket";
 import Loading from "../Loading/Loading";
 import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
 import { toaster } from "evergreen-ui";
+import Footer from "../Footer/Footer";
 
 ("use strict");
 
@@ -304,6 +305,7 @@ export function MainApp({
               <Route path="*" element={<NotFound />} />
             </>
           </Routes>
+          <Footer />
         </>
       )}
     </main>
