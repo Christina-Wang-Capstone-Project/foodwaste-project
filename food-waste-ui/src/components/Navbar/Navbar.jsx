@@ -45,13 +45,17 @@ export default function Navbar({
   return (
     <header className="navbar">
       <div className="navbar-home">
-        <Link to="/home">
+        <a
+          onClick={() => {
+            window.location.href = "/home";
+          }}
+        >
           <img
             className="store-name-img"
             src="/inapinch.jpg"
             alt="In A Pinch"
           />
-        </Link>
+        </a>
       </div>
       <div className="search-bar">
         <input
@@ -71,7 +75,13 @@ export default function Navbar({
       <div className="navbar-menu-items">
         {screenWidth > sideBarWidth && (
           <>
-            <Link to="/home">Market</Link>
+            <a
+              onClick={() => {
+                window.location.href = "/home";
+              }}
+            >
+              Market
+            </a>
             <Link to="/home/makeapost">Make a Post</Link>
             <Link to="/home/basket">
               <ShoppingBasketIcon />
