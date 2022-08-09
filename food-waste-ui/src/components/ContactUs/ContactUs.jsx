@@ -18,7 +18,8 @@ export default function ContactUs() {
   return (
     <div className="contact-form-container">
       <div className="contact-messages">
-        <h1 className="title-message">We'd Love to Hear From You</h1>
+        {/* <h1 className="title-message">We'd Love to Hear From You!</h1> */}
+        <img className="contactus-image" src="/contactus.jpg" />
         <h4 className="subtitle">
           Whether you're curious about features, security, or even press --
           we're ready to answer any and all questions.
@@ -67,39 +68,41 @@ export default function ContactUs() {
               )}
             </div>
           </div>
-          <div className="subject">
-            <input
-              type="text"
-              name="subject"
-              {...register("subject", {
-                required: {
-                  value: true,
-                  message: "Please enter a subject",
-                },
-                maxLength: {
-                  value: 75,
-                  message: "Subject cannot exceed 75 characters",
-                },
-              })}
-              className="subject-container"
-              placeholder="Subject"
-            ></input>
-            {errors.subject && (
-              <span className="errorMessage">{errors.subject.message}</span>
-            )}
-          </div>
-          <div className="message-container">
-            <input
-              name="message"
-              {...register("message", {
-                required: true,
-              })}
-              className="msg-container"
-              placeholder="Message"
-            ></input>
-            {errors.message && (
-              <span className="errorMessage">Please enter a message</span>
-            )}
+          <div className="email-format">
+            <div className="subject">
+              <input
+                type="text"
+                name="subject"
+                {...register("subject", {
+                  required: {
+                    value: true,
+                    message: "Please enter a subject",
+                  },
+                  maxLength: {
+                    value: 75,
+                    message: "Subject cannot exceed 75 characters",
+                  },
+                })}
+                className="subject-container"
+                placeholder="Subject"
+              ></input>
+              {errors.subject && (
+                <span className="errorMessage">{errors.subject.message}</span>
+              )}
+            </div>
+            <div className="message-container">
+              <input
+                name="message"
+                {...register("message", {
+                  required: true,
+                })}
+                className="msg-container"
+                placeholder="Message"
+              ></input>
+              {errors.message && (
+                <span className="errorMessage">Please enter a message</span>
+              )}
+            </div>
           </div>
 
           <Button className="submit-btn" type="submit">
