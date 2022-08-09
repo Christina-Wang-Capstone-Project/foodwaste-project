@@ -20,6 +20,7 @@ import ProductsOnHold from "../ProductsOnHold/ProductsOnHold";
 import { toaster } from "evergreen-ui";
 import Footer from "../Footer/Footer";
 import AboutUs from "../AboutUs/AboutUs";
+import ContactUs from "../ContactUs/ContactUs";
 
 ("use strict");
 
@@ -304,6 +305,7 @@ export function MainApp({
               />
               <Route path="/onhold" element={<ProductsOnHold />} />
               <Route path="/aboutus" element={<AboutUs />} />
+              <Route path="/contactus" element={<ContactUs />} />
               <Route path="*" element={<NotFound />} />
             </>
           </Routes>
