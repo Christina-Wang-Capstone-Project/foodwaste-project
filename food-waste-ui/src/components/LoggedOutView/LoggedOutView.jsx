@@ -58,14 +58,14 @@ export default function LoggedOutView({
             />
           </div>
           <div className="image">
-            <img className="side-image" src="neighbors.jpg" />
+            <img className="side-image" src="/login.jpg" />
           </div>
         </div>
       )}
       {isNewUser && (
         <div className="register-box">
           <div className="image">
-            <img className="side-image" src="registration.png" />
+            <img className="side-image" src="/welcome.png" />
           </div>
           <div className="register-container">
             <div className="logo-container">
